@@ -2,7 +2,7 @@
 Wii homebrew clone of Beat Saber (IN PROGRESS CURRENTLY)
 
 Discord Server: https://dsc.gg/saiiber
-Wiibrew Page: https://wiibrew.org/Saiiber
+Wiibrew Page: http://wiibrew.org/wiki/User:Zpeedbrew/Saiiber
 
 # FAQ:
 
