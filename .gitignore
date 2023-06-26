@@ -1,0 +1,4 @@
+build
+*.code-workspace
+.vscode
+sd/apps/saiiber/boot.*
