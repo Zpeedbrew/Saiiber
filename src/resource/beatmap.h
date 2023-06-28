@@ -4,14 +4,15 @@
  * Reflects the structure of the JSON inside of each ".dat" file
 */
 
-#ifndef BEATMAPH
-#define BEATMAPH
+#ifndef BEATMAP_H
+#define BEATMAP_H
 #include <gctypes.h>
 #include <vector>
+#include <string>
 
 struct Track;
 
-enum DifficultyCharacteristic {
+enum Mode {
   STANDARD,
   ONE_SABER,
   NO_ARROWS,
@@ -22,7 +23,7 @@ enum DifficultyCharacteristic {
   UNKNOWN
 };
 
-enum DifficultyRank {
+enum Rank {
   EASY,
   NORMAL,
   HARD,
@@ -37,65 +38,64 @@ struct BeatmapObject {
 };
 
 struct DifficultyBeatmapSet {
-  const char* beatmapCharacteristicName;
-  DifficultyBeatmap difficultyBeatmaps[];
+  std::string _beatmapCharacteristicName;
+  std::vector<DifficultyBeatmap> _difficultyBeatmaps;
 };
 
 struct CustomDifficultyColor {
-  float r;
-  float g;
-  float b;
+  float r, g, b;
 };
 
 struct CustomDifficultyData {
-  const char* difficultyLabel;
-  const char** requirements;
+  std::string _difficultyLabel;
+  std::vector<std::string> _requirements;
 
-  CustomDifficultyColor colorLeft;
-  CustomDifficultyColor colorRight;
-  CustomDifficultyColor envColorLeft;
-  CustomDifficultyColor envColorRight;
-  CustomDifficultyColor envColorWhite;
-  CustomDifficultyColor envColorLeftBoost;
-  CustomDifficultyColor envColorRightBoost;
-  CustomDifficultyColor envColorWhiteBoost;
-  CustomDifficultyColor obstacleColor;
+  CustomDifficultyColor _colorLeft;
+  CustomDifficultyColor _colorRight;
+  CustomDifficultyColor _envColorLeft;
+  CustomDifficultyColor _envColorRight;
+  CustomDifficultyColor _envColorWhite;
+  CustomDifficultyColor _envColorLeftBoost;
+  CustomDifficultyColor _envColorRightBoost;
+  CustomDifficultyColor _envColorWhiteBoost;
+  CustomDifficultyColor _obstacleColor;
 };
 
 struct CustomInfoData {};
 
 struct DifficultyBeatmap {
-   const char* difficulty;
-   int difficultyRank;
-   const char* beatmapFilename;
-   float noteJumpMovementSpeed;
-   float noteJumpStartBeatOffset;
+   std::string _difficulty;
+   int _difficultyRank;
+   std::string _beatmapFilename;
+   float _noteJumpMovementSpeed;
+   float _noteJumpStartBeatOffset;
 
-   CustomDifficultyData customData;
+   CustomDifficultyData _customData;
 };
 
 struct BeatmapInfo {
   //Version doesn't need to be internally stored.
-  const char* songName;
-  const char* songSubName;
-  const char* songAuthorName;
-  const char* levelAuthorName;
-  float beatsPerMinute;
+  std::string _songName;
+  std::string _songSubName;
+  std::string _songAuthorName;
+  std::string _levelAuthorName;
+  float _beatsPerMinute;
+
   //Shuffle is depreciated and will be ignored.
-  float shuffle;
-  float shufflePeriod;
+  float _shuffle;
+  float _shufflePeriod;
+
   //Preview times aren't needed either
-  float previewStartTime;
-  float previewDuration;
-  const char* songFilename;
-  const char* coverImageFilename;
-  const char* environmentName;
-  const char* allDirectionsEnvironmentName;
-  float songTimeOffset;
+  float _previewStartTime;
+  float _previewDuration;
 
-  CustomInfoData customData;
+  std::string _songFilename;
+  std::string _coverImageFilename;
+  std::string _environmentName;
+  std::string _allDirectionsEnvironmentName;
+  float _songTimeOffset;
 
-  DifficultyBeatmapSet difficultyBeatmapSets[];
+  std::vector<DifficultyBeatmapSet> _difficultyBeatmapSets;
 };
 
 struct BeatmapBpmEvent {
@@ -115,7 +115,8 @@ struct BeatmapColorNote {
   int a;
 
   struct BeatmapCustomNoteData {
-    //Angle isn't a thing in V3 noodle. This just makes it easier to carry custom _cutDirection into V3
+    // Angle isn't a thing in V3 noodle.
+    // This just makes it easier to carry custom _cutDirection into V3
     float angle;
   } customData;
 };
@@ -167,19 +168,19 @@ struct BeatmapBurstSlider : BeatmapObject {
 };
 
 struct BeatmapBasicBeatmapEvent {
-     float b;
-     int et;
-     int i;
-     float f;
+  float b;
+  int et;
+  int i;
+  float f;
 };
 
 struct BeatmapColorBoostBeatmapEvent {
-     float b;
-     bool o;
+  float b;
+  bool o;
 };
 
 struct BeatmapDifficulty {
-  const char* version;
+  std::string version;
   std::vector<BeatmapBpmEvent> bpmEvents;
   std::vector<BeatmapRotationEvent> rotationEvents;
   std::vector<BeatmapColorNote> colorNotes;
@@ -219,29 +220,29 @@ struct NullableColorPalette {
 };
 
 struct Difficulty {
-  DifficultyCharacteristic characteristic;
-  DifficultyRank difficultyRank;
+  Mode mode;
+  Rank difficultyRank;
   BeatmapDifficulty beatmapDifficulty;
   float NoteJumpSpeed;
   float SpawnOffset;
-  const char* Label;
-  const char** requirements;
+  std::string Label;
+  std::vector<std::string> requirements;
   NullableColorPalette colors;
 };
 
 class LoadedMapData {
 private:
   BeatmapInfo info;
-  std::vector<Difficulty> difficulties;
+  DifficultyList difficulties;
 
 public:
-    LoadedMapData(BeatmapInfo info, std::vector<Difficulty> difficulties);
+    LoadedMapData(BeatmapInfo info, DifficultyList difficulties);
     LoadedMapData(const LoadedMapData& other) = default;
     LoadedMapData(LoadedMapData&& other) = default;
     ~LoadedMapData();
 
     inline BeatmapInfo getInfo() { return info; }
-    inline std::vector<Difficulty> getDifficulties() { return difficulties; }
+    inline DifficultyList getDifficulties() { return difficulties; }
 };
 
 class LoadedMap {
@@ -250,34 +251,15 @@ private:
   Track* song;
 
 public:
-  LoadedMap(LoadedMapData& mapData, char* coverImageData, Track* song);
+  LoadedMap(LoadedMapData&& mapData, char* coverImageData, Track* song);
   ~LoadedMap();
 
   inline LoadedMapData getMapData() { return map_data; }
   inline BeatmapInfo getInfo() { return map_data.getInfo(); }
-  inline std::vector<Difficulty> getDifficulties() { return map_data.getDifficulties(); }
+  inline DifficultyList getDifficulties() { return map_data.getDifficulties(); }
   inline Track* getSong() { return song; }
 };
 
-#endif // BEATMAPH
+extern LoadedMapData&& GetMapData(const char* directory);
 
-
-
-const BeatmapInfo BEATMAP_EMPTY = {
-  "",                 // songName
-  "",                 // songSubName
-  "",                 // songAuthorName
-  "",                 // levelAuthorName
-  120,                // beatsPerMinute
-  0,                  // shuffle
-  0,                  // shufflePeriod
-  0,                  // previewStartTime
-  0,                  // previewDuration
-  "",                 // songFilename
-  "",                 // coverImageFilename
-  "",                 // environmentName
-  "",                 // allDirectionsEnvironmentName
-  0,                  // songTimeOffset
-  CustomInfoData(),   // customData
-  { }                 // difficultyBeatmapSets
-};
+#endif // BEATMAP_H
