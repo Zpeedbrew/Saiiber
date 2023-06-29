@@ -58,8 +58,8 @@ void loadAllTextures() {
     return;
   }
 
-  LoadTexture("note.png", TEX_FMT_RGBA32, GX_TEXMAP0, false);
-  LoadTexture("loading2.png", TEX_FMT_RGBA32, GX_TEXMAP1, false);
+  LoadTextureFromFile("note.png", TEX_FMT_RGBA32, GX_TEXMAP0, false);
+  LoadTextureFromFile("loading2.png", TEX_FMT_RGBA32, GX_TEXMAP1, false);
   
   fatUnmount("sd");
   GX_DrawDone(); // Wait for GPU to finish

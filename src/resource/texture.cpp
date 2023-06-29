@@ -183,7 +183,7 @@ bool load_png(void* img, size_t width, size_t height, TextureFormat type, int sl
 }
 
 // loads a PNG texture
-void LoadTexture(const char* filename, TextureFormat type, int slot, bool linear) {
+void LoadTextureFromFile(const char* filename, TextureFormat type, int slot, bool linear) {
   char path[PATH_MAX];
   snprintf(path, PATH_MAX, "%s%s", ASSET_PATH, filename);
   LOG_DEBUG("Loading texture %s\n", path);
@@ -199,4 +199,13 @@ void LoadTexture(const char* filename, TextureFormat type, int slot, bool linear
     LOG_ERROR("Failed to convert texture %s\n", filename);
     free(img);
   }
+}
+
+void LoadTextureFromMemory(s32 id, void* data, u32 size, TextureFormat type, int slot, bool linear) {
+	GXTexObj tex;
+	TPLFile file;
+
+	TPL_OpenTPLFromMemory(&file, data, size);
+	TPL_GetTexture(&file, id, &tex);
+  GX_LoadTexObj(&tex, slot);
 }
