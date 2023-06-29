@@ -9,27 +9,28 @@
 #include <gctypes.h>
 #include <vector>
 #include <string>
+#include "../json_struct.h"
 
 struct Track;
 
-enum Mode {
-  STANDARD,
-  ONE_SABER,
-  NO_ARROWS,
-  THREE_SIXTY,
-  NINETY,
-  LIGHTSHOW,
-  LAWLESS,
-  UNKNOWN
-};
+JS_ENUM(Mode,
+  Standard,
+  OneSaber,
+  NoArrows,
+  ThreeSixty,
+  Ninety,
+  Lightshow,
+  Lawless,
+  Unknown
+)
 
-enum Rank {
-  EASY,
-  NORMAL,
-  HARD,
-  EXPERT,
-  EXPERT_PLUS
-};
+JS_ENUM(Rank,
+  Easy,
+  Normal,
+  Hard,
+  Expert,
+  ExpertPlus
+)
 
 struct BeatmapObject {
   float b;
@@ -37,14 +38,15 @@ struct BeatmapObject {
   int y;
 };
 
-struct DifficultyBeatmapSet {
-  std::string _beatmapCharacteristicName;
-  std::vector<DifficultyBeatmap> _difficultyBeatmaps;
-};
+JS_OBJ_EXT(BeatmapObject, b, x, y);
+
 
 struct CustomDifficultyColor {
   float r, g, b;
 };
+
+JS_OBJ_EXT(CustomDifficultyColor, r, g, b);
+
 
 struct CustomDifficultyData {
   std::string _difficultyLabel;
@@ -61,7 +63,10 @@ struct CustomDifficultyData {
   CustomDifficultyColor _obstacleColor;
 };
 
-struct CustomInfoData {};
+JS_OBJ_EXT(CustomDifficultyData, _difficultyLabel, _requirements, _colorLeft,
+  _colorRight, _envColorLeft, _envColorRight, _envColorWhite, _envColorLeftBoost,
+  _envColorRightBoost, _envColorWhiteBoost, _obstacleColor);
+
 
 struct DifficultyBeatmap {
    std::string _difficulty;
@@ -72,6 +77,17 @@ struct DifficultyBeatmap {
 
    CustomDifficultyData _customData;
 };
+
+JS_OBJ_EXT(DifficultyBeatmap, _difficulty, _difficultyRank, _beatmapFilename,
+  _noteJumpMovementSpeed, _noteJumpStartBeatOffset, _customData);
+
+
+struct DifficultyBeatmapSet {
+  std::string _beatmapCharacteristicName;
+  std::vector<DifficultyBeatmap> _difficultyBeatmaps;
+};
+
+JS_OBJ_EXT(DifficultyBeatmapSet, _beatmapCharacteristicName, _difficultyBeatmaps);
 
 struct BeatmapInfo {
   //Version doesn't need to be internally stored.
@@ -98,10 +114,19 @@ struct BeatmapInfo {
   std::vector<DifficultyBeatmapSet> _difficultyBeatmapSets;
 };
 
+JS_OBJ_EXT(BeatmapInfo, _songName, _songSubName, _songAuthorName,
+  _levelAuthorName, _beatsPerMinute, _shuffle, _shufflePeriod,
+  _previewStartTime, _previewDuration, _songFilename, _coverImageFilename,
+  _environmentName, _allDirectionsEnvironmentName, _songTimeOffset,
+  _difficultyBeatmapSets);
+
 struct BeatmapBpmEvent {
   float b;
   float m;
 };
+
+JS_OBJ_EXT(BeatmapBpmEvent, b, m);
+
 
 struct BeatmapRotationEvent {
   float b;
@@ -109,35 +134,60 @@ struct BeatmapRotationEvent {
   float r;
 };
 
+JS_OBJ_EXT(BeatmapRotationEvent, b, e, r);
+
+struct BeatmapCustomNoteData {
+  float angle;
+};
+
+JS_OBJ_EXT(BeatmapCustomNoteData, angle);
+
+
 struct BeatmapColorNote {
   int c;
   int d;
   int a;
 
-  struct BeatmapCustomNoteData {
-    // Angle isn't a thing in V3 noodle.
-    // This just makes it easier to carry custom _cutDirection into V3
-    float angle;
-  } customData;
+  BeatmapCustomNoteData customData;
 };
 
+JS_OBJ_EXT(BeatmapColorNote, c, d, a, customData);
+
+
 struct BeatmapCustomObjectData {
-  float* coordinates; // array
+  std::vector<float> coordinates; // array
 };
+
+JS_OBJ_EXT(BeatmapCustomObjectData, coordinates);
+
 
 struct BeatmapBombNote {
   BeatmapCustomObjectData customData;
 };
+
+JS_OBJ_EXT(BeatmapBombNote, customData);
+
+struct CustomObstacleData {
+  std::vector<float> size; // Array
+};
+
+JS_OBJ_EXT(CustomObstacleData, size);
 
 struct BeatmapObstacle {
   float d;
   int w;
   int h;
 
-  struct CustomObstacleData {
-    float* size; // Array
-  } customData;
+  CustomObstacleData customData;
 };
+
+JS_OBJ_EXT(BeatmapObstacle, d, w, h, customData);
+
+struct BeatmapCustomSliderData {
+  std::vector<float> tailCoordinates; // Array
+};
+
+JS_OBJ_EXT(BeatmapCustomSliderData, tailCoordinates);
 
 struct BeatmapSlider : BeatmapObject {
   int c;
@@ -150,10 +200,10 @@ struct BeatmapSlider : BeatmapObject {
   float tmu;
   int m;
 
-  struct BeatmapCustomSliderData {
-    float* tailCoordinates; // Array
-  } customData;
+  BeatmapCustomSliderData customData;
 };
+
+JS_OBJ_EXT(BeatmapSlider, c, d, mu, tb, tx, ty, tc, tmu, m, customData);
 
 struct BeatmapBurstSlider : BeatmapObject {
   int c;
@@ -167,6 +217,8 @@ struct BeatmapBurstSlider : BeatmapObject {
   BeatmapCustomObjectData customData;
 };
 
+JS_OBJ_EXT(BeatmapBurstSlider, c, d, tb, tx, ty, sc, s, customData);
+
 struct BeatmapBasicBeatmapEvent {
   float b;
   int et;
@@ -174,10 +226,14 @@ struct BeatmapBasicBeatmapEvent {
   float f;
 };
 
+JS_OBJ_EXT(BeatmapBasicBeatmapEvent, b, et, i, f);
+
 struct BeatmapColorBoostBeatmapEvent {
   float b;
   bool o;
 };
+
+JS_OBJ_EXT(BeatmapColorBoostBeatmapEvent, b, o);
 
 struct BeatmapDifficulty {
   std::string version;
@@ -194,6 +250,10 @@ struct BeatmapDifficulty {
   bool useNormalEventsAsCompatibleEvents;
 };
 
+JS_OBJ_EXT(BeatmapDifficulty, version, bpmEvents, rotationEvents, colorNotes,
+  bombNotes, obstacles, sliders, burstSliders, basicBeatMapEvents,
+  colorBoostBeatMapEvents, useNormalEventsAsCompatibleEvents);
+
 struct Color {
   float r, g, b, a;
   
@@ -207,17 +267,23 @@ struct Color {
   }
 };
 
+JS_OBJ_EXT(Color, r, g, b, a);
+
 struct NullableColorPalette {
-  Color* LeftNoteColor;
-  Color* RightNoteColor;
-  Color* LightColor1;
-  Color* LightColor2;
-  Color* WhiteLightColor;
-  Color* BoostLightColor1;
-  Color* BoostLightColor2;
-  Color* BoostWhiteLightColor;
-  Color* WallColor;
+  Color LeftNoteColor;
+  Color RightNoteColor;
+  Color LightColor1;
+  Color LightColor2;
+  Color WhiteLightColor;
+  Color BoostLightColor1;
+  Color BoostLightColor2;
+  Color BoostWhiteLightColor;
+  Color WallColor;
 };
+
+JS_OBJ_EXT(NullableColorPalette, LeftNoteColor, RightNoteColor, LightColor1,
+  LightColor2, WhiteLightColor, BoostLightColor1, BoostLightColor2,
+  BoostWhiteLightColor, WallColor);
 
 struct Difficulty {
   Mode mode;
@@ -230,6 +296,13 @@ struct Difficulty {
   NullableColorPalette colors;
 };
 
+JS_OBJ_EXT(Difficulty, mode, difficultyRank, beatmapDifficulty, NoteJumpSpeed,
+  SpawnOffset, Label, requirements, colors);
+JS_ENUM_DECLARE_STRING_PARSER(Mode);
+JS_ENUM_DECLARE_STRING_PARSER(Rank);
+
+typedef std::vector<Difficulty> DifficultyList;
+
 class LoadedMapData {
 private:
   BeatmapInfo info;
@@ -239,6 +312,9 @@ public:
     LoadedMapData(BeatmapInfo info, DifficultyList difficulties);
     LoadedMapData(const LoadedMapData& other) = default;
     LoadedMapData(LoadedMapData&& other) = default;
+
+    LoadedMapData& operator=(const LoadedMapData& other) = default;
+
     ~LoadedMapData();
 
     inline BeatmapInfo getInfo() { return info; }

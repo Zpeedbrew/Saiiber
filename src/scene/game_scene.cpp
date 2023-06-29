@@ -104,9 +104,10 @@ void SetLight(Mtx view, GXColor litcol, GXColor ambcol, GXColor matcol)
 
 	// set number of rasterized color channels
 	GX_SetNumChans(1);
-	GX_SetChanCtrl(GX_COLOR0A0,GX_ENABLE,GX_SRC_REG,GX_SRC_REG,GX_LIGHT0,GX_DF_CLAMP,GX_AF_NONE);
-	GX_SetChanAmbColor(GX_COLOR0A0,ambcol);
-	GX_SetChanMatColor(GX_COLOR0A0,matcol);
+	GX_SetChanCtrl(GX_COLOR0A0, GX_ENABLE, GX_SRC_REG, GX_SRC_REG,
+    GX_LIGHT0, GX_DF_CLAMP, GX_AF_NONE);
+	GX_SetChanAmbColor(GX_COLOR0A0, ambcol);
+	GX_SetChanMatColor(GX_COLOR0A0, matcol);
 }
 
 void GameScene::render() {
