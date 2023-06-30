@@ -1,7 +1,6 @@
 #include "model.h"
 #include <malloc.h>
 #include <gccore.h>
-#include <fstream>
 #include <limits.h>
 #include <cstring>
 
@@ -12,33 +11,20 @@
 #include "../gfx.h"
 #include "../logger.h"
 
-Model::Model(const char* filename) {
-  char path[PATH_MAX];
-  snprintf(path, PATH_MAX, "%s%s", ASSET_PATH, filename);
-  LOG_DEBUG("Loading model %s\n", path);
- 
-  tinyobj::attrib_t attrib;
-  std::vector<tinyobj::shape_t> shapes;
-  std::vector<tinyobj::material_t> materials;
-  std::string err;
+tinyobj::attrib_t attrib;
+std::vector<tinyobj::shape_t> shapes;
+std::vector<tinyobj::material_t> materials;
+std::string err;
 
-  std::ifstream file(path, std::ios::binary);
-  if (!tinyobj::LoadObj(&attrib, &shapes, &materials, &err, &file)) {
-    file.close();
-    LOG_ERROR("Failed to load model %s: %s\n", path, err);
-    return;
-  }
-
-  file.close();
-
+void* make_model(u32& size) {
   size_t indices = 0;
   for (const auto& shape : shapes) {
     LOG_DEBUG("Shape %s has %d indices and %d vertices\n", shape.name.c_str(), shape.mesh.indices.size(), shape.mesh.num_face_vertices.size());
     indices += shape.mesh.indices.size();
   }
 
-  LOG_DEBUG("Initially loaded %s with:\n\tIndices: %d\n\tVertices: %d\n\tTexCoords: %d\n",
-    path, indices, attrib.vertices.size(), attrib.texcoords.size());
+  LOG_DEBUG("Initially loaded model with:\n\tIndices: %d\n\tVertices: %d\n\tTexCoords: %d\n",
+    indices, attrib.vertices.size(), attrib.texcoords.size());
 
   size_t szVertices = indices * 3 * sizeof(s16);
   size_t szTexCoords = indices * 2 * sizeof(u16);
@@ -50,7 +36,7 @@ Model::Model(const char* filename) {
 
   LOG_DEBUG("Initial size: %d\n", total);
 
-  display = memalign(32, total);
+  void* display = memalign(32, total);
   memset(display, 0, total);
   DCInvalidateRange(display, total);
   GX_BeginDispList(display, total);
@@ -74,10 +60,56 @@ Model::Model(const char* filename) {
       GX_End();
     }
   }
+
   size = GX_EndDispList();
-  if (size == 0)
+  if (size == 0) {
     LOG_ERROR("Failed to create display list for model\n");
+    free(display);
+    return NULL;
+  }
+
   LOG_DEBUG("Final size: %d\n", size);
+  return display;
+}
+
+Model::Model(const char* filename) {
+  char path[PATH_MAX];
+  snprintf(path, PATH_MAX, "%s%s", ASSET_PATH, filename);
+  LOG_DEBUG("Loading model %s\n", path);
+
+  std::ifstream file(path, std::ios::binary);  
+  if (!tinyobj::LoadObj(&attrib, &shapes, &materials, &err, &file)) {
+    file.close();
+    return;
+  }
+
+  file.close();
+
+  display = make_model(this->size);
+  loaded = display != NULL;
+}
+
+/*
+  Trivial stream buffer
+  For a small area of memory the difference may not matter.
+  Although the saved allocation can be noticable there, too.
+  For large chunks of memory, it makes a major difference.
+*/
+struct membuf: std::streambuf {
+  membuf(char* base, std::ptrdiff_t n) {
+    this->setg(base, base, base + n);
+  }
+};
+
+Model::Model(void* data, u32 size) {
+  membuf buf((char*)data, size);
+  std::istream stream(&buf);
+  
+  if (!tinyobj::LoadObj(&attrib, &shapes, &materials, &err, &stream))
+    return;
+
+  display = make_model(this->size);
+  loaded = display != NULL;
 }
 
 Model::~Model() {
