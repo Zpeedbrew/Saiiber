@@ -9,11 +9,9 @@ private:
   u32 size;
   bool loaded;
 
-  Model(std::istream stream);
-
 public:
   // TODO: add mesh data as first argument
-  Model(void* display, u32 size);
+  Model(const uint8_t* data, u32 size);
   Model(const char* filename);
   ~Model();
   void render();

@@ -3,9 +3,16 @@
 #include "../resource/model.h"
 #include "../gfx.h"
 
+#include "cube_obj.h"
+
 Model* Block::model = NULL;
 
-Block::Block() { }
+Block::Block() {
+  if (model == NULL) {
+    model = new Model(cube_obj, cube_obj_size);
+  }
+}
+
 Block::~Block() { }
 
 void Block::update(f32 deltatime) {

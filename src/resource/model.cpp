@@ -72,7 +72,7 @@ void* make_model(u32& size) {
   return display;
 }
 
-Model::Model(const char* filename) {
+Model::Model(const char *filename) {
   char path[PATH_MAX];
   snprintf(path, PATH_MAX, "%s%s", ASSET_PATH, filename);
   LOG_DEBUG("Loading model %s\n", path);
@@ -101,7 +101,7 @@ struct membuf: std::streambuf {
   }
 };
 
-Model::Model(void* data, u32 size) {
+Model::Model(const uint8_t* data, u32 size) {
   membuf buf((char*)data, size);
   std::istream stream(&buf);
   
