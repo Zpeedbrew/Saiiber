@@ -2,13 +2,14 @@
 #include <cstdio>
 #include <fat.h>
 #include <sdcard/wiisd_io.h>
+#include <malloc.h>
 
 #include "../gfx.h"
 #include "../sfx.h"
 #include "../logger.h"
 #include "../input.h"
-#include "../resource/ogg.h"
 #include "../resource/model.h"
+#include "../resource/beatmap.h"
 
 #include "../gameobjects/block.h"
 
@@ -20,22 +21,40 @@ static GXColor LightColors[] = {
 };
 
 GameScene::GameScene(const char* songdir) {
-  this->songdir = songdir;
-
-  char path[256];
-  sprintf(path, "%s/song.ogg", songdir);
-  song = new Ogg(path);
-
   // load note model only once
   if (Block::model == NULL)
-    Block::model = new Model("block.obj");
+    Block::model = new Model("block.obj");  
 
+  LoadedMapData* mapData = (LoadedMapData*)malloc(sizeof(LoadedMapData));
+  if (GetMapData(mapData, songdir) < 0) {
+    LOG_ERROR("Failed to load map data\n");
+    return;
+  }
+
+  char path[256];
+  sprintf(path, "%s/%s", songdir, mapData->getInfo()._songFilename.c_str());
+  int voice = SFX_Load(path);
+  if (voice == -1) {
+    LOG_ERROR("Failed to load song %s\n", path);
+    return;
+  }
+
+  map = new LoadedMap(mapData, (char*)NULL, voice);
   
   // TODO: Decide on the way we should load the blocks of the chart.
   // Personally, I was thinking we might just be able to make a gameobject for all of them
   // then have a constant velocity for them to move down the screen
   // we can use a culling frustum to filter the ones out that are off screen
 }
+
+GameScene::~GameScene() {
+  for (size_t i = 0; i < gameObjects.size(); i++) {
+    delete gameObjects[i];
+  }
+
+  delete map;
+}
+
 
 void GameScene::init() {
   GFX_EnableLighting(false);
@@ -70,12 +89,6 @@ void GameScene::init() {
   gameObjects.push_back(green);
 
   LOG_DEBUG("Loaded GameScene\n");
-}
-
-GameScene::~GameScene() {
-  for (size_t i = 0; i < gameObjects.size(); i++) {
-    delete gameObjects[i];
-  }
 }
 
 float xRot = 0.0f;

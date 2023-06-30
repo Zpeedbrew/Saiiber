@@ -42,7 +42,15 @@
 #define OGG_STATUS_EOF     255
 
 extern void SFX_Setup();
+extern int SFX_Play(s32 voice, void* buffer, int len, int time_pos);
+extern int SFX_Load(const char* filename);
+extern void SFX_Stop(s32 voice);
 
-
+extern void SFX_Pause(s32 voice);
+extern void SFX_Unpause(s32 voice);
+extern int SFX_Status(s32 voice);
+extern void SFX_Volume(s32 voice, int volume);
+extern s32 SFX_GetTime(s32 voice);
+extern void SFX_Seek(s32 voice, s32 time_pos);
 
 #endif

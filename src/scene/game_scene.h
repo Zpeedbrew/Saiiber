@@ -4,14 +4,12 @@
 #include <vector>
 
 class GameObject;
-class Ogg;
+class LoadedMap;
 
 class GameScene : public Scene {
 private:
   std::vector<GameObject*> gameObjects;
-  const char* songdir;
-
-  Ogg* song;
+  LoadedMap* map;
 
 public:
   GameScene(const char* songdir);

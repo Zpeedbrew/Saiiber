@@ -39,6 +39,11 @@
 #include "sfx.h"
 #include "logger.h"
 
+#define PAUSE 128
+#define READY 64
+#define FULL  1
+#define NUM_TRACKS 4
+
 /* functions to read the Ogg file from memory */
 
 /* OGG control */
@@ -49,13 +54,9 @@
 #define BIT_DEPTH 		16				// 2 bytes
 #define DUR_SECONDS		0.017			// 17ms (equates to ~60fps)
 
-// samples that it must read before to send
-// It's the sampling rate * duration
-// doubled because we only need to swap buffers at 30fps
-// and we want it to be the closest 32-bit aligned number
-#define READ_SAMPLES 1536
-#define MAX_PCMOUT 	2048 // maximum size to read ogg samples
-#define STACKSIZE		8192
+#define READ_SAMPLES 4096
+#define MAX_PCMOUT 	 4096 // maximum size to read ogg samples
+#define STACKSIZE		 8192
 
 static struct OggData {
 	OggVorbis_File vf;  // Vorbis File
@@ -88,7 +89,7 @@ static struct OggData {
 	short pcmout[2][READ_SAMPLES + MAX_PCMOUT * CHANNELS]; /* take 4k out of the data segment, not the stack */
 	int pcmout_pos;
 	int pcm_indx;
-} tracks[4];
+} tracks[NUM_TRACKS];
 
 static int f_read(void *punt, int bytes, int blocks, OggData *ogg) {
 	int b, c;
@@ -177,9 +178,12 @@ static int f_close(void *f) {
 
 	ogg->file.size = 0;
 	ogg->file.pos = 0;
+	ogg->open = false;
 
-	if (ogg->file.mem)
+	if (ogg->file.mem) {
+		free(ogg->file.mem);
 		ogg->file.mem = NULL;
+	}
 
 	return 0;
 }
@@ -210,42 +214,29 @@ static ov_callbacks callbacks = {
 	(long (*)(void *))                            f_tell
 };
 
-static OggData* getOggFromVoice(s32 voice) {
-	for (int i = 0; i < 4; i++) {
-		if (tracks[i].voice == voice)
-			return &tracks[i];
-	}
-
-	return NULL;
-}
-
 static void ogg_add_callback(s32 voice) {
-	OggData* ogg = getOggFromVoice(voice);
-	if (ogg == NULL) {
-		LOG_ERROR("ogg_add_callback: ogg == NULL\n");
+	OggData& ogg = tracks[voice];
+
+	if (!ogg.running) {
+		ASND_StopVoice(ogg.voice);
 		return;
 	}
 
-	if (!ogg->running) {
-		ASND_StopVoice(ogg->voice);
-		return;
-	}
-
-	if (ogg->flag & 128)
+	if (ogg.flag & 128)
 		return; // Ogg is paused
 
-	if (ogg->pcm_indx >= READ_SAMPLES) {
-		if (ASND_AddVoice(ogg->voice,
-				(void *) ogg->pcmout[ogg->pcmout_pos],
-				ogg->pcm_indx << 1) == 0) {
-			ogg->pcmout_pos ^= 1;
-			ogg->pcm_indx = 0;
-			ogg->flag = 0;
-			LWP_ThreadSignal(ogg->queue);
+	if (ogg.pcm_indx >= READ_SAMPLES) {
+		if (ASND_AddVoice(ogg.voice,
+				(void *) ogg.pcmout[ogg.pcmout_pos],
+				ogg.pcm_indx << 1) == 0) {
+			ogg.pcmout_pos ^= 1;
+			ogg.pcm_indx = 0;
+			ogg.flag = 0;
+			LWP_ThreadSignal(ogg.queue);
 		}
-	} else if (ogg->flag & 64) {
-    ogg->flag &= ~64;
-    LWP_ThreadSignal(ogg->queue);
+	} else if (ogg.flag & 64) {
+    ogg.flag &= ~64;
+    LWP_ThreadSignal(ogg.queue);
 	}
 }
 
@@ -351,39 +342,34 @@ static void * ogg_player_thread(void* arg) {
 	return 0;
 }
 
-void StopOgg(s32 voice) {	
-	OggData* ogg = getOggFromVoice(voice);
-	if (ogg == NULL)
-		return;
+void SFX_Setup() {
+	ASND_Init();
+}
+
+void SFX_Stop(s32 voice) {
+	OggData& ogg = tracks[voice];
 
 	ASND_StopVoice(voice);
-	ogg->running = 0;
+	ogg.running = 0;
 
-	if(ogg->thread != LWP_THREAD_NULL) {
-		if(ogg->queue != LWP_TQUEUE_NULL)
-			LWP_ThreadSignal(ogg->queue);
-		LWP_JoinThread(ogg->thread, NULL);
-		ogg->thread = LWP_THREAD_NULL;
+	if(ogg.thread != LWP_THREAD_NULL) {
+		if(ogg.queue != LWP_TQUEUE_NULL)
+			LWP_ThreadSignal(ogg.queue);
+		LWP_JoinThread(ogg.thread, NULL);
+		ogg.thread = LWP_THREAD_NULL;
 	}
 
-	if(ogg->queue != LWP_TQUEUE_NULL) {
-		LWP_CloseQueue(ogg->queue);
-		ogg->queue = LWP_TQUEUE_NULL;
+	if(ogg.queue != LWP_TQUEUE_NULL) {
+		LWP_CloseQueue(ogg.queue);
+		ogg.queue = LWP_TQUEUE_NULL;
 	}
 }
 
-int PlayOgg(s32 voice, const void *buffer, s32 len, int time_pos) {
-	StopOgg(voice);
+int SFX_Play(s32 voice, void* buffer, int len, int time_pos) {
+	SFX_Stop(voice);
 	ASND_Pause(0);
 
 	OggData& ogg = tracks[voice];
-  mem_open(ogg, voice, (char *)buffer, len);
-
-	if (!ogg.open) {
-		LOG_DEBUG("Ogg failed to open for voice %d\n", voice);
-		return -1;
-	}
-
 	ogg.mode = 0;
 	ogg.eof = 0;
 	ogg.volume = 127;
@@ -411,76 +397,81 @@ int PlayOgg(s32 voice, const void *buffer, s32 len, int time_pos) {
 	return 0;
 }
 
-void PauseOgg(s32 voice) {
-	OggData* ogg = getOggFromVoice(voice);
-	if (ogg == NULL)
-		return;
+// returns voice or -1 if there was an error
+int SFX_Load(const char* path) {
+  FILE *f = fopen(path, "rb");
+  if (!f) {
+    printf("Failed to open file\n");
+    return -1;
+  }
 
-	ogg->flag |= 128;
+  fseek(f, 0, SEEK_END);
+  int size = ftell(f);
+  fseek(f, 0, SEEK_SET);
+
+  void* buffer = malloc(size);
+  fread(buffer, 1, size, f);
+  fclose(f);
+
+	s32 voice = ASND_GetFirstUnusedVoice();
+
+	OggData& ogg = tracks[voice];
+  mem_open(ogg, voice, (char *)buffer, size);
+	return voice;
 }
 
-void UnpauseOgg(s32 voice) {
-	OggData* ogg = getOggFromVoice(voice);
-	if (ogg == NULL)
-		return;
+void SFX_Pause(s32 voice) {
+	OggData& ogg = tracks[voice];
+	ogg.flag |= 128;
+}
 
-  if (ogg->flag & 128) {
-    ogg->flag |= 64;
-    ogg->flag &= ~128;
-    if (ogg->running > 0)
-      LWP_ThreadSignal(ogg->queue);
+void SFX_Unpause(s32 voice) {
+	OggData& ogg = tracks[voice];
+
+  if (ogg.flag & 128) {
+    ogg.flag |= 64;
+    ogg.flag &= ~128;
+    if (ogg.running > 0)
+      LWP_ThreadSignal(ogg.queue);
   }
 }
 
-int StatusOgg(s32 voice) {
-	OggData* ogg = getOggFromVoice(voice);
-	if (ogg == NULL)
-		return OGG_STATUS_UNKNOWN;
+int SFX_Status(s32 voice) {
+	OggData& ogg = tracks[voice];
 
-	if (ogg->running == 0)
+	if (ogg.running == 0)
 		return OGG_STATUS_ERR; // Error
 
-	if (ogg->eof)
+	if (ogg.eof)
 		return OGG_STATUS_EOF; // EOF
 
-	if (ogg->flag & 128)
+	if (ogg.flag & 128)
 		return OGG_STATUS_PAUSED; // paused
 
   return OGG_STATUS_RUNNING; // running
 }
 
-void SetVolumeOgg(s32 voice, int volume) {
-	OggData* ogg = getOggFromVoice(voice);
-	if (ogg == NULL)
-		return;
+void SFX_Volume(s32 voice, int volume) {
+	OggData& ogg = tracks[voice];
 
-	ogg->volume = volume;
+	ogg.volume = volume;
 	ASND_ChangeVolumeVoice(voice, volume, volume);
 }
 
-s32 GetTimeOgg(s32 voice) {
-	OggData* ogg = getOggFromVoice(voice);
-	if (ogg == NULL)
-		return -1;
+s32 SFX_GetTime(s32 voice) {
+	OggData& ogg = tracks[voice];
 
 	int ret;
-	if (ogg->running == 0 || !ogg->open)
+	if (ogg.running == 0 || !ogg.open)
 		return -1;
 
-	ret = ((s32) ov_time_tell(&ogg->vf));
+	ret = ((s32) ov_time_tell(&ogg.vf));
 
 	return ret;
 }
 
-void SetTimeOgg(s32 voice, s32 time_pos) {
-	OggData* ogg = getOggFromVoice(voice);
-	if (ogg == NULL)
-		return;
-
+void SFX_Seek(s32 voice, s32 time_pos) {
+	OggData& ogg = tracks[voice];
 	if (time_pos >= 0)
-		ogg->seek_time = time_pos;
-}
-
-void SFX_Setup() {
-	ASND_Init();
+		ogg.seek_time = time_pos;
 }
