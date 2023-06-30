@@ -11,8 +11,6 @@
 #include <string>
 #include "../json_struct.h"
 
-struct Track;
-
 JS_ENUM(Mode,
   Standard,
   OneSaber,
@@ -323,19 +321,19 @@ public:
 
 class LoadedMap {
 private:
-  LoadedMapData map_data;
-  Track* song;
+  LoadedMapData* data;
+  s32 voice;
 
 public:
-  LoadedMap(LoadedMapData&& mapData, char* coverImageData, Track* song);
+  LoadedMap(LoadedMapData* mapData, char* coverImageData, s32 voice);
   ~LoadedMap();
 
-  inline LoadedMapData getMapData() { return map_data; }
-  inline BeatmapInfo getInfo() { return map_data.getInfo(); }
-  inline DifficultyList getDifficulties() { return map_data.getDifficulties(); }
-  inline Track* getSong() { return song; }
+  inline LoadedMapData* getMapData() { return data; }
+  inline BeatmapInfo getInfo() { return data->getInfo(); }
+  inline DifficultyList getDifficulties() { return data->getDifficulties(); }
+  inline s32 getSongVoice() { return voice; }
 };
 
-extern LoadedMapData&& GetMapData(const char* directory);
+extern int GetMapData(LoadedMapData* mapData, const char* directory);
 
 #endif // BEATMAP_H

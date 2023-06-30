@@ -127,23 +127,19 @@ LoadedMapData::LoadedMapData(BeatmapInfo info, DifficultyList difficulties) {
   this->difficulties = difficulties;
 }
 
-LoadedMapData::~LoadedMapData() {
-
-}
+LoadedMapData::~LoadedMapData() { }
 
 
-LoadedMap::LoadedMap(LoadedMapData&& mapData, char* coverImageData, Track* song)
-: map_data(mapData) {
-  this->song = song;
+LoadedMap::LoadedMap(LoadedMapData* mapData, char* coverImageData, s32 voice) {
+  this->data = mapData;
+  this->voice = voice;
 }
 
 LoadedMap::~LoadedMap() {
-
 }
 
-int GetMapData(LoadedMapData& mapData, const char* directory) {
+int GetMapData(LoadedMapData* mapData, const char* directory) {
   beatmapDirectory = directory;
-
   BeatmapInfo info;
   if (GetInfoData(info) < 0) {
     LOG_ERROR("Failed to get BeatmapInfo from %s\n", directory);
@@ -156,6 +152,6 @@ int GetMapData(LoadedMapData& mapData, const char* directory) {
     return -1;
   }
 
-  mapData = LoadedMapData(info, difficulties);
+  *mapData = LoadedMapData(info, difficulties);
   return 0;
 }
