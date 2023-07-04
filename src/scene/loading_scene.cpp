@@ -17,7 +17,6 @@ void LoadingScene::init() {
   GFX_SetWriteBuffers(true, false, false);
 
   GFX_BindTexture(TEX_GUI);
-  GFX_EnableTextures(true);
 
   Mtx44 ortho;
   guOrtho(ortho, 0, SCREEN_HEIGHT, 0, SCREEN_WIDTH, 0, 1);

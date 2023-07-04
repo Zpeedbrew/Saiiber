@@ -6,6 +6,7 @@ class MenuScene : public Scene {
 public:
   MenuScene();
   ~MenuScene();
+  void init();
   void update(f32 deltatime);
   void render();
 };

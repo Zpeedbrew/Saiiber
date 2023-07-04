@@ -20,26 +20,19 @@ static GXColor LightColors[] = {
 		{ 0x80, 0x80, 0x80, 0xFF }  // Material 1
 };
 
-GameScene::GameScene(const char* songdir) {
-  // load note model only once
-  if (Block::model == NULL)
-    Block::model = new Model("block.obj");  
-
-  LoadedMapData* mapData = (LoadedMapData*)malloc(sizeof(LoadedMapData));
-  if (GetMapData(mapData, songdir) < 0) {
-    LOG_ERROR("Failed to load map data\n");
-    return;
-  }
+GameScene::GameScene(BeatmapData* data) {
+  LOG_DEBUG("GameScene constructor\n");
+  beatmap = data;
 
   char path[256];
-  sprintf(path, "%s/%s", songdir, mapData->getInfo()._songFilename.c_str());
+  sprintf(path, "%s/%s", beatmap->getDirectory(), data->getInfo()._songFilename.c_str());
   int voice = SFX_Load(path);
   if (voice == -1) {
     LOG_ERROR("Failed to load song %s\n", path);
     return;
   }
 
-  map = new LoadedMap(mapData, (char*)NULL, voice);
+  LOG_DEBUG("Song Loaded\n");
   
   // TODO: Decide on the way we should load the blocks of the chart.
   // Personally, I was thinking we might just be able to make a gameobject for all of them
@@ -51,8 +44,6 @@ GameScene::~GameScene() {
   for (size_t i = 0; i < gameObjects.size(); i++) {
     delete gameObjects[i];
   }
-
-  delete map;
 }
 
 
@@ -124,7 +115,7 @@ void SetLight(Mtx view, GXColor litcol, GXColor ambcol, GXColor matcol)
 }
 
 void GameScene::render() {
-  GFX_EnableTextures(false);
+  GFX_BindTexture(TEX_NONE);
   GX_Begin(GX_LINES, GX_VTXFMT1, 2);
   GX_Position3s16(0, -100, 0);
   GX_Color4u8(0xFF, 0xFF, 0xFF, 0xFF);
@@ -134,7 +125,6 @@ void GameScene::render() {
   GX_Color4u8(0xFF, 0xFF, 0xFF, 0xFF);
   GX_TexCoord2u16(0, 0);
   GX_End();
-  GFX_EnableTextures(true);
 
 	//SetLight(view, LightColors[0], LightColors[1], LightColors[2]);
   for (size_t i = 0; i < gameObjects.size(); i++) {

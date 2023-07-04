@@ -4,15 +4,15 @@
 #include <vector>
 
 class GameObject;
-class LoadedMap;
+class BeatmapData;
 
 class GameScene : public Scene {
 private:
   std::vector<GameObject*> gameObjects;
-  LoadedMap* map;
+  BeatmapData* beatmap;
 
 public:
-  GameScene(const char* songdir);
+  GameScene(BeatmapData* data);
   ~GameScene();
 
   void init();
