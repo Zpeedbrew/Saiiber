@@ -23,7 +23,14 @@
 #define xy16(x, y) (((int)(x) << 8) | (int)(y))
 #define ia8(i, a) (((int)(a) << 4) | (int)(i))
 
-void* tex_conv_rgb32(uint8_t* image, size_t width, size_t height) {
+int alphacmp(uint8_t* col, uint8_t* alpha) {
+	return	(col[0] - alpha[0])
+				+ (col[1] - alpha[1])
+				+ (col[2] - alpha[2]);
+}
+
+
+void* tex_conv_rgb32(uint8_t* image, size_t width, size_t height, int alpha) {
 	assert(image && (width % 4) == 0 && (height % 4) == 0);
 	uint16_t* output = (uint16_t*)memalign(32, width * height * sizeof(uint16_t) * 2);
 
@@ -37,6 +44,9 @@ void* tex_conv_rgb32(uint8_t* image, size_t width, size_t height) {
 			for(size_t by = 0; by < 4; by++) {
 				for(size_t bx = 0; bx < 4; bx++) {
 					uint8_t* col = image + (x + bx + (y + by) * width) * 4;
+					if (alphacmp(col, (uint8_t*)&alpha) == 0)
+						col[3] = 0;
+
 					output[output_idx++] = xy16(col[3], col[0]);
 				}
 			}
@@ -55,7 +65,7 @@ void* tex_conv_rgb32(uint8_t* image, size_t width, size_t height) {
 	return output;
 }
 
-void* tex_conv_rgb16(uint8_t* image, size_t width, size_t height) {
+void* tex_conv_rgb16(uint8_t* image, size_t width, size_t height, int alpha) {
 	assert(image && (width % 4) == 0 && (height % 4) == 0);
 	uint16_t* output = (uint16_t*)memalign(32, width * height * sizeof(uint16_t));
 
@@ -70,6 +80,9 @@ void* tex_conv_rgb16(uint8_t* image, size_t width, size_t height) {
 				for(size_t bx = 0; bx < 4; bx++) {
 					uint8_t* col = image + (x + bx + (y + by) * width) * 4;
 					int alpha = col[3] >> 5;
+
+					if (alphacmp(col, (uint8_t*)&alpha) == 0)
+						alpha = 0;
 
 					if(alpha < 7) {
 						output[output_idx++] = rgba16(col[0] >> 4, col[1] >> 4,
@@ -101,9 +114,9 @@ void* tex_conv_i8(uint8_t* image, size_t width, size_t height) {
 		for(size_t x = 0; x < width; x += 8) {
 			for(size_t by = 0; by < 4; by++) {
 				for(size_t bx = 0; bx < 8; bx++) {
-					uint8_t* col = image + (x + bx + (y + by) * width) * 4;
+					uint8_t* column = image + (x + bx + (y + by) * width) * 4;
 					output[output_idx++]
-						= ((int)col[0] + (int)col[1] + (int)col[2]) / 3;
+						= ((int)column[0] + (int)column[1] + (int)column[2]) / 3;
 				}
 			}
 		}
@@ -142,25 +155,26 @@ void* tex_conv_ia4(uint8_t* image, size_t width, size_t height) {
 }
 
 // loads a PNG texture
-bool load_png(void* img, size_t width, size_t height, TextureFormat type, int slot, bool linear) {
+bool load_png(uint8_t* img, size_t width, size_t height, TextureFormat type,
+int slot, int alpha, bool linear) {
   void* output = NULL;
   uint8_t fmt;
 
   switch (type) {
     case TEX_FMT_RGBA32:
-      output = tex_conv_rgb32((uint8_t*)img, width, height);
+      output = tex_conv_rgb32(img, width, height, alpha);
       fmt = GX_TF_RGBA8;
       break;
     case TEX_FMT_RGBA16:
-      output = tex_conv_rgb16((uint8_t*)img, width, height);
+      output = tex_conv_rgb16(img, width, height, alpha);
       fmt = GX_TF_RGB5A3;
       break;
     case TEX_FMT_I8:
-      output = tex_conv_i8((uint8_t*)img, width, height);
+      output = tex_conv_i8(img, width, height);
       fmt = GX_TF_I8;
       break;
     case TEX_FMT_IA4:
-      output = tex_conv_ia4((uint8_t*)img, width, height);
+      output = tex_conv_ia4(img, width, height);
       fmt = GX_TF_IA4;
       break;
     default:
@@ -183,9 +197,9 @@ bool load_png(void* img, size_t width, size_t height, TextureFormat type, int sl
 }
 
 // loads a PNG texture
-void LoadTextureFromFile(const char* filename, TextureFormat type, int slot, bool linear) {
+void LoadTextureFromFile(const char* filename, TextureFormat type, int slot, int alpha, bool linear) {
   char path[PATH_MAX];
-  snprintf(path, PATH_MAX, "%s%s", ASSET_PATH, filename);
+  snprintf(path, PATH_MAX, "%s/%s", ASSET_PATH, filename);
   LOG_DEBUG("Loading texture %s\n", path);
 
   size_t width, height;
@@ -195,13 +209,30 @@ void LoadTextureFromFile(const char* filename, TextureFormat type, int slot, boo
 		return;
   }
 
-  if (!load_png(img, width, height, type, slot, linear)) {
+  if (!load_png(img, width, height, type, slot, alpha, linear)) {
     LOG_ERROR("Failed to convert texture %s\n", filename);
     free(img);
   }
 }
 
-void LoadTextureFromMemory(s32 id, void* data, u32 size, TextureFormat type, int slot, bool linear) {
+void LoadPNGFromMemory(const uint8_t* pngdata, u32 size, TextureFormat type,
+int slot, int alpha, bool linear) {
+	size_t width, height;
+	uint8_t* img;
+
+	// NOTE: Don't need to add the ELF header offset to pngdata
+	if (lodepng_decode32(&img, &width, &height, pngdata, size) > 0) {
+		LOG_ERROR("Failed to load png from memory\n");
+		return;
+	}
+
+	if (!load_png(img, width, height, type, slot, alpha, linear)) {
+		LOG_ERROR("Failed to convert texture from memory\n");
+		free(img);
+	}
+}
+
+void LoadTextureFromMemory(s32 id, void* data, u32 size, int slot) {
 	GXTexObj tex;
 	TPLFile file;
 
