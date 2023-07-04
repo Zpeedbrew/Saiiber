@@ -1,4 +1,6 @@
 build
 *.code-workspace
 .vscode
-sd/apps/saiiber/boot.*
+.elf
+.dol
+.log
