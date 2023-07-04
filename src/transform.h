@@ -10,24 +10,11 @@ public:
   
   Mtx matrix;
 
-  void update() {
-    static guVector xAxis = { 1.0f, 0.0f, 0.0f };
-    static guVector yAxis = { 0.0f, 1.0f, 0.0f };
-    static guVector zAxis = { 0.0f, 0.0f, 1.0f };
+  bool intersects(Transform other);
+  bool intersects(float x, float y, float z, float width, float height, float depth);
+  bool intersects(float x, float y, float width, float height);
 
-    guMtxIdentity(matrix);
-    guMtxTransApply(matrix, matrix, position.x, position.y, position.z);
-
-    if (rotation.x != 0.0f)
-      guMtxRotAxisDeg(matrix, &xAxis, rotation.x);
-    if (rotation.y != 0.0f)
-      guMtxRotAxisDeg(matrix, &yAxis, rotation.y);
-    if (rotation.z != 0.0f)
-      guMtxRotAxisDeg(matrix, &zAxis, rotation.z);
-
-    guMtxScaleApply(matrix, matrix, scale.x, scale.y, scale.z);
-  }
-
+  void update();
 };
 
 #endif // TRANSFORM_H
