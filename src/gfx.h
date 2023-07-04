@@ -17,6 +17,7 @@ enum TextureMap {
   TEX_GUI,
   TEX_GUI2,
   TEX_FONT,
+  TEX_NONE
 };
 
 extern int SCREEN_WIDTH, SCREEN_HEIGHT;
@@ -24,7 +25,7 @@ extern Mtx44 projection;
 extern Mtx view;
 
 // framebuffer operations
-extern void GFX_Setup();
+extern void GFX_Init();
 extern void GFX_Cleanup();
 extern void GFX_FlipBuffers(float* gpu_wait, float* vsync_wait);
 extern void GFX_CopyBuffers(u32 cnt);
@@ -34,9 +35,7 @@ extern void GFX_Finish(bool vsync);
 extern void GFX_EnableAlphaTest(bool enable);
 extern void GFX_EnableCulling(bool enable);
 extern void GFX_EnableLighting(bool enable);
-extern void GFX_EnableTextures(bool enable);
 extern void GFX_EnableBGColor(bool enable);
-extern void GFX_EnableDepthTest(bool enable);
 extern void GFX_DepthRange(float near, float far);
 
 // active elements

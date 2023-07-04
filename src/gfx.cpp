@@ -47,25 +47,23 @@ void GFX_OutputMatrix(Mtx matrix) {
 	LOG_DEBUG("%f %f %f %f\n", matrix[2][0], matrix[2][1], matrix[2][2], matrix[2][3]);
 }
 
+
+#include "beon_png.h"
+#include "beon.h"
+
+#include "beon2_0_png.h"
+
 void loadAllTextures() {
-  if (!fatInitDefault()) {
-    LOG_ERROR("Failed to initialize FAT\n");
-    return;
-  }
+  // LoadTextureFromFile("note.png", TEX_FMT_RGBA32, GX_TEXMAP0);
+  // LoadTextureFromFile("loading2.png", TEX_FMT_RGBA32, GX_TEXMAP1);
 
-  if (!fatMountSimple("sd", &__io_wiisd)) {
-    LOG_ERROR("Failed to mount SD card\n");
-    return;
-  }
+	// Set alpha to 0x00 (so it filters out black)
+	LoadPNGFromMemory(beon2_0_png, beon2_0_png_size, TEX_FMT_I8, GX_TEXMAP2);
 
-  LoadTextureFromFile("note.png", TEX_FMT_RGBA32, GX_TEXMAP0, false);
-  LoadTextureFromFile("loading2.png", TEX_FMT_RGBA32, GX_TEXMAP1, false);
-  
-  fatUnmount("sd");
   GX_DrawDone(); // Wait for GPU to finish
 }
 
-void GFX_Setup() {
+void GFX_Init() {
   VIDEO_Init();
   WPAD_Init();
 
@@ -155,7 +153,7 @@ void GFX_Setup() {
   // font drawing
 	GX_SetVtxAttrFmt(GX_VTXFMT2, GX_VA_POS, GX_POS_XYZ, GX_S16, 0);
 	GX_SetVtxAttrFmt(GX_VTXFMT2, GX_VA_CLR0, GX_CLR_RGBA, GX_RGBA8, 0);
-	GX_SetVtxAttrFmt(GX_VTXFMT2, GX_VA_TEX0, GX_TEX_ST, GX_U16, 8);
+	GX_SetVtxAttrFmt(GX_VTXFMT2, GX_VA_TEX0, GX_TEX_ST, GX_U8, 8);
 
   // TODO: Access colors from renderer
 	GX_SetArray(GX_VA_CLR0, colors, 3 * sizeof(uint8_t));
@@ -167,7 +165,6 @@ void GFX_Setup() {
 	GX_SetNumTevStages(1);
 
   GFX_BindTexture(TEX_MODEL);
-  GFX_EnableTextures(true);
   GFX_EnableAlphaTest(true);
 	
 	loadAllTextures();
@@ -176,13 +173,9 @@ void GFX_Setup() {
 }
 
 void GFX_Cleanup() {
-  LOG_DEBUG("Cleaning up.");
+  LOG_DEBUG("Cleaning up.\n");
   free(frameBuffer[0]);
   free(frameBuffer[1]);
-}
-
-void GFX_EnableTextures(bool enable) {
-	GX_SetTevOp(GX_TEVSTAGE0, enable ? GX_MODULATE : GX_PASSCLR);
 }
 
 void GFX_EnableLighting(bool enable) {
@@ -211,13 +204,12 @@ void GFX_BindTexture(TextureMap texmap) {
 	case TEX_GUI:
 		GX_SetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD0, GX_TEXMAP1, GX_COLOR0A0);
 		break;
-	case TEX_GUI2:
+	case TEX_FONT:
 		GX_SetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD0, GX_TEXMAP2, GX_COLOR0A0);
 		break;
-	case TEX_FONT:
-		GX_SetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD0, GX_TEXMAP3, GX_COLOR0A0);
-		break;
 	}
+
+	GX_SetTevOp(GX_TEVSTAGE0, texmap != TEX_NONE ? GX_MODULATE : GX_PASSCLR);
 }
 
 bool texMtxEnabledLast = true;
