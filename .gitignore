@@ -1,6 +1,6 @@
 build
 *.code-workspace
 .vscode
-.elf
-.dol
+*.elf
+*.dol
 .log
