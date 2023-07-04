@@ -8,9 +8,8 @@
 Model* Block::model = NULL;
 
 Block::Block() {
-  if (model == NULL) {
+  if (model == NULL)
     model = new Model(cube_obj, cube_obj_size);
-  }
 }
 
 Block::~Block() { }
@@ -21,7 +20,6 @@ void Block::update(f32 deltatime) {
 void Block::render() {
   GFX_BindTexture(TEX_MODEL);
   GFX_TextureMatrix(true, texMtx);
-  GFX_EnableTextures(true);
   GFX_EnableAlphaTest(true);
   model->render();
 }

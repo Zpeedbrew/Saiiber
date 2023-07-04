@@ -3,7 +3,6 @@
  * Author: Beemer
  * Reflects the structure of the JSON inside of each ".dat" file
 */
-
 #ifndef BEATMAP_H
 #define BEATMAP_H
 #include <gctypes.h>
@@ -110,6 +109,24 @@ struct BeatmapInfo {
   float _songTimeOffset;
 
   std::vector<DifficultyBeatmapSet> _difficultyBeatmapSets;
+
+  inline void reset() {
+    _songName = "";
+    _songSubName = "";
+    _songAuthorName = "";
+    _levelAuthorName = "";
+    _beatsPerMinute = 0.0f;
+    _shuffle = 0.0f;
+    _shufflePeriod = 0.0f;
+    _previewStartTime = 0.0f;
+    _previewDuration = 0.0f;
+    _songFilename = "";
+    _coverImageFilename = "";
+    _environmentName = "";
+    _allDirectionsEnvironmentName = "";
+    _songTimeOffset = 0.0f;
+    _difficultyBeatmapSets.clear();
+  }
 };
 
 JS_OBJ_EXT(BeatmapInfo, _songName, _songSubName, _songAuthorName,
@@ -301,24 +318,23 @@ JS_ENUM_DECLARE_STRING_PARSER(Rank);
 
 typedef std::vector<Difficulty> DifficultyList;
 
-class LoadedMapData {
+class BeatmapData {
 private:
   BeatmapInfo info;
   DifficultyList difficulties;
 
 public:
-    LoadedMapData(BeatmapInfo info, DifficultyList difficulties);
-    LoadedMapData(const LoadedMapData& other) = default;
-    LoadedMapData(LoadedMapData&& other) = default;
+  int loadMapData(const char* directory);
+  int loadDifficulties();
 
-    LoadedMapData& operator=(const LoadedMapData& other) = default;
+  const char* getDirectory();
 
-    ~LoadedMapData();
-
-    inline BeatmapInfo getInfo() { return info; }
-    inline DifficultyList getDifficulties() { return difficulties; }
+  inline BeatmapInfo getInfo() { return info; }
+  inline DifficultyList getDifficulties() { return difficulties; }
 };
 
+/* TODO: Make this into a "Beatmap" class
+ * This will be the way we handle it in the gamescene after the BeatmapData is loaded
 class LoadedMap {
 private:
   LoadedMapData* data;
@@ -333,7 +349,6 @@ public:
   inline DifficultyList getDifficulties() { return data->getDifficulties(); }
   inline s32 getSongVoice() { return voice; }
 };
-
-extern int GetMapData(LoadedMapData* mapData, const char* directory);
+*/
 
 #endif // BEATMAP_H
