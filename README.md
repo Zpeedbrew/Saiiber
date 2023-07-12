@@ -20,6 +20,8 @@ Join the Discord server, go to #opt-in-for-announcement-pings and select the ðŸ›
 
 
 # Developer Notes
+Uses clang-format with Google formatting. All pull requests must comply with these formatting requirements. 
+
 - Logger should log to the Dolphin console if you turn off "Enable MMU" in the advanced settings.
 - sd directory contains the virtual SD card data.
 - Libraries required are all installed with pacman and listed in the Makefile
