@@ -1,18 +1,24 @@
 #ifndef GAME_SCENE_H
 #define GAME_SCENE_H
 #include "scene.h"
+#include <string>
+#include <utility>
 #include <vector>
 
 class GameObject;
-class BeatmapData;
+class BeatmapInfo;
+class Beatmap;
+
+enum class Mode;
+enum class Rank;
 
 class GameScene : public Scene {
 private:
   std::vector<GameObject*> gameObjects;
-  BeatmapData* beatmap;
+  Beatmap* beatmap;
 
 public:
-  GameScene(BeatmapData* data);
+  GameScene(std::pair<std::string, BeatmapInfo> pair, Mode mode, Rank rank);
   ~GameScene();
 
   void init();

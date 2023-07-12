@@ -110,6 +110,9 @@ struct BeatmapInfo {
 
   std::vector<DifficultyBeatmapSet> _difficultyBeatmapSets;
 
+  int getModes();
+  int getDifficulties(Mode mode);
+
   inline void reset() {
     _songName = "";
     _songSubName = "";
@@ -318,37 +321,26 @@ JS_ENUM_DECLARE_STRING_PARSER(Rank);
 
 typedef std::vector<Difficulty> DifficultyList;
 
-class BeatmapData {
-private:
+extern int GetInfoFromDir(const char* dir, BeatmapInfo& info);
+
+class Beatmap {
+public:
+  std::string directory;
   BeatmapInfo info;
-  DifficultyList difficulties;
+  Difficulty map;
 
-public:
-  int loadMapData(const char* directory);
-  int loadDifficulties();
+  Beatmap(std::string directory, BeatmapInfo info);
+  int loadMap(Mode mode, Rank rank);
 
-  const char* getDirectory();
-
-  inline BeatmapInfo getInfo() { return info; }
-  inline DifficultyList getDifficulties() { return difficulties; }
-};
-
-/* TODO: Make this into a "Beatmap" class
- * This will be the way we handle it in the gamescene after the BeatmapData is loaded
-class LoadedMap {
 private:
-  LoadedMapData* data;
-  s32 voice;
+  DifficultyBeatmapSet* getDifficultySet(Mode mode);
 
-public:
-  LoadedMap(LoadedMapData* mapData, char* coverImageData, s32 voice);
-  ~LoadedMap();
-
-  inline LoadedMapData* getMapData() { return data; }
-  inline BeatmapInfo getInfo() { return data->getInfo(); }
-  inline DifficultyList getDifficulties() { return data->getDifficulties(); }
-  inline s32 getSongVoice() { return voice; }
 };
-*/
+
+extern Mode ModeFromString(const char* name);
+extern Rank RankFromString(const char* name);
+
+typedef std::pair<std::string, BeatmapInfo> BeatmapPair;
+typedef std::vector<BeatmapPair> BeatmapList;
 
 #endif // BEATMAP_H

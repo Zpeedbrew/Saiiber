@@ -1,29 +1,43 @@
 #include "beatmap.h"
 #include "../logger.h"
 
-Mode ModeFromString(std::string& name) {
-  if (name == "Standard")
+Mode ModeFromString(const char* name) {
+  if (strcmp(name, "Standard") == 0)
     return Mode::Standard;
-  else if (name == "OneSaber")
+  else if (strcmp(name, "OneSaber") == 0)
     return Mode::OneSaber;
-  else if (name == "NoArrows")
+  else if (strcmp(name, "NoArrows") == 0) 
     return Mode::NoArrows;
-  else if (name == "360Degree")
+  else if (strcmp(name, "360Degree") == 0)
     return Mode::ThreeSixty;
-  else if (name == "90Degree")
+  else if (strcmp(name, "90Degree") == 0)
     return Mode::Ninety;
-  else if (name == "Lightshow")
+  else if (strcmp(name, "Lightshow") == 0)
     return Mode::Lightshow;
-  else if (name == "Lawless")
+  else if (strcmp(name, "Lawless") == 0)
     return Mode::Lawless;
   else
     return Mode::Unknown;
 }
 
+Rank RankFromString(const char* name) {
+  if (strcmp(name, "Easy") == 0)
+    return Rank::Easy;
+  else if (strcmp(name, "Normal") == 0)
+    return Rank::Normal;
+  else if (strcmp(name, "Hard") == 0)
+    return Rank::Hard;
+  else if (strcmp(name, "Expert") == 0)
+    return Rank::Expert;
+  else if (strcmp(name, "ExpertPlus") == 0)
+    return Rank::ExpertPlus;
+  else
+    return Rank::Normal;
+}
+
 static std::string beatmapDirectory;
 
-int LoadDifficulty(Difficulty& difficulty, std::string& filename, Mode mode) {
-  std::string path = beatmapDirectory + "/" + filename;
+int LoadDifficulty(std::string& path, Difficulty& difficulty) {
   FILE* file = fopen(path.c_str(), "r");
   if (file != NULL) {
     LOG_ERROR("Failed to open difficulty file: %s\n", path.c_str());
@@ -57,56 +71,84 @@ int LoadDifficulty(Difficulty& difficulty, std::string& filename, Mode mode) {
   return 0;
 }
 
-DifficultyList LoadDifficulties(BeatmapInfo& info) {
-  DifficultyList difficulties;
+Beatmap::Beatmap(std::string directory, BeatmapInfo info) {
+  this->directory = directory;
+  this->info = info;
+}
 
-  if (info._difficultyBeatmapSets.empty()) {
-    LOG_ERROR("No difficulty sets found\n");
-    return difficulties;
+int Beatmap::loadMap(Mode mode, Rank rank) {
+  DifficultyBeatmapSet* set = getDifficultySet(mode);
+  if (set == NULL) {
+    LOG_ERROR("No difficulty set found for mode %d\n", mode);
+    return -1;
   }
 
-  auto setIter = info._difficultyBeatmapSets.begin();
-  for (; setIter < info._difficultyBeatmapSets.end(); setIter++) {
-    DifficultyBeatmapSet& set = *setIter;
-    auto mode = ModeFromString(set._beatmapCharacteristicName);
-    if (mode == Mode::Unknown) {
-      LOG_DEBUG("Unknown mode: %s\n", set._beatmapCharacteristicName.c_str());
-      continue;
-    }
-    
-    if (set._difficultyBeatmaps.empty()) {
-      LOG_DEBUG("No difficulties found for set %s\n", set._beatmapCharacteristicName.c_str());
-      continue;
-    }
-
-    auto beatmapIter = set._difficultyBeatmaps.begin();
-    for (; beatmapIter != set._difficultyBeatmaps.end(); ++beatmapIter) {
-      DifficultyBeatmap& diff = *beatmapIter;
-      std::string& filename = diff._beatmapFilename;
-      if (filename.empty()) {
-        LOG_DEBUG("Empty filename for difficulty\n");
-        continue;
-      }
-      
-      Difficulty difficulty;
-      if (LoadDifficulty(difficulty, filename, mode) < 0) {
-        LOG_ERROR("Failed to load difficulty: %s\n", filename.c_str());
-        continue;
-      }
-
-      difficulties.push_back(difficulty);
+  DifficultyBeatmap* beatmap = NULL;
+  for (auto& diff : set->_difficultyBeatmaps) {
+    if (RankFromString(diff._difficulty.c_str()) == rank) {
+      beatmap = &diff;
+      break;
     }
   }
 
-  LOG_DEBUG("Finished retrieving all difficulty sets\n");
+  if (beatmap == NULL) {
+    LOG_ERROR("No difficulty found for mode %d and rank %d\n", mode, rank);
+    return -1;
+  }
+
+  std::string path = directory + "/" + beatmap->_beatmapFilename;
+  if (LoadDifficulty(path, map) != 0) {
+    LOG_ERROR("Failed to load difficulty: %s\n", path.c_str());
+    return -1;
+  }
+
+  LOG_DEBUG("Loaded difficulty: %s\n", path.c_str());
+  return 0;
+}
+
+DifficultyBeatmapSet* Beatmap::getDifficultySet(Mode mode) {
+  for (auto& set : info._difficultyBeatmapSets) {
+    if (ModeFromString(set._beatmapCharacteristicName.c_str()) == mode)
+      return &set;
+  }
+
+  return NULL;
+}
+
+int BeatmapInfo::getModes() {
+  int modes = 0;
+  for (auto& set : _difficultyBeatmapSets) {
+    Mode mode = ModeFromString(set._beatmapCharacteristicName.c_str());
+    if (mode != Mode::Unknown)
+      modes |= (1 << (int)mode);
+  }
+
+  return modes;
+}
+
+int BeatmapInfo::getDifficulties(Mode mode) {
+  int difficulties = 0;
+  for (auto& set : _difficultyBeatmapSets) {
+    if (ModeFromString(set._beatmapCharacteristicName.c_str()) != mode)
+      continue;
+
+    for (auto& diff : set._difficultyBeatmaps) {
+      Rank rank = RankFromString(diff._difficulty.c_str());
+      difficulties |= (1 << (int)rank);
+    }
+
+    break;
+  }
+
   return difficulties;
 }
 
-int GetInfoData(BeatmapInfo& info) {
-  std::string infoPath = beatmapDirectory + "/Info.dat";
-  FILE* file = fopen(infoPath.c_str(), "r");
+int GetInfoFromDir(const char* dir, BeatmapInfo& info) {
+  char path[256];
+  sprintf(path, "%s/Info.dat", dir);
+  FILE* file = fopen(path, "r");
   if (file == NULL) {
-    LOG_ERROR("Failed to open Info.dat: %s\n", infoPath.c_str());
+    LOG_ERROR("Failed to open Info.dat for %s\n", dir);
     return -1;
   }
 
@@ -134,40 +176,5 @@ int GetInfoData(BeatmapInfo& info) {
   }
 
   delete[] data;
-  return 0;
-}
-
-const char* BeatmapData::getDirectory() {
-  return beatmapDirectory.c_str();
-}
-
-int BeatmapData::loadMapData(const char *directory) {
-  LOG_DEBUG("Clearing old map data\n");
-  info.reset();
-
-  if (!difficulties.empty())
-    difficulties.clear();
-
-  beatmapDirectory = directory;
-  LOG_DEBUG("Getting Map Data from %s\n", directory);
-
-  if (GetInfoData(info) < 0) {
-    LOG_ERROR("Failed to get BeatmapInfo from %s\n", directory);
-    return -1;
-  }
-
-  return 0;
-}
-
-int BeatmapData::loadDifficulties() {
-  LOG_DEBUG("BeatmapInfo loaded\n");
-
-  DifficultyList difficulties = LoadDifficulties(info);
-  if (difficulties.empty()) {
-    LOG_ERROR("Failed to load any difficulties from beatmap in %s\n", beatmapDirectory.c_str());
-    return -1;
-  }
-
-  LOG_DEBUG("Loaded %d difficulties\n", difficulties.size());
   return 0;
 }
