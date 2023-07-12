@@ -1,9 +1,14 @@
 #ifndef WIIMOTE_H_INCLUDED
 #define WIIMOTE_H_INCLUDED
-
 #include <gccore.h>
-
+#include <wiiuse/wpad.h>
 #include "transform.h"
+
+#define WPAD_CONNECT_ERROR -2
+#define WPAD_CONNECT_TIMEOUT -1
+#define WPAD_CONNECTED 0
+
+struct _wpad_data;
 
 // code from https://arduino-projects4u.com/wii-motion-plus/
 struct GyroKalman {
@@ -50,11 +55,22 @@ static const double Q_gyro = 0.1;     //(Kalman)
 
 class Wiimote {
  public:
-  Wiimote(int channel);
-
+  Wiimote();
   void update(f32 dt);
 
-  bool buttonDown(u32 button);
+  inline bool isButtonDown(int button) { return (wd->btns_d & button) != 0; }
+  inline bool wasButtonDown(int button) { return (wd->btns_l & button) != 0; }
+
+  inline bool isButtonUp(int button) { return (wd->btns_u & button) != 0; }
+  inline bool wasButtonUp(int button) { return (wd->btns_l & button) == 0; }
+
+  // button will only ever be in the btns_h register if held in both frames
+  inline bool isButtonHeld(int button) { return (wd->btns_h & button) != 0; }
+
+  inline _wpad_data* getState() { return wd; }
+
+  void assignChannel(u8 channel);
+  int awaitConnect(u8 channel, int timeoutMs);
 
   Transform transform;
   guVector orient;
@@ -130,9 +146,11 @@ class Wiimote {
   float accelAngleY = 0;  // Wiimote Y angle
   float accelAngleZ = 0;  // Wiimote Z angle
 
-  int chan;
+  int chan = -1;
   unsigned long lastread =
       0;  // Internal program state variables last system clock in millis
+
+  _wpad_data* wd = NULL;
 };
 
 extern void Wiimote_Init();

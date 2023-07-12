@@ -1,28 +1,13 @@
-#include "Wiimote.h"
-
+#include "wiimote.h"
 #include <unistd.h>
 #include <wiiuse/wpad.h>
-
+#include <string.h>
 #include <cmath>
 
 #include "exmath.h"
+#include "logger.h"
 
-Wiimote::Wiimote(int channel) : chan(channel) {
-  // make sure we connect
-  while (1) {
-    WPAD_ScanPads();
-    WPADData *data = WPAD_Data(chan);
-    if (data->err == WPAD_ERR_NONE) break;
-
-    sleep_for(50);
-  }
-
-  calibrateZeroes();
-
-  initGyroKalman(&rollData, Q_angle, Q_gyro, R_angle);
-  initGyroKalman(&pitchData, Q_angle, Q_gyro, R_angle);
-  initGyroKalman(&yawData, Q_angle, Q_gyro, R_angle);
-
+Wiimote::Wiimote() {
   yawRK.val_i_3 = 0;
   yawRK.val_i_2 = 0;
   yawRK.val_i_1 = 0;
@@ -104,7 +89,29 @@ double Wiimote::computeRungeKutta4(struct RungeKutta *rk, double val_i_0) {
   return rk->previous;
 }
 
+WPADData lastData;
+void outputChangedButtons(WPADData* wd) {
+  if (wd->btns_d != lastData.btns_d)
+    LOG_DEBUG("BTNS_D changed to %d from %d\n", wd->btns_d, lastData.btns_d);
+  
+  if (wd->btns_u != lastData.btns_u)
+    LOG_DEBUG("BTNS_U changed to %d from %d\n", wd->btns_u, lastData.btns_u);
+  
+  if (wd->btns_l != lastData.btns_l)
+    LOG_DEBUG("BTNS_L changed to %d from %d\n", wd->btns_l, lastData.btns_l);
+  
+  if (wd->btns_h != lastData.btns_h)
+    LOG_DEBUG("BTNS_H changed to %d from %d\n", wd->btns_h, lastData.btns_h);
+}
+
 void Wiimote::update(f32 dt) {
+  if (chan == -1) return;
+
+  memcpy(&lastData, wd, sizeof(WPADData));
+  wd = WPAD_Data(chan);
+  if (wd == NULL) return;
+
+  outputChangedButtons(wd);
   readData();
 
   // TODO not handling slow/fast mode, can this cause problems or does WPAD do
@@ -161,8 +168,6 @@ void Wiimote::readData() {
 }
 
 void Wiimote::rawReadData() {
-  WPADData *wd = WPAD_Data(chan);
-
   // MotionPlus
   yaw = wd->exp.mp.ry / wmpFastToDegreePerSec;
   roll = wd->exp.mp.rz / wmpFastToDegreePerSec;
@@ -180,13 +185,59 @@ void Wiimote::rawReadData() {
   az_m = wd->accel.z;
 }
 
-bool Wiimote::buttonDown(u32 button) {
-  WPADData *wd = WPAD_Data(chan);
-  return wd->btns_h & button;
+void Wiimote::assignChannel(u8 channel) {
+  chan = channel;
+  wd = WPAD_Data(chan); // initialize for calibration
+
+  calibrateZeroes();
+  initGyroKalman(&rollData, Q_angle, Q_gyro, R_angle);
+  initGyroKalman(&pitchData, Q_angle, Q_gyro, R_angle);
+  initGyroKalman(&yawData, Q_angle, Q_gyro, R_angle);
+
+  LOG_DEBUG("Wiimote on channel %d initialized\n", channel);
+}
+
+int Wiimote::awaitConnect(u8 channel, int timeoutMs = -1) {
+  // make sure we connect
+  u64 timenow = SYS_Time();
+  u64 lasttime = timenow;
+  float timeelapsed = 0;
+
+  LOG_DEBUG("Awaiting %dms for Wiimote on channel %d to connect\n", timeoutMs,
+            channel);
+
+  while (true) {
+    timenow = SYS_Time();
+    timeelapsed += (timenow - lasttime) / 1000.0f;
+    lasttime = timenow;
+
+    WPAD_ScanPads();
+    WPADData* tmpdata = WPAD_Data(channel);
+    if (tmpdata == NULL) {
+      LOG_ERROR("WPAD_Data(%d) returned NULL\n", channel);
+      return WPAD_CONNECT_ERROR;
+    }
+
+    // this shouldn't happen but there is a
+    //  chance it might and we need to handle it.
+    if (tmpdata->err == WPAD_ERR_NONE) break;
+    if (timeoutMs != -1 && timeelapsed > timeoutMs)
+      return WPAD_CONNECT_TIMEOUT;
+
+    sleep_for(50);
+  }
+
+  assignChannel(channel);
+  return WPAD_CONNECTED;
 }
 
 void Wiimote_Init() {
-  WPAD_Init();
-  WPAD_SetDataFormat(-1, WPAD_FMT_BTNS_ACC_IR);
-  WPAD_SetMotionPlus(-1, 1);
+  int err = WPAD_Init();
+  if (err != 0) {
+    LOG_ERROR("WPAD_Init returned error %d\n", err);
+    return;
+  }
+
+  WPAD_SetDataFormat(WPAD_CHAN_ALL, WPAD_FMT_BTNS_ACC_IR);
+  WPAD_SetMotionPlus(WPAD_CHAN_ALL, TRUE);
 }
