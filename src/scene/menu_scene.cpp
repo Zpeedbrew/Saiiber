@@ -1,139 +1,227 @@
 #include "menu_scene.h"
-#include "../resource/beatmap.h"
+
+#include <dirent.h>
+#include <string.h>
+
+#include <map>
+#include <vector>
+
 #include "../fnt.h"
 #include "../input.h"
+#include "../logger.h"
+#include "../resource/beatmap.h"
+#include "../ui/button.h"
+#include "../ui/text.h"
+#include "game_scene.h"
+
+#define SONGPATH "sd:/Songs"
 
 const int GREEN = 0x00FF00FF;
 const int WHITE = 0xFFFFFFFF;
 
-static enum State {
-  MAIN_MENU,
-  QUICKPLAY,
-  VERSUS,
-  PRACTICE,
-  SETTINGS,
-} curState, prevState;
-
-static BeatmapData data;
-
 struct ButtonData {
-  int color;
-  s16 x, y;
-  s16 width, height;
+  const char* text;
+  s16 pos[2];
 };
 
-static struct _mainmenu {
-  ButtonData quickplay;
-  ButtonData versus;
-  ButtonData practice;
-  ButtonData settings;
+BeatmapList loadSongs() {
+  BeatmapList beatmaps;
 
-  void update(f32 delta) {
-    if (blueMote.transform.intersects(quickplay.x, quickplay.y,
-    quickplay.width, quickplay.height)) {
-      quickplay.color = GREEN;
-    } else {
-      quickplay.color = WHITE;
-    }
+  // list directory
+  DIR* dir = opendir(SONGPATH);
+  if (dir == NULL) {
+    LOG_FATAL("Failed to open songs directory!\n");
+    return beatmaps;
+  }
 
-    if (blueMote.transform.intersects(versus.x, versus.y,
-    versus.width, versus.height)) {
-      versus.color = GREEN;
-    } else {
-      versus.color = WHITE;
-    }
+  struct dirent* ent;
+  while ((ent = readdir(dir)) != NULL) {
+    if (ent->d_type == DT_DIR) {
+      // check for beatmap
+      char path[256];
+      sprintf(path, "%s/%s", SONGPATH, ent->d_name);
 
-    if (blueMote.transform.intersects(practice.x, practice.y,
-    practice.width, practice.height)) {
-      practice.color = GREEN;
-    } else {
-      practice.color = WHITE;
-    }
+      BeatmapInfo info;
+      if (GetInfoFromDir(path, info) != 0) {
+        LOG_DEBUG("Failed to load beatmap in %s\n", ent->d_name);
+        continue;
+      }
 
-    if (blueMote.transform.intersects(settings.x, settings.y,
-    settings.width, settings.height)) {
-      settings.color = GREEN;
-    } else {
-      settings.color = WHITE;
-    }
-
-    if (blueMote.buttonDown(WIIMOTE_A)) {
-      if (quickplay.color == GREEN)
-        curState = QUICKPLAY;
-      else if (versus.color == GREEN)
-        curState = VERSUS;
-      else if (practice.color == GREEN)
-        curState = PRACTICE;
-      else if (settings.color == GREEN)
-        curState = SETTINGS;
-    }
-
-    if (blueMote.buttonDown(WIIMOTE_HOME)) {
-      exit(0);
+      beatmaps.push_back(std::make_pair(std::string(path), info));
     }
   }
 
-  void render() {
-    // Title
-    FNT_SetColor(0xFF0000FF);
-    FNT_SetScale(2.0f);
-    int width = FNT_GetStringWidth("Saiiber");
-    s16 middle = (SCREEN_WIDTH / 2) - (width / 2);
-    FNT_DrawString("Saiiber", middle, 100);
-
-    // Quickplay
-    FNT_SetScale(1.0f);
-    FNT_SetColor(quickplay.color);
-    FNT_DrawString("Quickplay", quickplay.x, quickplay.y);
-
-    // Versus
-    FNT_SetColor(versus.color);
-    FNT_DrawString("Versus", versus.x, versus.y);
-
-    // Practice
-    FNT_SetColor(practice.color);
-    FNT_DrawString("Practice", practice.x, practice.y);
-
-    // Settings
-    FNT_SetColor(settings.color);
-    FNT_DrawString("Settings", settings.x, settings.y);
-  }
-} MainMenu;
-
-MenuScene::MenuScene() {
-  data.loadMapData("sd:/Songs/Tuxedo - Do It");
-
-  FNT_SetScale(1.0f);
-
-  MainMenu.quickplay.color = WHITE;
-  MainMenu.quickplay.x = 100;
-  MainMenu.quickplay.y = 200;
-  MainMenu.quickplay.width = FNT_GetStringWidth("Quickplay");
-  MainMenu.quickplay.height = FNT_GetStringHeight("Quickplay");
-
-  MainMenu.versus.color = WHITE;
-  MainMenu.versus.x = 100;
-  MainMenu.versus.y = 250;
-  MainMenu.versus.width = FNT_GetStringWidth("Versus");
-  MainMenu.versus.height = FNT_GetStringHeight("Versus");
-
-  MainMenu.practice.color = WHITE;
-  MainMenu.practice.x = 100;
-  MainMenu.practice.y = 300;
-  MainMenu.practice.width = FNT_GetStringWidth("Practice");
-  MainMenu.practice.height = FNT_GetStringHeight("Practice");
-
-  MainMenu.settings.color = WHITE;
-  MainMenu.settings.x = 100;
-  MainMenu.settings.y = 350;
-  MainMenu.settings.width = FNT_GetStringWidth("Settings");
-  MainMenu.settings.height = FNT_GetStringHeight("Settings");
-
-  curState = MAIN_MENU;
-  prevState = MAIN_MENU;
+  return beatmaps;
 }
 
-void MenuScene::init() {
+class BasicMenu {
+ public:
+  GuiText title;
+  std::vector<GuiButton> buttons;
+  int choice = 0;
+
+  BasicMenu(const char* name) : title(name, 100, 100, 2.0f) {}
+
+  virtual void update(f32 delta) {
+    if (Input::isButtonDown(WPAD_BUTTON_UP) && choice > 0)
+      choice -= 1;
+
+    if (Input::isButtonDown(WPAD_BUTTON_DOWN) && choice < buttons.size() - 1)
+      choice += 1;
+
+    for (u32 i = 0; i < buttons.size(); i++)
+      buttons.at(i).setHovered(choice == i);
+  }
+
+  virtual void render() {
+    title.render();
+
+    for (auto& button : buttons) button.render();
+  }
+
+  virtual ~BasicMenu(){};
+};
+
+static BasicMenu* curMenu = NULL;
+
+void SetMenu(BasicMenu* menu) {
+  if (curMenu != NULL) delete curMenu;
+  curMenu = menu;
+}
+
+class SongSelect;  // forward declaration
+
+class DifficultySelect : public BasicMenu {
+ private:
+  SongSelect* select;
+  BeatmapPair song;
+  Mode mode;
+
+ public:
+  DifficultySelect(SongSelect* select, BeatmapPair song, Mode mode)
+      : BasicMenu("Difficulty Select"), select(select), song(song), mode(mode) {
+    int width = FNT_GetStringWidth("Difficulty Select", 2.0f);
+    s16 middle = (SCREEN_WIDTH / 2) - (width / 2);
+    title.setPosition(middle, 100);
+    title.setColor(0xFF0000FF);
+
+    int diffFlags = song.second.getDifficulties(mode);
+    int yIdx = 0;
+
+    if (diffFlags & (1 << (int)Rank::Easy))
+      buttons.push_back(GuiButton("Easy", 100, 200 + (50 * yIdx++)));
+
+    if (diffFlags & (1 << (int)Rank::Normal))
+      buttons.push_back(GuiButton("Normal", 100, 200 + (50 * yIdx++)));
+
+    if (diffFlags & (1 << (int)Rank::Hard))
+      buttons.push_back(GuiButton("Hard", 100, 200 + (50 * yIdx++)));
+
+    if (diffFlags & (1 << (int)Rank::Expert))
+      buttons.push_back(GuiButton("Expert", 100, 200 + (50 * yIdx++)));
+
+    if (diffFlags & (1 << (int)Rank::ExpertPlus))
+      buttons.push_back(GuiButton("Expert+", 100, 200 + (50 * yIdx++)));
+  }
+
+  void update(f32 delta) override;
+};
+
+class ModeSelect : public BasicMenu {
+ private:
+  SongSelect* select;
+  BeatmapPair song;
+
+ public:
+  ModeSelect(SongSelect* select, BeatmapPair song)
+      : BasicMenu("Mode Select"), select(select), song(song) {
+    int width = FNT_GetStringWidth("Mode Select", 2.0f);
+    s16 middle = (SCREEN_WIDTH / 2) - (width / 2);
+    title.setPosition(middle, 100);
+    title.setColor(0xFF0000FF);
+
+    int yIdx = 0;
+    int modeFlags = song.second.getModes();
+
+    if (modeFlags & (1 << (int)Mode::Standard))
+      buttons.push_back(GuiButton("Standard", 100, 200 + (yIdx++ * 50)));
+
+    if (modeFlags & (1 << (int)Mode::OneSaber))
+      buttons.push_back(GuiButton("One Saber", 100, 200 + (yIdx++ * 50)));
+
+    if (modeFlags & (1 << (int)Mode::NoArrows))
+      buttons.push_back(GuiButton("No Arrows", 100, 200 + (yIdx++ * 50)));
+
+    if (modeFlags & (1 << (int)Mode::ThreeSixty))
+      buttons.push_back(GuiButton("360", 100, 200 + (yIdx++ * 50)));
+
+    if (modeFlags & (1 << (int)Mode::Ninety))
+      buttons.push_back(GuiButton("90", 100, 200 + (yIdx++ * 50)));
+
+    if (modeFlags & (1 << (int)Mode::Lightshow))
+      buttons.push_back(GuiButton("Lightshow", 100, 200 + (yIdx++ * 50)));
+
+    if (modeFlags & (1 << (int)Mode::Lawless))
+      buttons.push_back(GuiButton("Lawless", 100, 200 + (yIdx++ * 50)));
+  }
+
+  virtual void update(f32 delta) override;
+};
+
+class SongSelect : public BasicMenu {
+ private:
+  std::vector<BeatmapPair> beatmaps;
+
+ public:
+  SongSelect() : BasicMenu("Song Select") {
+    int width = FNT_GetStringWidth("Song Select", 2.0f);
+    s16 middle = (SCREEN_WIDTH / 2) - (width / 2);
+    title.setPosition(middle, 100);
+    title.setColor(0xFF0000FF);
+
+    beatmaps = loadSongs();
+
+    for (u32 i = 0; i < beatmaps.size(); i++) {
+      buttons.push_back(GuiButton(beatmaps[i].second._songName.c_str(), 100,
+                                  200 + (i * 50), 0.8f));
+    }
+  }
+
+  void update(f32 delta) override;
+};
+
+class MainMenu : public BasicMenu {
+ public:
+  MainMenu() : BasicMenu("Saiiber") {
+    int width = FNT_GetStringWidth("Saiiber", 2.0f);
+    s16 middle = (SCREEN_WIDTH / 2) - (width / 2);
+    title.setPosition(middle, 100);
+    title.setColor(0xFF0000FF);
+
+    buttons.push_back(GuiButton("Quickplay", 100, 200));
+    buttons.push_back(GuiButton("Versus", 100, 250));
+    buttons.push_back(GuiButton("Practice", 100, 300));
+    buttons.push_back(GuiButton("Settings", 100, 350));
+  }
+
+  virtual void update(f32 delta) override {
+    BasicMenu::update(delta);
+
+    if (Input::isButtonDown(WIIMOTE_BUTTON_A)) {
+      switch (choice) {
+        case 0:  // Quickplay
+        case 1:  // Versus
+        case 2:  // Practice
+          SetMenu(new SongSelect());
+          break;
+        case 3:  // Settings
+          break;
+      }
+    }
+  }
+};
+
+MenuScene::MenuScene() {
   GFX_EnableLighting(false);
   GFX_SetBlendMode(MODE_BLEND);
   GFX_EnableAlphaTest(false);
@@ -144,42 +232,67 @@ void MenuScene::init() {
   guOrtho(ortho, 0, SCREEN_HEIGHT, 0, SCREEN_WIDTH, 0, 1);
   GX_LoadProjectionMtx(ortho, GX_ORTHOGRAPHIC);
 
-	guMtxIdentity(view);
+  guMtxIdentity(view);
   GFX_ModelViewMatrix(view);
+
+  SetMenu(new MainMenu());
 }
 
-MenuScene::~MenuScene() {
-
-}
+MenuScene::~MenuScene() { delete curMenu; }
 
 void MenuScene::update(f32 deltatime) {
-  switch (curState) {
-    case MAIN_MENU:
-      MainMenu.update(deltatime);
-      break;
-    case QUICKPLAY:
-      break;
-    case VERSUS:
-      break;
-    case PRACTICE:
-      break;
-    case SETTINGS:
-      break;
-  }
+  if (curMenu != NULL) curMenu->update(deltatime);
 }
 
 void MenuScene::render() {
-  switch (curState) {
-    case MAIN_MENU:
-      MainMenu.render();
-      break;
-    case QUICKPLAY:
-      break;
-    case VERSUS:
-      break;
-    case PRACTICE:
-      break;
-    case SETTINGS:
-      break;
+  if (curMenu != NULL) curMenu->render();
+}
+
+void SongSelect::update(f32 delta) {
+  BasicMenu::update(delta);
+
+  if (Input::isButtonDown(WIIMOTE_BUTTON_B)) {
+    SetMenu(new MainMenu());
+    return;
+  }
+
+  if (Input::isButtonDown(WIIMOTE_BUTTON_A)) {
+    BeatmapPair song = beatmaps[choice];
+
+    // Preserve the SongSelect menu so we don't have to reload it every time
+    // we go back
+    SongSelect* prev = (SongSelect*)curMenu;
+    curMenu = NULL;
+
+    SetMenu(new ModeSelect(prev, song));
+  }
+}
+
+void ModeSelect::update(f32 delta) {
+  BasicMenu::update(delta);
+
+  if (Input::isButtonDown(WIIMOTE_BUTTON_B)) {
+    SetMenu(select);
+    return;
+  }
+
+  if (Input::isButtonDown(WIIMOTE_BUTTON_A)) {
+    Mode mode = ModeFromString(buttons[choice].getText());
+    SetMenu(new DifficultySelect(select, song, mode));
+  }
+}
+
+void DifficultySelect::update(f32 delta) {
+  BasicMenu::update(delta);
+
+  if (Input::isButtonDown(WIIMOTE_BUTTON_B)) {
+    SetMenu(new ModeSelect(select, song));
+    return;
+  }
+
+  if (Input::isButtonDown(WIIMOTE_BUTTON_A)) {
+    Rank rank = RankFromString(buttons[choice].getText());
+    Scene::SetScene(new GameScene(song, mode, rank));
+    delete select;
   }
 }
