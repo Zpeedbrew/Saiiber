@@ -69,8 +69,11 @@ void FNT_SetColor(u8 _r, u8 _g, u8 _b, u8 _a) {
   b = _b; a = _a;
 }
 
-int FNT_GetStringWidth(const char* str) {
+s16 FNT_GetStringWidth(const char* str, float scale) {
   int width = 0;
+
+  if (scale == 1.0f)
+    scale = xScale;
 
   // add xadvance for all characters except last
   int len = strlen(str);
@@ -80,15 +83,18 @@ int FNT_GetStringWidth(const char* str) {
   }
 
   width += font[toupper(str[len - 1])].width;
-  return width * xScale;
+  return width * scale;
 }
 
 int max(int a, int b) {
   return a > b ? a : b;
 }
 
-int FNT_GetStringHeight(const char* str) {
+s16 FNT_GetStringHeight(const char* str, float scale) {
   int height = 0;
+
+  if (scale == 1.0f)
+    scale = yScale;
 
   int len = strlen(str);
   for (int i = 0; i < len; i++) {
@@ -96,7 +102,7 @@ int FNT_GetStringHeight(const char* str) {
     height = max(height, info.height);
   }
 
-  return height * yScale;
+  return height * scale;
 }
 
 void FNT_DrawString(const char *str, s16 x, s16 y) {

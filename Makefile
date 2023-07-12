@@ -17,7 +17,7 @@ include $(DEVKITPPC)/wii_rules
 #---------------------------------------------------------------------------------
 TARGET		:=	$(notdir $(CURDIR))
 BUILD			:=	build
-SOURCES		:=	src src/scene src/resource src/gameobjects
+SOURCES		:=	src src/scene src/resource src/gameobjects src/ui
 MODELS		:=	assets/models
 TEXTURES	:=	assets/textures
 FONTS			:= 	assets/fonts

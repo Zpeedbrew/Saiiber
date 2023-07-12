@@ -49,8 +49,6 @@ void GFX_OutputMatrix(Mtx matrix) {
 
 
 #include "beon_png.h"
-#include "beon.h"
-
 #include "beon2_0_png.h"
 
 void loadAllTextures() {
