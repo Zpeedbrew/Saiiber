@@ -3,4 +3,4 @@ build
 .vscode
 *.elf
 *.dol
-.log
+*.log
