@@ -20,4 +20,11 @@
 extern Wiimote blueMote;
 extern Wiimote redMote;
 
+namespace Input {
+  extern bool isButtonDown(int button);
+  extern bool wasButtonDown(int button);
+  extern bool isButtonHeld(int button);
+  extern void Update(float delta);
+};
+
 #endif // INPUT_H

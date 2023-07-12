@@ -6,7 +6,6 @@
 #include <fat.h>
 #include <asndlib.h>
 #include <sdcard/wiisd_io.h>
-
 #include <wiiuse/wpad.h>
 
 #include "gfx.h"
@@ -26,8 +25,6 @@ static bool running = true;
 
 Scene* Scene::currentScene = NULL;
 Scene* Scene::overlayScene = NULL;
-Wiimote blueMote(0);
-Wiimote redMote(1);
 
 bool vsync = false;
 float gpuWait, vsyncWait;
@@ -39,8 +36,8 @@ void LOG_Init() {
   time_t t = time(NULL);
   struct tm* tm = localtime(&t);
   char filename[256];
-  sprintf(filename, "saiiber-%02d-%02d-%02d-%02d-%04d.log",
-    tm->tm_hour, tm->tm_min, tm->tm_mday, tm->tm_mon, tm->tm_year + 1900);
+  sprintf(filename, "saiiber-%02d%02d%02d-%02d-%02d-%04d.log",
+    tm->tm_hour, tm->tm_min, tm->tm_sec, tm->tm_mday, tm->tm_mon, tm->tm_year + 1900);
   logfile = fopen(filename, "wt");
 }
 
@@ -102,20 +99,25 @@ int main(int argc, char **argv) {
 	SYS_SetResetCallback(reload);
 	SYS_SetPowerCallback(shutdown);
 
-  // TODO: When the scene changes, instead of changing to the new scene we need to load resources.
-  // I don't want to have to do "new LoadingScene(new OtherScene())."
-  // Instead we should have each scene LIST the resources they need
-  //  either statically (templates) or in the ctor, then we
-  //  can have a loading scene that loads all the resources in a separate thread
-
-  // For static resources we should just load when the game loads
-  // Probably do this for the block model, saber model, texture maps, etc.
-
-  // For dynamic resources we should load when the scene is created
-  // and destroy when the scene is destroyed
+  // TODO: When the scene changes we want to have a loading scene.
+  // Append all dynamic resources to a list for the loading scene
+  //  - This should be done in ctor of the scene after the loading scene
+  // Load all of the resources in a separate thread (while showing loading)
   // This will be necessary for the song and chart files
 
-  // TODO: create song directory and give GameScene one of em
+  // TODO: Continue with game and keep attempting to connect controllers
+  //  in separate thread until one is established. Change the gamemode options
+  //  based on whether or not a second controller is connected.
+  
+  int err = blueMote.awaitConnect(0, 10000);
+  if (err != WPAD_CONNECTED)
+    LOG_ERROR("BlueMote failed to connect with error: %d.\n", err);
+
+  // 2000 because when debugging I don't usually connect it anyway
+  err = redMote.awaitConnect(1, 2000);
+  if (err != WPAD_CONNECTED)
+    LOG_ERROR("RedMote failed to connect with error: %d.\n", err);
+
   Scene::SetScene(new MenuScene());
 
   u64 lastTime = SYS_Time();
@@ -127,6 +129,8 @@ int main(int argc, char **argv) {
     timeNow = SYS_Time();
     deltatime = (timeNow - lastTime) / 1000.0f;
 
+    // do state scan once per frame
+    Input::Update(deltatime);
     Scene::Update(deltatime);
 
     GFX_FlipBuffers(&gpuWait, &vsyncWait);
