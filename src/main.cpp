@@ -1,30 +1,29 @@
-#include <cstdio>
-#include <cstdlib>
-#include <string.h>
-#include <malloc.h>
-#include <gccore.h>
-#include <fat.h>
 #include <asndlib.h>
+#include <fat.h>
+#include <gccore.h>
+#include <malloc.h>
 #include <sdcard/wiisd_io.h>
+#include <string.h>
 #include <wiiuse/wpad.h>
 
-#include "gfx.h"
-#include "sfx.h"
+#include <cstdio>
+#include <cstdlib>
+
 #include "fnt.h"
+#include "gfx.h"
 #include "input.h"
 #include "logger.h"
-
-#include "scene/scene.h"
+#include "resource/beatmap.h"
+#include "scene/game_scene.h"
 #include "scene/loading_scene.h"
 #include "scene/menu_scene.h"
-#include "scene/game_scene.h"
-
-#include "resource/beatmap.h"
+#include "scene/scene.h"
+#include "sfx.h"
 
 static bool running = true;
 
-Scene* Scene::currentScene = NULL;
-Scene* Scene::overlayScene = NULL;
+std::unique_ptr<Scene> Scene::currentScene(nullptr);
+std::unique_ptr<Scene> Scene::overlayScene(nullptr);
 
 bool vsync = false;
 float gpuWait, vsyncWait;
@@ -36,8 +35,9 @@ void LOG_Init() {
   time_t t = time(NULL);
   struct tm* tm = localtime(&t);
   char filename[256];
-  sprintf(filename, "saiiber-%02d%02d%02d-%02d-%02d-%04d.log",
-    tm->tm_hour, tm->tm_min, tm->tm_sec, tm->tm_mday, tm->tm_mon, tm->tm_year + 1900);
+  sprintf(filename, "saiiber-%04d-%02d-%02d-%02d%02d%02d.log",
+          tm->tm_year + 1900, tm->tm_mon, tm->tm_mday, tm->tm_hour, tm->tm_min,
+          tm->tm_sec);
   logfile = fopen(filename, "wt");
 }
 
@@ -57,18 +57,16 @@ void Logger::log(const char* format, ...) {
 void Logger::log_fatal(const char* format, ...) {
   va_list args;
   va_start(args, format);
-  
+
   if (logfile != NULL) {
     vfprintf(logfile, format, args);
     fflush(logfile);
-  }
-  else
+  } else
     vprintf(format, args);
 
   va_end(args);
 
-  if (logfile != NULL)
-    fclose(logfile);
+  if (logfile != NULL) fclose(logfile);
 
   exit(EXIT_FAILURE);
 }
@@ -83,12 +81,10 @@ void shutdown() {
   running = false;
 }
 
-int main(int argc, char **argv) {  
-  if (!fatInitDefault())
-    return -1;
+int main(int argc, char** argv) {
+  if (!fatInitDefault()) return -1;
 
-  if (!fatMountSimple("sd", &__io_wiisd))
-    return -1;
+  if (!fatMountSimple("sd", &__io_wiisd)) return -1;
 
   LOG_Init();
   GFX_Init();
@@ -96,8 +92,8 @@ int main(int argc, char **argv) {
   Wiimote_Init();
   FNT_Init();
 
-	SYS_SetResetCallback(reload);
-	SYS_SetPowerCallback(shutdown);
+  SYS_SetResetCallback(reload);
+  SYS_SetPowerCallback(shutdown);
 
   // TODO: When the scene changes we want to have a loading scene.
   // Append all dynamic resources to a list for the loading scene
@@ -108,7 +104,7 @@ int main(int argc, char **argv) {
   // TODO: Continue with game and keep attempting to connect controllers
   //  in separate thread until one is established. Change the gamemode options
   //  based on whether or not a second controller is connected.
-  
+
   int err = blueMote.awaitConnect(0, 10000);
   if (err != WPAD_CONNECTED)
     LOG_ERROR("BlueMote failed to connect with error: %d.\n", err);
@@ -125,7 +121,7 @@ int main(int argc, char **argv) {
   f32 deltatime = 0;
 
   LOG_DEBUG("Beginning game loop\n");
-	while(running) {
+  while (running) {
     timeNow = SYS_Time();
     deltatime = (timeNow - lastTime) / 1000.0f;
 
@@ -139,12 +135,12 @@ int main(int argc, char **argv) {
     Scene::Render();
     GFX_Finish(false);
     lastTime = timeNow;
-	}
+  }
 
   GFX_Cleanup();
   SFX_Cleanup();
 
   LOG_DEBUG("Exiting.\n");
   fatUnmount("sd");
-	return 0;
+  return 0;
 }
