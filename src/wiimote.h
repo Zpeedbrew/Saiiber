@@ -58,13 +58,12 @@ class Wiimote {
   Wiimote();
   void update(f32 dt);
 
+  /*
+   * The registers these functions compare against are all for single frames.
+   * Use isButtonHeld if you want to check subsequent frames for a button press.
+   */
   inline bool isButtonDown(int button) { return (wd->btns_d & button) != 0; }
-  inline bool wasButtonDown(int button) { return (wd->btns_l & button) != 0; }
-
   inline bool isButtonUp(int button) { return (wd->btns_u & button) != 0; }
-  inline bool wasButtonUp(int button) { return (wd->btns_l & button) == 0; }
-
-  // button will only ever be in the btns_h register if held in both frames
   inline bool isButtonHeld(int button) { return (wd->btns_h & button) != 0; }
 
   inline _wpad_data* getState() { return wd; }
