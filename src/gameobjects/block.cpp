@@ -1,21 +1,14 @@
 #include "block.h"
+
+#include "../gfx.h"
 #include "../logger.h"
 #include "../resource/model.h"
-#include "../gfx.h"
-
 #include "cube_obj.h"
 
-Model* Block::model = NULL;
+std::unique_ptr<Model> Block::model =
+    std::make_unique<Model>(cube_obj, cube_obj_size);
 
-Block::Block() {
-  if (model == NULL)
-    model = new Model(cube_obj, cube_obj_size);
-}
-
-Block::~Block() { }
-
-void Block::update(f32 deltatime) {
-}
+void Block::update(f32 deltatime) {}
 
 void Block::render() {
   GFX_BindTexture(TEX_MODEL);

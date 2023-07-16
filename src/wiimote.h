@@ -2,13 +2,14 @@
 #define WIIMOTE_H_INCLUDED
 #include <gccore.h>
 #include <wiiuse/wpad.h>
-#include "transform.h"
+#include <memory>
 
 #define WPAD_CONNECT_ERROR -2
 #define WPAD_CONNECT_TIMEOUT -1
 #define WPAD_CONNECTED 0
 
 struct _wpad_data;
+class Transform;
 
 // code from https://arduino-projects4u.com/wii-motion-plus/
 struct GyroKalman {
@@ -71,7 +72,7 @@ class Wiimote {
   void assignChannel(u8 channel);
   int awaitConnect(u8 channel, int timeoutMs);
 
-  Transform transform;
+  std::shared_ptr<Transform> transform;
   guVector orient;
 
  private:

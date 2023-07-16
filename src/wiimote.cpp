@@ -3,11 +3,12 @@
 #include <wiiuse/wpad.h>
 #include <string.h>
 #include <cmath>
+#include "transform.h"
 
 #include "exmath.h"
 #include "logger.h"
 
-Wiimote::Wiimote() {
+Wiimote::Wiimote() : transform(new Transform()) {
   yawRK.val_i_3 = 0;
   yawRK.val_i_2 = 0;
   yawRK.val_i_1 = 0;
@@ -128,6 +129,8 @@ void Wiimote::update(f32 dt) {
   orient.x = RadToDeg(updateKalman(&rollData, accelAngleX));
   orient.y = RadToDeg(updateKalman(&rollData, accelAngleX));
   orient.z = RadToDeg(computeRungeKutta4(&yawRK, DegToRad(readingsZ) * dt));
+
+  transform->update();
 }
 
 void Wiimote::readData() {
