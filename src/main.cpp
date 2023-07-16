@@ -55,6 +55,7 @@ void Logger::log(const char* format, ...) {
 }
 
 void Logger::log_fatal(const char* format, ...) {
+  Input::enabled = false;
   va_list args;
   va_start(args, format);
 
@@ -71,13 +72,11 @@ void Logger::log_fatal(const char* format, ...) {
   exit(EXIT_FAILURE);
 }
 
-void reload(u32 irq, void* ctx) {
-  LOG_DEBUG("Reloading\n");
-  running = false;
-}
+void reload(u32 irq, void* ctx) { running = false; }
 
+// When shutdown is invoked we can no longer write to the log file.
 void shutdown() {
-  LOG_DEBUG("Shutting down\n");
+  Input::enabled = false;
   running = false;
 }
 
@@ -114,7 +113,7 @@ int main(int argc, char** argv) {
   if (err != WPAD_CONNECTED)
     LOG_ERROR("RedMote failed to connect with error: %d.\n", err);
 
-  Scene::SetScene(new MenuScene());
+  Scene::ChangeScene<MenuScene>();
 
   u64 lastTime = SYS_Time();
   u64 timeNow = 0;
