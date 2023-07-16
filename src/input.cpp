@@ -3,6 +3,8 @@
 Wiimote blueMote;
 Wiimote redMote;
 
+bool Input::enabled = true;
+
 // Buttons are only ever in the "d" register for the first frame they are pressed
 // It is safe to use this to check for individual button presses
 bool Input::isButtonDown(int button) {
@@ -18,6 +20,7 @@ bool Input::isButtonUp(int button) {
 }
 
 void Input::Update(float delta) {
+  if (!enabled) return;
   WPAD_ScanPads();
   blueMote.update(delta);
   redMote.update(delta);
