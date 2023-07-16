@@ -7,6 +7,7 @@
 #define BEATMAP_H
 #include <gctypes.h>
 #include <vector>
+#include <memory>
 #include <string>
 #include "../json_struct.h"
 
@@ -325,11 +326,12 @@ extern int GetInfoFromDir(const char* dir, BeatmapInfo& info);
 
 class Beatmap {
 public:
+  s32 voice;
   std::string directory;
   BeatmapInfo info;
   Difficulty map;
 
-  Beatmap(std::string directory, BeatmapInfo info);
+  Beatmap(std::string directory, BeatmapInfo&& info);
   int loadMap(Mode mode, Rank rank);
 
 private:
