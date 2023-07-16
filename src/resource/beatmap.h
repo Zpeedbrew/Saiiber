@@ -331,7 +331,7 @@ public:
   BeatmapInfo info;
   Difficulty map;
 
-  Beatmap(std::string directory, BeatmapInfo&& info);
+  Beatmap(std::string directory, BeatmapInfo info);
   int loadMap(Mode mode, Rank rank);
 
 private:

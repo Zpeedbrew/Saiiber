@@ -72,7 +72,7 @@ int LoadDifficulty(std::string& path, Difficulty& difficulty) {
   return 0;
 }
 
-Beatmap::Beatmap(std::string directory, BeatmapInfo&& info)
+Beatmap::Beatmap(std::string directory, BeatmapInfo info)
     : directory(directory), info(info) {}
 
 int Beatmap::loadMap(Mode mode, Rank rank) {
