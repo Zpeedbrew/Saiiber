@@ -1,30 +1,45 @@
 #include "menu_scene.h"
 
 #include <dirent.h>
-#include <string.h>
 
+#include <iomanip>
 #include <map>
+#include <sstream>
+#include <string>
 #include <vector>
 
 #include "../fnt.h"
+#include "../gfx.h"
 #include "../input.h"
 #include "../logger.h"
 #include "../resource/beatmap.h"
-#include "../ui/button.h"
-#include "../ui/text.h"
+#include "../sfx.h"
+#include "../ui.h"
 #include "game_scene.h"
-
 #define SONGPATH "sd:/Songs"
 
 const int GREEN = 0x00FF00FF;
 const int WHITE = 0xFFFFFFFF;
+
+struct MenuSceneImpl {
+  // Don't need to worry about cleaning up this pointer, It's managed elsewhere
+  MenuScene* menu;
+  std::vector<std::pair<std::string, BeatmapInfo>> beatmaps;
+  bool needReload = true;
+
+  BeatmapList loadSongs();
+  void MainMenu();
+  void SongSelect();
+  void ModeSelect(int i);
+  void DifficultySelect(int i, Mode mode);
+};
 
 struct ButtonData {
   const char* text;
   s16 pos[2];
 };
 
-BeatmapList loadSongs() {
+BeatmapList MenuSceneImpl::loadSongs() {
   BeatmapList beatmaps;
 
   // list directory
@@ -36,192 +51,206 @@ BeatmapList loadSongs() {
 
   struct dirent* ent;
   while ((ent = readdir(dir)) != NULL) {
-    if (ent->d_type == DT_DIR) {
+    if (ent->d_type == DT_DIR && ent->d_name[0] != '.') {
       // check for beatmap
-      char path[256];
-      sprintf(path, "%s/%s", SONGPATH, ent->d_name);
+      std::string path = std::string(SONGPATH) + "/" + ent->d_name;
 
       BeatmapInfo info;
-      if (GetInfoFromDir(path, info) != 0) {
+      if (GetInfoFromDir(path.c_str(), info) != 0) {
         LOG_DEBUG("Failed to load beatmap in %s\n", ent->d_name);
         continue;
       }
 
-      beatmaps.push_back(std::make_pair(std::string(path), info));
+      beatmaps.emplace_back(std::string(path), info);
     }
   }
 
   return beatmaps;
 }
 
-class BasicMenu {
- public:
-  GuiText title;
-  std::vector<GuiButton> buttons;
-  int choice = 0;
+void MenuSceneImpl::DifficultySelect(int i, Mode mode) {
+  auto& song = beatmaps[i];
 
-  BasicMenu(const char* name) : title(name, 100, 100, 2.0f) {}
+  int width = FNT_GetStringWidth("Difficulty Select", 2.0f);
+  s16 middle = (SCREEN_WIDTH / 2) - (width / 2);
+  auto title =
+      std::make_unique<GuiText>("Difficulty Select", middle, 100, 2.0f);
+  title->setPosition(middle, 100);
+  title->setColor(0xFF0000FF);
 
-  virtual void update(f32 delta) {
-    if (Input::isButtonDown(WPAD_BUTTON_UP) && choice > 0)
-      choice -= 1;
+  int diffFlags = song.second.getDifficulties(mode);
+  int yIdx = 0;
 
-    if (Input::isButtonDown(WPAD_BUTTON_DOWN) && choice < buttons.size() - 1)
-      choice += 1;
+  auto buttons = std::make_unique<GuiList>();
+  if (diffFlags & (1 << (int)Rank::Easy))
+    buttons->add("Easy", 100, 200 + (50 * yIdx++));
 
-    for (u32 i = 0; i < buttons.size(); i++)
-      buttons.at(i).setHovered(choice == i);
-  }
+  if (diffFlags & (1 << (int)Rank::Normal))
+    buttons->add("Normal", 100, 200 + (50 * yIdx++));
 
-  virtual void render() {
-    title.render();
+  if (diffFlags & (1 << (int)Rank::Hard))
+    buttons->add("Hard", 100, 200 + (50 * yIdx++));
 
-    for (auto& button : buttons) button.render();
-  }
+  if (diffFlags & (1 << (int)Rank::Expert))
+    buttons->add("Expert", 100, 200 + (50 * yIdx++));
 
-  virtual ~BasicMenu(){};
-};
+  if (diffFlags & (1 << (int)Rank::ExpertPlus))
+    buttons->add("Expert+", 100, 200 + (50 * yIdx++));
 
-static BasicMenu* curMenu = NULL;
+  buttons->onButtonPressed([=](int button, u32 choice, GuiButton& element) {
+    if (button == WIIMOTE_BUTTON_B) {
+      ModeSelect(i);
+      return;
+    }
 
-void SetMenu(BasicMenu* menu) {
-  if (curMenu != NULL) delete curMenu;
-  curMenu = menu;
+    if (button == WIIMOTE_BUTTON_A) {
+      Rank rank = RankFromString(element.getText());
+      Scene::ChangeScene<GameScene>(song.first, song.second, mode, rank);
+    }
+  });
+
+  menu->reset();
+  menu->addElement(std::move(title));
+  menu->addElement(std::move(buttons));
 }
 
-class SongSelect;  // forward declaration
+void MenuSceneImpl::ModeSelect(int i) {
+  auto& song = beatmaps[i];
 
-class DifficultySelect : public BasicMenu {
- private:
-  SongSelect* select;
-  BeatmapPair song;
-  Mode mode;
+  int width = FNT_GetStringWidth("Mode Select", 2.0f);
+  s16 middle = (SCREEN_WIDTH / 2) - (width / 2);
+  auto title = std::make_unique<GuiText>("Mode Select", middle, 100, 2.0f);
+  title->setPosition(middle, 100);
+  title->setColor(0xFF0000FF);
 
- public:
-  DifficultySelect(SongSelect* select, BeatmapPair song, Mode mode)
-      : BasicMenu("Difficulty Select"), select(select), song(song), mode(mode) {
-    int width = FNT_GetStringWidth("Difficulty Select", 2.0f);
-    s16 middle = (SCREEN_WIDTH / 2) - (width / 2);
-    title.setPosition(middle, 100);
-    title.setColor(0xFF0000FF);
+  int yIdx = 0;
+  int modeFlags = song.second.getModes();
 
-    int diffFlags = song.second.getDifficulties(mode);
-    int yIdx = 0;
+  auto buttons = std::make_unique<GuiList>();
+  if (modeFlags & (1 << (int)Mode::Standard))
+    buttons->add("Standard", 100, 200 + (yIdx++ * 50));
 
-    if (diffFlags & (1 << (int)Rank::Easy))
-      buttons.push_back(GuiButton("Easy", 100, 200 + (50 * yIdx++)));
+  if (modeFlags & (1 << (int)Mode::OneSaber))
+    buttons->add("One Saber", 100, 200 + (yIdx++ * 50));
 
-    if (diffFlags & (1 << (int)Rank::Normal))
-      buttons.push_back(GuiButton("Normal", 100, 200 + (50 * yIdx++)));
+  if (modeFlags & (1 << (int)Mode::NoArrows))
+    buttons->add("No Arrows", 100, 200 + (yIdx++ * 50));
 
-    if (diffFlags & (1 << (int)Rank::Hard))
-      buttons.push_back(GuiButton("Hard", 100, 200 + (50 * yIdx++)));
+  if (modeFlags & (1 << (int)Mode::ThreeSixty))
+    buttons->add("360", 100, 200 + (yIdx++ * 50));
 
-    if (diffFlags & (1 << (int)Rank::Expert))
-      buttons.push_back(GuiButton("Expert", 100, 200 + (50 * yIdx++)));
+  if (modeFlags & (1 << (int)Mode::Ninety))
+    buttons->add("90", 100, 200 + (yIdx++ * 50));
 
-    if (diffFlags & (1 << (int)Rank::ExpertPlus))
-      buttons.push_back(GuiButton("Expert+", 100, 200 + (50 * yIdx++)));
-  }
+  if (modeFlags & (1 << (int)Mode::Lightshow))
+    buttons->add("Lightshow", 100, 200 + (yIdx++ * 50));
 
-  void update(f32 delta) override;
-};
+  if (modeFlags & (1 << (int)Mode::Lawless))
+    buttons->add("Lawless", 100, 200 + (yIdx++ * 50));
 
-class ModeSelect : public BasicMenu {
- private:
-  SongSelect* select;
-  BeatmapPair song;
+  buttons->onButtonPressed([=](int button, u32 choice, GuiButton& element) {
+    if (button == WIIMOTE_BUTTON_B) {
+      SongSelect();
+      return;
+    }
 
- public:
-  ModeSelect(SongSelect* select, BeatmapPair song)
-      : BasicMenu("Mode Select"), select(select), song(song) {
-    int width = FNT_GetStringWidth("Mode Select", 2.0f);
-    s16 middle = (SCREEN_WIDTH / 2) - (width / 2);
-    title.setPosition(middle, 100);
-    title.setColor(0xFF0000FF);
+    if (button == WIIMOTE_BUTTON_A) {
+      Mode mode = ModeFromString(element.getText());
+      DifficultySelect(i, mode);
+    }
+  });
 
-    int yIdx = 0;
-    int modeFlags = song.second.getModes();
+  menu->reset();
+  menu->addElement(std::move(title));
+  menu->addElement(std::move(buttons));
+}
 
-    if (modeFlags & (1 << (int)Mode::Standard))
-      buttons.push_back(GuiButton("Standard", 100, 200 + (yIdx++ * 50)));
-
-    if (modeFlags & (1 << (int)Mode::OneSaber))
-      buttons.push_back(GuiButton("One Saber", 100, 200 + (yIdx++ * 50)));
-
-    if (modeFlags & (1 << (int)Mode::NoArrows))
-      buttons.push_back(GuiButton("No Arrows", 100, 200 + (yIdx++ * 50)));
-
-    if (modeFlags & (1 << (int)Mode::ThreeSixty))
-      buttons.push_back(GuiButton("360", 100, 200 + (yIdx++ * 50)));
-
-    if (modeFlags & (1 << (int)Mode::Ninety))
-      buttons.push_back(GuiButton("90", 100, 200 + (yIdx++ * 50)));
-
-    if (modeFlags & (1 << (int)Mode::Lightshow))
-      buttons.push_back(GuiButton("Lightshow", 100, 200 + (yIdx++ * 50)));
-
-    if (modeFlags & (1 << (int)Mode::Lawless))
-      buttons.push_back(GuiButton("Lawless", 100, 200 + (yIdx++ * 50)));
-  }
-
-  virtual void update(f32 delta) override;
-};
-
-class SongSelect : public BasicMenu {
- private:
-  std::vector<BeatmapPair> beatmaps;
-
- public:
-  SongSelect() : BasicMenu("Song Select") {
-    int width = FNT_GetStringWidth("Song Select", 2.0f);
-    s16 middle = (SCREEN_WIDTH / 2) - (width / 2);
-    title.setPosition(middle, 100);
-    title.setColor(0xFF0000FF);
-
+void MenuSceneImpl::SongSelect() {
+  if (needReload || beatmaps.empty()) {
     beatmaps = loadSongs();
+    needReload = false;
 
-    for (u32 i = 0; i < beatmaps.size(); i++) {
-      buttons.push_back(GuiButton(beatmaps[i].second._songName.c_str(), 100,
-                                  200 + (i * 50), 0.8f));
+    // return to mainmenu when no songs are found
+    if (beatmaps.empty()) {
+      LOG_DEBUG("No songs found!\n");
+      MainMenu();
+      return;
     }
   }
 
-  void update(f32 delta) override;
-};
+  int width = FNT_GetStringWidth("Song Select", 2.0f);
+  s16 middle = (SCREEN_WIDTH / 2) - (width / 2);
+  auto title = std::make_unique<GuiText>("Song Select", middle, 100, 2.0f);
+  title->setPosition(middle, 100);
+  title->setColor(0xFF0000FF);
 
-class MainMenu : public BasicMenu {
- public:
-  MainMenu() : BasicMenu("Saiiber") {
-    int width = FNT_GetStringWidth("Saiiber", 2.0f);
-    s16 middle = (SCREEN_WIDTH / 2) - (width / 2);
-    title.setPosition(middle, 100);
-    title.setColor(0xFF0000FF);
-
-    buttons.push_back(GuiButton("Quickplay", 100, 200));
-    buttons.push_back(GuiButton("Versus", 100, 250));
-    buttons.push_back(GuiButton("Practice", 100, 300));
-    buttons.push_back(GuiButton("Settings", 100, 350));
+  auto buttons = std::make_unique<GuiList>();
+  for (u32 i = 0; i < beatmaps.size(); i++) {
+    std::stringstream ss;
+    ss << std::setfill(' ') << std::setw(20)
+       << beatmaps[i].second._songAuthorName << " - " << std::left
+       << std::setw(50) << beatmaps[i].second._songName;
+    LOG_DEBUG("Adding Song to SongSelect: %s - %s\n",
+              beatmaps[i].second._songAuthorName.c_str(),
+              beatmaps[i].second._songName.c_str());
+    buttons->add(ss.str().c_str(), 100, 200 + (i * 50), 0.8f);
   }
 
-  virtual void update(f32 delta) override {
-    BasicMenu::update(delta);
+  buttons->onButtonPressed([=](int button, u32 choice, GuiButton& element) {
+    if (button == WIIMOTE_BUTTON_B)
+      MainMenu();
+    else if (button == WIIMOTE_BUTTON_A)
+      ModeSelect(choice);
+  });
 
-    if (Input::isButtonDown(WIIMOTE_BUTTON_A)) {
+  // I'm putting reset here because this way we can guarantee that all of the
+  //  previous elements are copyable before we delete them (in case they are
+  //  needed in the initialization above this)
+  menu->reset();
+  menu->addElement(std::move(title));
+  menu->addElement(std::move(buttons));
+}
+
+void MenuSceneImpl::MainMenu() {
+  needReload = true;
+
+  int width = FNT_GetStringWidth("Saiiber", 2.0f);
+  s16 middle = (SCREEN_WIDTH / 2) - (width / 2);
+  auto title = std::make_unique<GuiText>("Saiiber", middle, 100, 2.0f);
+  title->setPosition(middle, 100);
+  title->setColor(0xFF0000FF);
+
+  auto buttons = std::make_unique<GuiList>();
+  buttons->add("Quickplay", 100, 200, 1.0f);
+  buttons->add("Versus", 100, 250);
+  buttons->add("Practice", 100, 300);
+  buttons->add("Settings", 100, 350);
+
+  buttons->onButtonPressed([=](int button, u32 choice, GuiButton& element) {
+    if (button == WIIMOTE_BUTTON_A) {
       switch (choice) {
-        case 0:  // Quickplay
-        case 1:  // Versus
-        case 2:  // Practice
-          SetMenu(new SongSelect());
+        case 0:
+          SongSelect();
           break;
-        case 3:  // Settings
+        case 1:
+          break;
+        case 2:
+          break;
+        case 3:
           break;
       }
     }
-  }
-};
+  });
 
-MenuScene::MenuScene() {
+  menu->reset();
+  menu->addElement(std::move(title));
+  menu->addElement(std::move(buttons));
+}
+
+MenuScene::MenuScene() : impl(new MenuSceneImpl()) {
+  impl->menu = this;
+  impl->MainMenu();
+
   GFX_EnableLighting(false);
   GFX_SetBlendMode(MODE_BLEND);
   GFX_EnableAlphaTest(false);
@@ -234,65 +263,21 @@ MenuScene::MenuScene() {
 
   guMtxIdentity(view);
   GFX_ModelViewMatrix(view);
-
-  SetMenu(new MainMenu());
 }
 
-MenuScene::~MenuScene() { delete curMenu; }
+// proper pimpl idiom requires destructor to be defined in the cpp file
+MenuScene::~MenuScene() { }
+
+void MenuScene::reset() { guiElements.clear(); }
+
+void MenuScene::addElement(std::unique_ptr<GuiElement> element) {
+  guiElements.push_back(std::move(element));
+}
 
 void MenuScene::update(f32 deltatime) {
-  if (curMenu != NULL) curMenu->update(deltatime);
+  for (auto& element : guiElements) element->update(deltatime);
 }
 
 void MenuScene::render() {
-  if (curMenu != NULL) curMenu->render();
-}
-
-void SongSelect::update(f32 delta) {
-  BasicMenu::update(delta);
-
-  if (Input::isButtonDown(WIIMOTE_BUTTON_B)) {
-    SetMenu(new MainMenu());
-    return;
-  }
-
-  if (Input::isButtonDown(WIIMOTE_BUTTON_A)) {
-    BeatmapPair song = beatmaps[choice];
-
-    // Preserve the SongSelect menu so we don't have to reload it every time
-    // we go back
-    SongSelect* prev = (SongSelect*)curMenu;
-    curMenu = NULL;
-
-    SetMenu(new ModeSelect(prev, song));
-  }
-}
-
-void ModeSelect::update(f32 delta) {
-  BasicMenu::update(delta);
-
-  if (Input::isButtonDown(WIIMOTE_BUTTON_B)) {
-    SetMenu(select);
-    return;
-  }
-
-  if (Input::isButtonDown(WIIMOTE_BUTTON_A)) {
-    Mode mode = ModeFromString(buttons[choice].getText());
-    SetMenu(new DifficultySelect(select, song, mode));
-  }
-}
-
-void DifficultySelect::update(f32 delta) {
-  BasicMenu::update(delta);
-
-  if (Input::isButtonDown(WIIMOTE_BUTTON_B)) {
-    SetMenu(new ModeSelect(select, song));
-    return;
-  }
-
-  if (Input::isButtonDown(WIIMOTE_BUTTON_A)) {
-    Rank rank = RankFromString(buttons[choice].getText());
-    Scene::SetScene(new GameScene(song, mode, rank));
-    delete select;
-  }
+  for (auto& element : guiElements) element->render();
 }
