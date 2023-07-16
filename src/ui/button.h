@@ -6,7 +6,7 @@
 
 class Scene;
 
-typedef std::function<void(Scene*)> ClickCallback;
+typedef std::function<void()> ClickCallback;
 
 class GuiButton : public GuiElement {
  protected:
@@ -40,7 +40,7 @@ class GuiButton : public GuiElement {
   virtual void update(f32 deltatime);
   virtual void render();
 
-  inline void setScale(s16 scale) { _scale = scale; }
+  inline void setScale(f32 scale) { _scale = scale; }
   inline void setColor(u32 color) { _color = color; }
   inline void setHoverColor(u32 color) { _hoverColor = color; }
   inline void setPressedColor(u32 color) { _pressedColor = color; }
@@ -55,7 +55,7 @@ class GuiButton : public GuiElement {
 
   inline const char* getText() { return text; }
 
-  inline void click(Scene* scene) { _onClick(scene); }
+  inline void click() { _onClick(); }
 };
 
 #endif  // GUI_BUTTON_H

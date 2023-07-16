@@ -2,7 +2,7 @@
 #define GUI_ELEMENT_H
 #include <gctypes.h>
 
-enum class GuiElementType { Button, Slider, Label, Image, Unknown };
+enum class GuiElementType { Button, List, Slider, Label, Image, Unknown };
 
 class GuiElement {
  protected:

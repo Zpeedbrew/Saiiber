@@ -26,6 +26,7 @@ void GuiButton::update(f32 deltatime) {
 }
 
 void GuiButton::render() {
+  if (_isDisabled) return;
   FNT_SetColor(_isHovered ? _hoverColor : _color);
   FNT_SetScale(_scale);
   FNT_DrawString(text, _pos[0], _pos[1]);
