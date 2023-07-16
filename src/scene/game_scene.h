@@ -1,24 +1,26 @@
 #ifndef GAME_SCENE_H
 #define GAME_SCENE_H
-#include "scene.h"
+#include <memory>
 #include <string>
 #include <utility>
 #include <vector>
 
-class GameObject;
-class BeatmapInfo;
-class Beatmap;
+#include "../resource/beatmap.h"
+#include "scene.h"
 
-enum class Mode;
-enum class Rank;
+class GameObject;
+class Saber;
 
 class GameScene : public Scene {
-private:
-  std::vector<GameObject*> gameObjects;
-  Beatmap* beatmap;
+ private:
+  std::shared_ptr<Saber> redSaber;
+  std::shared_ptr<Saber> blueSaber;
 
-public:
-  GameScene(std::pair<std::string, BeatmapInfo> pair, Mode mode, Rank rank);
+  std::vector<std::shared_ptr<GameObject>> gameObjects;
+  Beatmap beatmap;
+
+ public:
+  GameScene(std::string directory, BeatmapInfo info, Mode mode, Rank rank);
   ~GameScene();
 
   void init();
@@ -26,4 +28,4 @@ public:
   void render();
 };
 
-#endif // GAME_SCENE_H
+#endif  // GAME_SCENE_H

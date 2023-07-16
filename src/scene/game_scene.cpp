@@ -6,13 +6,16 @@
 
 #include <cstdio>
 
-#include "../gameobjects/block.h"
 #include "../gfx.h"
 #include "../input.h"
 #include "../logger.h"
 #include "../resource/beatmap.h"
 #include "../resource/model.h"
 #include "../sfx.h"
+#include "menu_scene.h"
+
+#include "../gameobjects/block.h"
+#include "../gameobjects/saber.h"
 
 // TODO: Lighting
 static GXColor LightColors[] = {
@@ -21,21 +24,21 @@ static GXColor LightColors[] = {
     {0x80, 0x80, 0x80, 0xFF}   // Material 1
 };
 
-GameScene::GameScene(std::pair<std::string, BeatmapInfo> pair, Mode mode,
-                     Rank rank) {
+GameScene::GameScene(std::string directory, BeatmapInfo info, Mode mode, Rank rank)
+    : beatmap(directory, info) {
   LOG_DEBUG("GameScene constructor\n");
 
-  std::string& directory = pair.first;
-  BeatmapInfo& info = pair.second;
+  if (beatmap.loadMap(mode, rank) != 0) {
+    LOG_ERROR("Failed to load beatmap\n");
+    Scene::ChangeScene<MenuScene>();;  // TODO: Change this to a failure scene
+    return;
+  }
 
-  beatmap = new Beatmap(directory, info);
-  beatmap->loadMap(mode, rank);
-
-  char path[256];
-  sprintf(path, "%s/%s", directory.c_str(), info._songFilename.c_str());
-  int voice = SFX_Load(path);
-  if (voice == -1) {
+  std::string path = directory + "/" + info._songFilename;
+  beatmap.voice = SFX_Load(path.c_str());
+  if (beatmap.voice == -1) {
     LOG_ERROR("Failed to load song %s\n", path);
+    Scene::ChangeScene<MenuScene>();  // TODO: Change this to a failure scene
     return;
   }
 
@@ -45,11 +48,7 @@ GameScene::GameScene(std::pair<std::string, BeatmapInfo> pair, Mode mode,
   // we can use a culling frustum to filter the ones out that are off screen
 }
 
-GameScene::~GameScene() {
-  for (size_t i = 0; i < gameObjects.size(); i++) {
-    delete gameObjects[i];
-  }
-}
+GameScene::~GameScene() { }
 
 void GameScene::init() {
   GFX_EnableLighting(false);
@@ -69,26 +68,31 @@ void GameScene::init() {
            look = {0.0F, 0.0F, -1.0F};
   guLookAt(view, &cam, &up, &look);
 
-  // guMtxIdentity(view);
-  // guMtxTrans(view, 0, 2.0f, 0);
-  // guMtxRotAxis(view, 'x', 10.0f);
-  guMtxRotDeg(view, 'x', 10.0f);
   GFX_OutputMatrix(view);
 
   // 640 x 480
   LOG_DEBUG("Ortho loaded between %u and %u\n", SCREEN_WIDTH, SCREEN_HEIGHT);
 
-  Block* green = new Block();
-  green->transform.position = {-2.0f, 1.0f, -10.0f};
+  // So THIS is C++
+  auto& green = gameObjects.emplace_back(std::make_shared<Block>());
+  green->transform->position = {-2.0f, 1.0f, -10.0f};
 
-  gameObjects.push_back(green);
-
+  redSaber = std::make_shared<Saber>();
+  blueSaber = std::make_shared<Saber>();
+  gameObjects.push_back(redSaber);
+  gameObjects.push_back(blueSaber);
+  
+  redSaber->transform = std::shared_ptr<Transform>(redMote.transform);
+  blueSaber->transform = std::shared_ptr<Transform>(blueMote.transform);
+  
   LOG_DEBUG("Loaded GameScene\n");
 }
 
 float xRot = 0.0f;
 float yRot = 0.0f;
 void GameScene::update(f32 deltatime) {
+  // TODO: Check intersection between sabers and blocks
+
   for (size_t i = 0; i < gameObjects.size(); i++) {
     gameObjects[i]->update(deltatime);
   }
@@ -132,7 +136,7 @@ void GameScene::render() {
   // SetLight(view, LightColors[0], LightColors[1], LightColors[2]);
   for (size_t i = 0; i < gameObjects.size(); i++) {
     Mtx modelview;
-    guMtxConcat(view, gameObjects[i]->transform.matrix, modelview);
+    guMtxConcat(view, gameObjects[i]->transform->matrix, modelview);
     GFX_ModelViewMatrix(modelview);
     gameObjects[i]->render();
   }
