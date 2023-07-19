@@ -1,5 +1,5 @@
 #include "fnt.h"
-#include "beon2_fnt.h"
+#include "beon_fnt.h"
 #include <string.h>
 #include <map>
 #include <istream>
@@ -17,6 +17,8 @@ struct CharInfo {
 };
 
 std::map<char, CharInfo> font;
+Mtx44 screen;
+Mtx screenView;
 
 static float xScale = 1.0f;
 static float yScale = 1.0f;
@@ -30,7 +32,7 @@ struct membuf: std::streambuf {
 };
 
 void FNT_Init() {
-  membuf sbuf((char*)beon2_fnt, beon2_fnt_size);
+  membuf sbuf((char*)beon_fnt, beon_fnt_size);
   std::istream in(&sbuf);
 
   std::string line;
@@ -45,6 +47,11 @@ void FNT_Init() {
       &id, &info.x, &info.y, &info.width, &info.height, &info.xoffset, &info.yoffset, &info.xadvance);
     font[id] = info;
   }
+
+  guMtx44Identity(screen);
+  guOrtho(screen, 0, SCREEN_HEIGHT, 0, SCREEN_WIDTH, 0, 1);
+
+  guMtxIdentity(screenView);
 }
 
 void FNT_SetScale(float scale) {
@@ -106,8 +113,10 @@ s16 FNT_GetStringHeight(const char* str, float scale) {
 }
 
 void FNT_DrawString(const char *str, s16 x, s16 y) {
+  GFX_Projection(screen, GX_ORTHOGRAPHIC);
   GFX_BindTexture(TEX_FONT);
-  GFX_ModelViewMatrix(view);
+  GFX_ModelViewMatrix(screenView);
+  GFX_TextureMatrix(false);
 
   int offsetX = 0;
   int len = strlen(str);
@@ -146,4 +155,6 @@ void FNT_DrawString(const char *str, s16 x, s16 y) {
     // I believe xadvance is the width + kerning
     offsetX += (info.xadvance * xScale);
   }
+
+  GFX_Projection(projection, GX_PERSPECTIVE);
 }
