@@ -54,24 +54,6 @@ void Logger::log(const char* format, ...) {
   va_end(args);
 }
 
-void Logger::log_fatal(const char* format, ...) {
-  Input::enabled = false;
-  va_list args;
-  va_start(args, format);
-
-  if (logfile != NULL) {
-    vfprintf(logfile, format, args);
-    fflush(logfile);
-  } else
-    vprintf(format, args);
-
-  va_end(args);
-
-  if (logfile != NULL) fclose(logfile);
-
-  exit(EXIT_FAILURE);
-}
-
 void reload(u32 irq, void* ctx) { running = false; }
 
 // When shutdown is invoked we can no longer write to the log file.
@@ -113,7 +95,21 @@ int main(int argc, char** argv) {
   if (err != WPAD_CONNECTED)
     LOG_ERROR("RedMote failed to connect with error: %d.\n", err);
 
+#ifdef _DEBUG
+  std::string path = "sd:/Songs/Tuxedo - Do It";
+  BeatmapInfo info;
+  if (GetInfoFromDir(path.c_str(), info) != 0) {
+    LOG_DEBUG("Failed to load beatmap in %s\n", path.c_str());
+    return -1;
+  }
+
+  // std::string dir, BeatmapInfo info, Mode mode, Rank rank
+  Scene::ChangeScene<GameScene>(path, info, Mode::Standard, Rank::Hard);
+
+#else
   Scene::ChangeScene<MenuScene>();
+
+#endif
 
   u64 lastTime = SYS_Time();
   u64 timeNow = 0;
@@ -122,7 +118,7 @@ int main(int argc, char** argv) {
   LOG_DEBUG("Beginning game loop\n");
   while (running) {
     timeNow = SYS_Time();
-    deltatime = (timeNow - lastTime) / 1000.0f;
+    deltatime = (timeNow - lastTime) / 1000000.0f;
 
     // do state scan once per frame
     Input::Update(deltatime);
