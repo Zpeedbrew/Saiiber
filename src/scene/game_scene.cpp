@@ -6,6 +6,11 @@
 
 #include <cstdio>
 
+#include "../exmath.h"
+#include "../fnt.h"
+#include "../gameobjects/block.h"
+#include "../gameobjects/camera.h"
+#include "../gameobjects/saber.h"
 #include "../gfx.h"
 #include "../input.h"
 #include "../logger.h"
@@ -14,9 +19,6 @@
 #include "../sfx.h"
 #include "menu_scene.h"
 
-#include "../gameobjects/block.h"
-#include "../gameobjects/saber.h"
-
 // TODO: Lighting
 static GXColor LightColors[] = {
     {0xFF, 0xFF, 0xFF, 0xFF},  // Light color 1
@@ -24,17 +26,18 @@ static GXColor LightColors[] = {
     {0x80, 0x80, 0x80, 0xFF}   // Material 1
 };
 
-GameScene::GameScene(std::string directory, BeatmapInfo info, Mode mode, Rank rank)
-    : beatmap(directory, info) {
+GameScene::GameScene(std::string dir, BeatmapInfo info, Mode mode, Rank rank)
+    : beatmap(dir, info) {
   LOG_DEBUG("GameScene constructor\n");
 
   if (beatmap.loadMap(mode, rank) != 0) {
     LOG_ERROR("Failed to load beatmap\n");
-    Scene::ChangeScene<MenuScene>();;  // TODO: Change this to a failure scene
+    Scene::ChangeScene<MenuScene>();
+    // TODO: Change this to a failure scene
     return;
   }
 
-  std::string path = directory + "/" + info._songFilename;
+  std::string path = dir + "/" + info._songFilename;
   beatmap.voice = SFX_Load(path.c_str());
   if (beatmap.voice == -1) {
     LOG_ERROR("Failed to load song %s\n", path);
@@ -48,27 +51,19 @@ GameScene::GameScene(std::string directory, BeatmapInfo info, Mode mode, Rank ra
   // we can use a culling frustum to filter the ones out that are off screen
 }
 
-GameScene::~GameScene() { }
+GameScene::~GameScene() {}
 
 void GameScene::init() {
   GFX_EnableLighting(false);
   GFX_SetBlendMode(MODE_BLEND);
-  GFX_EnableAlphaTest(true);
   GFX_SetWriteBuffers(true, true, true);
+  GFX_TextureMatrix(false);
 
-  // Set up the projection matrix
-  // This creates a perspective matrix with a view angle of 90
-  // an aspect ratio that matches the screen, and z-near
-  guPerspective(projection, 60.0f, (f32)SCREEN_WIDTH / (f32)SCREEN_HEIGHT, 0.1f,
-                300.0f);
-  GX_LoadProjectionMtx(projection, GX_PERSPECTIVE);
-
-  // Set up the view matrix
-  guVector cam = {0.0F, 3.0F, 0.0F}, up = {0.0F, 1.0F, 0.0F},
-           look = {0.0F, 0.0F, -1.0F};
-  guLookAt(view, &cam, &up, &look);
-
+  // Camera setup
+  camera = std::make_shared<Camera>();
+  camera->update(0.0f);
   GFX_OutputMatrix(view);
+  gameObjects.push_back(camera);
 
   // 640 x 480
   LOG_DEBUG("Ortho loaded between %u and %u\n", SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -77,29 +72,30 @@ void GameScene::init() {
   auto& green = gameObjects.emplace_back(std::make_shared<Block>());
   green->transform->position = {-2.0f, 1.0f, -10.0f};
 
-  redSaber = std::make_shared<Saber>();
-  blueSaber = std::make_shared<Saber>();
+  redSaber = std::make_shared<Saber>(redMote.transform);
+  blueSaber = std::make_shared<Saber>(blueMote.transform);
   gameObjects.push_back(redSaber);
   gameObjects.push_back(blueSaber);
-  
-  redSaber->transform = std::shared_ptr<Transform>(redMote.transform);
-  blueSaber->transform = std::shared_ptr<Transform>(blueMote.transform);
-  
+
   LOG_DEBUG("Loaded GameScene\n");
 }
 
 float xRot = 0.0f;
 float yRot = 0.0f;
-void GameScene::update(f32 deltatime) {
-  // TODO: Check intersection between sabers and blocks
 
+void GameScene::update(f32 deltatime) {
+#ifdef _DEBUG
+  camera->freecam(deltatime);
+#endif
+
+  // TODO: Check intersection between sabers and blocks
   for (size_t i = 0; i < gameObjects.size(); i++) {
     gameObjects[i]->update(deltatime);
   }
 }
 
 // This one originally written by shagkur
-void SetLight(Mtx view, GXColor litcol, GXColor ambcol, GXColor matcol) {
+void SetLight() {
   guVector lpos;
   GXLightObj lobj;
 
@@ -110,34 +106,46 @@ void SetLight(Mtx view, GXColor litcol, GXColor ambcol, GXColor matcol) {
   guVecMultiply(view, &lpos, &lpos);
 
   GX_InitLightPos(&lobj, lpos.x, lpos.y, lpos.z);
-  GX_InitLightColor(&lobj, litcol);
+  GX_InitLightColor(&lobj, LightColors[0]);
   GX_LoadLightObj(&lobj, GX_LIGHT0);
 
   // set number of rasterized color channels
   GX_SetNumChans(1);
-  GX_SetChanCtrl(GX_COLOR0A0, GX_ENABLE, GX_SRC_REG, GX_SRC_REG, GX_LIGHT0,
+  GX_SetChanCtrl(GX_COLOR0A0, GX_ENABLE, GX_SRC_VTX, GX_SRC_VTX, GX_LIGHT0,
                  GX_DF_CLAMP, GX_AF_NONE);
-  GX_SetChanAmbColor(GX_COLOR0A0, ambcol);
-  GX_SetChanMatColor(GX_COLOR0A0, matcol);
+  GX_SetChanAmbColor(GX_COLOR0A0, LightColors[1]);
+  GX_SetChanMatColor(GX_COLOR0A0, LightColors[2]);
+}
+
+void perspectiveLine() {
+  Mtx model;
+  guMtxIdentity(model);
+  guMtxTrans(model, 0.0f, -1.0f, 0.0f);
+  GFX_ModelViewMatrix(model);
+
+  GFX_BindTexture(TEX_NONE);
+  GFX_TextureMatrix(false);
+  GFX_SetWriteBuffers(true, false, false);
+  GFX_SetBlendMode(MODE_BLEND);
+
+  // 0x3a means the color buffer wasn't there...
+
+  // stream size < 16 there is a stream size mismatch in the following...
+  GX_Begin(GX_LINES, GX_VTXFMT3, 2);
+  GX_Position3s16(0, 0, 32767);
+  GX_Color4u8(0xFF, 0x00, 0x00, 0xFF);
+  GX_Position3s16(0, 0, -32767);
+  GX_Color4u8(0xFF, 0x00, 0x00, 0xFF);
+  GX_End();
 }
 
 void GameScene::render() {
-  GFX_BindTexture(TEX_NONE);
-  GX_Begin(GX_LINES, GX_VTXFMT1, 2);
-  GX_Position3s16(0, -100, 0);
-  GX_Color4u8(0xFF, 0xFF, 0xFF, 0xFF);
-  GX_TexCoord2u16(0, 0);
+  // perspectiveLine();
 
-  GX_Position3s16(0, 0, 0);
-  GX_Color4u8(0xFF, 0xFF, 0xFF, 0xFF);
-  GX_TexCoord2u16(0, 0);
-  GX_End();
+  SetLight();
 
   // SetLight(view, LightColors[0], LightColors[1], LightColors[2]);
   for (size_t i = 0; i < gameObjects.size(); i++) {
-    Mtx modelview;
-    guMtxConcat(view, gameObjects[i]->transform->matrix, modelview);
-    GFX_ModelViewMatrix(modelview);
     gameObjects[i]->render();
   }
 }
