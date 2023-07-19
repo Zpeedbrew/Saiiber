@@ -10,10 +10,9 @@ private:
   Mtx texMtx;
 
 public:
+  Block();
   void update(f32 deltatime);
   void render();
-
-  void setTexMtx(s16 x, s16 y, s16 w, s16 h);
 };
 
 #endif // BLOCK_H
