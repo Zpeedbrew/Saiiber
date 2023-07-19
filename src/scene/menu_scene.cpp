@@ -45,7 +45,7 @@ BeatmapList MenuSceneImpl::loadSongs() {
   // list directory
   DIR* dir = opendir(SONGPATH);
   if (dir == NULL) {
-    LOG_FATAL("Failed to open songs directory!\n");
+    LOG_ERROR("Failed to open songs directory!\n");
     return beatmaps;
   }
 
@@ -248,6 +248,7 @@ void MenuSceneImpl::MainMenu() {
 }
 
 MenuScene::MenuScene() : impl(new MenuSceneImpl()) {
+  LOG_DEBUG("MenuScene constructor\n");
   impl->menu = this;
   impl->MainMenu();
 
@@ -259,13 +260,19 @@ MenuScene::MenuScene() : impl(new MenuSceneImpl()) {
 
   Mtx44 ortho;
   guOrtho(ortho, 0, SCREEN_HEIGHT, 0, SCREEN_WIDTH, 0, 1);
-  GX_LoadProjectionMtx(ortho, GX_ORTHOGRAPHIC);
+  GFX_Projection(ortho, GX_ORTHOGRAPHIC);
 
-  guMtxIdentity(view);
-  GFX_ModelViewMatrix(view);
+  guVector camPos = { 0.0f, 0.0f, 0.0f };
+  guVector camUp = { 0.0f, 1.0f, 0.0f };
+  guVector camAt = { 0.0f, 0.0f, -1.0f };
+  guLookAt(view, &camPos, &camUp, &camAt);
+  
+  Mtx model;
+  guMtxIdentity(model);
+  GFX_ModelViewMatrix(model);
 }
 
-// proper pimpl idiom requires destructor to be defined in the cpp file
+// proper pimpl idiom requires destructor
 MenuScene::~MenuScene() { }
 
 void MenuScene::reset() { guiElements.clear(); }
