@@ -22,12 +22,13 @@ MODELS		:=	assets/models
 TEXTURES	:=	assets/textures
 FONTS			:= 	assets/fonts
 INCLUDES	:=
+DEFINES		:=	_DEBUG
 
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
 
-CFLAGS	= -g -O2 -Wall $(MACHDEP) $(INCLUDE)
+CFLAGS	= -g -O2 $(foreach def,$(DEFINES),-D$(def)) -Wall $(MACHDEP) $(INCLUDE)
 CXXFLAGS	=	$(CFLAGS)
 
 LDFLAGS	=	-g $(MACHDEP) -Wl,-Map,$(notdir $@).map
