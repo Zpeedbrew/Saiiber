@@ -1,9 +1,9 @@
 #include "transform.h"
 #include <ogc/gx.h>
 
-static guVector xAxis = { 1.0f, 0.0f, 0.0f };
-static guVector yAxis = { 0.0f, 1.0f, 0.0f };
-static guVector zAxis = { 0.0f, 0.0f, 1.0f };
+guVector copy(const guVector v) {
+  return { v.x, v.y, v.z };
+}
 
 bool Transform::intersects(float x, float y, float width, float height) {
   return (position.x + scale.x >= x && position.x <= x + width) &&
@@ -20,16 +20,15 @@ bool Transform::intersects(Transform other) {
     other.scale.x, other.scale.y, other.scale.z);
 }
 
+guVector xAxis = { 1.0f, 0.0f, 0.0f };
+guVector yAxis = { 0.0f, 1.0f, 0.0f };
+guVector zAxis = { 0.0f, 0.0f, 1.0f };
+
 void Transform::update() {
   guMtxIdentity(matrix);
   guMtxTrans(matrix, position.x, position.y, position.z);
-
-  if (rotation.x != 0.0f)
-    guMtxRotAxisDeg(matrix, &xAxis, rotation.x);
-  if (rotation.y != 0.0f)
-    guMtxRotAxisDeg(matrix, &yAxis, rotation.y);
-  if (rotation.z != 0.0f)
-    guMtxRotAxisDeg(matrix, &zAxis, rotation.z);
-
+  guMtxRotAxisDeg(matrix, &xAxis, rotation.x);
+  guMtxRotAxisDeg(matrix, &yAxis, rotation.y);
+  guMtxRotAxisDeg(matrix, &zAxis, rotation.z);
   guMtxScale(matrix, scale.x, scale.y, scale.z);
 }

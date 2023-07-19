@@ -4,6 +4,10 @@
 
 class Transform {
 public:
+  static constexpr guVector UP = { 0.0f, 1.0f, 0.0f };
+  static constexpr guVector FORWARD = { 0.0f, 0.0f, -1.0f };
+  static constexpr guVector RIGHT = { 1.0f, 0.0f, 0.0f };
+
   guVector position = { 0, 0, 0 };
   guVector rotation = { 0, 0, 0 };
   guVector scale = { 1.0f, 1.0f, 1.0f };
