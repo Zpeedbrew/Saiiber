@@ -14,11 +14,9 @@
 #define LOG_DEBUG(format, ...) Logger::log("[DEBUG] " format, ##__VA_ARGS__)
 #define LOG_WARN(format, ...) Logger::log("[WARN] " format, ##__VA_ARGS__)
 #define LOG_ERROR(format, ...) Logger::log("[ERROR] " format, ##__VA_ARGS__)
-#define LOG_FATAL(format, ...) Logger::log_fatal("[FATAL] " format, ##__VA_ARGS__)
 
 namespace Logger {
   void log(const char* format, ...);
-  void log_fatal(const char* format, ...);
 };
 
 #endif // LOGGER_H
