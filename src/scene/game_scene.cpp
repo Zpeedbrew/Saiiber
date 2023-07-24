@@ -71,6 +71,7 @@ void GameScene::init() {
   // So THIS is C++
   auto& green = gameObjects.emplace_back(std::make_shared<Block>());
   green->transform->position = {-2.0f, 1.0f, -10.0f};
+  green->transform->scale = { 0.5f, 0.5f, 0.5f };
 
   redSaber = std::make_shared<Saber>(redMote.transform);
   blueSaber = std::make_shared<Saber>(blueMote.transform);
@@ -118,33 +119,41 @@ void SetLight() {
 }
 
 void perspectiveLine() {
+  GFX_SetWriteBuffers(true, true, true);
+
+  GFX_EnableAlphaTest(false);
+  GFX_EnableLighting(false);
+  GFX_SetBlendMode(MODE_BLEND);
+  GFX_BindTexture(TEX_NONE);
+
   Mtx model;
   guMtxIdentity(model);
   guMtxTrans(model, 0.0f, -1.0f, 0.0f);
+  guMtxScale(model, 1.0f, 1.0f, -300.0f);
   GFX_ModelViewMatrix(model);
 
-  GFX_BindTexture(TEX_NONE);
-  GFX_TextureMatrix(false);
-  GFX_SetWriteBuffers(true, false, false);
-  GFX_SetBlendMode(MODE_BLEND);
-
-  // 0x3a means the color buffer wasn't there...
-
   // stream size < 16 there is a stream size mismatch in the following...
-  GX_Begin(GX_LINES, GX_VTXFMT3, 2);
-  GX_Position3s16(0, 0, 32767);
+  GX_Begin(GX_LINES, LINEFMT, 2);
+  GX_Position3s16(0, 0, 0x7F00);
+  GX_Normal3s8(0,0,0);
   GX_Color4u8(0xFF, 0x00, 0x00, 0xFF);
-  GX_Position3s16(0, 0, -32767);
-  GX_Color4u8(0xFF, 0x00, 0x00, 0xFF);
+  GX_TexCoord2u8(0, 0);
+
+  GX_Position3s16(0, 0, -0x7F00);
+  GX_Normal3s8(0,0,0);
+  GX_Color4u8(0x00, 0xFF, 0x00, 0xFF);
+  GX_TexCoord2u8(0, 0);
   GX_End();
 }
 
 void GameScene::render() {
-  // perspectiveLine();
+  perspectiveLine();
 
-  SetLight();
+#ifdef _DEBUG
+  camera->render();
+#endif
 
-  // SetLight(view, LightColors[0], LightColors[1], LightColors[2]);
+  //SetLight();
   for (size_t i = 0; i < gameObjects.size(); i++) {
     gameObjects[i]->render();
   }

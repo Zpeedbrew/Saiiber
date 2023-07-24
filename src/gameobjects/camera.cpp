@@ -4,25 +4,51 @@
 #include "../gfx.h"
 
 Camera::Camera() {
-  transform->position = {0.0F, 0.0F, 0.0F};
+  transform->position = {0.0F, 2.0F, 2.0F};
+  up = {0.0f, 1.0f, 0.0f};
+
+  guVector direction;
+  direction.x = cosf(DegToRad(yaw)) * cosf(DegToRad(pitch));
+  direction.y = sinf(DegToRad(pitch));
+  direction.z = sinf(DegToRad(yaw)) * cosf(DegToRad(pitch));
+
+  front = direction;
+  guVecNormalize(&front);
+
+  guVector target = transform->position + front;
 
   // Set up the projection matrix
   // This creates a perspective matrix with a view angle of 90
   // an aspect ratio that matches the screen, and z-near
   guPerspective(projection, fov, (f32)SCREEN_WIDTH / (f32)SCREEN_HEIGHT, 0.1f,
                 300.0f);
+  guLookAt(view, &transform->position, &up, &target);
+
   GFX_Projection(projection, GX_PERSPECTIVE);
 }
-
-guVector projectedObject = {0.0f, 0.0f, -300.0f};
 
 void Camera::update(f32 deltatime) {
   GameObject::update(deltatime);
 
+  if (pitch > 89.0f) pitch = 89.0f;
+  if (pitch < -89.0f) pitch = -89.0f;
+
+  if (fov < 1.0f) fov = 1.0f;
+  if (fov > 45.0f) fov = 45.0f;
+
+  guVector direction;
+  direction.x = cosf(DegToRad(yaw)) * cosf(DegToRad(pitch));
+  direction.y = sinf(DegToRad(pitch));
+  direction.z = sinf(DegToRad(yaw)) * cosf(DegToRad(pitch));
+
+  front = direction;
+  guVecNormalize(&front);
+
+  guVector target = transform->position + front;
+  guLookAt(view, &transform->position, &up, &target);
+
   guPerspective(projection, fov, (f32)SCREEN_WIDTH / (f32)SCREEN_HEIGHT, 0.1f,
                 300.0f);
-  guLookAt(view, &transform->position, &Transform::UP, &projectedObject);
-
   GFX_Projection(projection, GX_PERSPECTIVE);
 }
 
@@ -35,6 +61,7 @@ void Camera::zoom(float amount) { fov += amount; }
 #include "../input.h"
 guVector lastPos;
 guVector lastRot;
+float movespeed = 0.5f;
 
 char turningString[15] = "Turning: False";
 char posString[39] = "Position: 0.000, 0.000, 0.000";
@@ -62,53 +89,53 @@ void Camera::freecam(f32 deltatime) {
   if (Input::isButtonDown(WIIMOTE_BUTTON_UP) ||
       Input::isButtonHeld(WIIMOTE_BUTTON_UP)) {
     if (turning)
-      transform->rotation += Transform::RIGHT * 1.0f * deltatime;
+      pitch += 0.5f * deltatime;
     else
-      transform->position += Transform::FORWARD * 1.0f * deltatime;
+      transform->position += front * deltatime;
   }
 
   if (Input::isButtonDown(WIIMOTE_BUTTON_DOWN) ||
       Input::isButtonHeld(WIIMOTE_BUTTON_DOWN)) {
     if (turning)
-      transform->rotation += Transform::RIGHT * -1.0f * deltatime;
+      pitch -= 0.5f * deltatime;
     else
-      transform->position += Transform::FORWARD * -1.0f * deltatime;
+      transform->position += front * movespeed * -deltatime;
   }
 
   if (Input::isButtonDown(WIIMOTE_BUTTON_LEFT) ||
       Input::isButtonHeld(WIIMOTE_BUTTON_LEFT)) {
     if (turning)
-      transform->rotation += Transform::UP * -1.0f * deltatime;
+      yaw -= 0.5f * deltatime;
     else
-      transform->position += Transform::RIGHT * -1.0f * deltatime;
+      transform->position += right() * movespeed * -deltatime;
   }
 
   if (Input::isButtonDown(WIIMOTE_BUTTON_RIGHT) ||
       Input::isButtonHeld(WIIMOTE_BUTTON_RIGHT)) {
     if (turning)
-      transform->rotation += Transform::UP * 1.0f * deltatime;
+      yaw += 0.5f * deltatime;
     else
-      transform->position += Transform::RIGHT * 1.0f * deltatime;
+      transform->position += right() * movespeed * deltatime;
   }
 
   if (Input::isButtonDown(WIIMOTE_BUTTON_ONE) ||
       Input::isButtonHeld(WIIMOTE_BUTTON_ONE)) {
-    transform->position += Transform::UP * 1.0f * deltatime;
+    transform->position += up * movespeed * deltatime;
   }
 
   if (Input::isButtonDown(WIIMOTE_BUTTON_PLUS) ||
       Input::isButtonHeld(WIIMOTE_BUTTON_PLUS)) {
-    zoom(-1.0f * deltatime);
+    zoom(-0.5f * deltatime);
   }
 
   if (Input::isButtonDown(WIIMOTE_BUTTON_MINUS) ||
       Input::isButtonHeld(WIIMOTE_BUTTON_MINUS)) {
-    zoom(1.0f * deltatime);
+    zoom(0.5f * deltatime);
   }
 
   if (Input::isButtonDown(WIIMOTE_BUTTON_TWO) ||
       Input::isButtonHeld(WIIMOTE_BUTTON_TWO)) {
-    transform->position += Transform::UP * -1.0f * deltatime;
+    transform->position += up * movespeed * -deltatime;
   }
 
   if (transform->position != lastPos) {
@@ -117,16 +144,13 @@ void Camera::freecam(f32 deltatime) {
     lastPos = transform->position;
 
     update(deltatime);
-    GFX_OutputMatrix(view);
   }
 
-  if (transform->rotation != lastRot) {
-    sprintf(rotString, "Rotation: %.3f, %.3f, %.3f", transform->rotation.x,
-            transform->rotation.y, transform->rotation.z);
-    lastRot = transform->rotation;
+  if (front != lastRot) {
+    sprintf(rotString, "Rotation: %.3f, %.3f, %.3f", front.x, front.y, front.z);
+    lastRot = front;
 
     update(deltatime);
-    GFX_OutputMatrix(view);
   }
 }
 #endif
