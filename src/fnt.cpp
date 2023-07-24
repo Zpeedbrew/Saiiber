@@ -115,7 +115,7 @@ s16 FNT_GetStringHeight(const char* str, float scale) {
 void FNT_DrawString(const char *str, s16 x, s16 y) {
   GFX_Projection(screen, GX_ORTHOGRAPHIC);
   GFX_BindTexture(TEX_FONT);
-  GFX_ModelViewMatrix(screenView);
+  GFX_ModelViewMatrix(screenView, screenView);
   GFX_TextureMatrix(false);
 
   int offsetX = 0;
@@ -132,21 +132,25 @@ void FNT_DrawString(const char *str, s16 x, s16 y) {
     u8 u2 = info.x + info.width;
     u8 v2 = info.y + info.height;
 
-    GX_Begin(GX_QUADS, GX_VTXFMT2, 4);
+    GX_Begin(GX_QUADS, FONTFMT, 4);
 
     GX_Position3s16(x1, y2, 0);
+    GX_Normal3s8(0,0,0);
     GX_Color4u8(r, g, b, a);
     GX_TexCoord2u8(info.x, info.y);
 
     GX_Position3s16(x2, y2, 0);
+    GX_Normal3s8(0,0,0);
     GX_Color4u8(r, g, b, a);
     GX_TexCoord2u8(u2, info.y);
 
     GX_Position3s16(x2, y1, 0);
+    GX_Normal3s8(0,0,0);
     GX_Color4u8(r, g, b, a);
     GX_TexCoord2u8(u2, v2);
 
     GX_Position3s16(x1, y1, 0);
+    GX_Normal3s8(0,0,0);
     GX_Color4u8(r, g, b, a);
     GX_TexCoord2u8(info.x, v2);
 

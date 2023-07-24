@@ -70,8 +70,6 @@ SFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.S)))
 OBJFILES	:=	$(foreach dir,$(MODELS),$(notdir $(wildcard $(dir)/*.obj)))
 FNTFILES	:= 	$(foreach dir,$(FONTS),$(notdir $(wildcard $(dir)/*.fnt)))
 PNGFILES	:=	$(foreach dir,$(TEXTURES),$(notdir $(wildcard $(dir)/*.png)))
-SCFFILES	:=	$(foreach dir,$(TEXTURES),$(notdir $(wildcard $(dir)/*.scf)))
-TPLFILES	:=	$(SCFFILES:.scf=.tpl)
 
 #---------------------------------------------------------------------------------
 # use CXX for linking C++ projects, CC for standard C
@@ -82,7 +80,7 @@ else
 	export LD	:=	$(CXX)
 endif
 
-export OFILES_BIN	:=	$(addsuffix .o,$(BINFILES)) $(addsuffix .o,$(TPLFILES)) \
+export OFILES_BIN	:=	$(addsuffix .o,$(BINFILES)) \
 											$(addsuffix .o,$(OBJFILES)) $(addsuffix .o,$(FNTFILES)) \
 											$(addsuffix .o,$(PNGFILES))
 
@@ -90,7 +88,6 @@ export OFILES_SOURCES := $(CPPFILES:.cpp=.o) $(CFILES:.c=.o) $(sFILES:.s=.o) $(S
 export OFILES := $(OFILES_BIN) $(OFILES_SOURCES)
 
 export HFILES := $(addsuffix .h,$(subst .,_,$(BINFILES))) \
-									$(addsuffix .h,$(subst .,_,$(TPLFILES))) \
 									$(addsuffix .h,$(subst .,_,$(OBJFILES))) \
 									$(addsuffix .h,$(subst .,_,$(FNTFILES))) \
 									$(addsuffix .h,$(subst .,_,$(PNGFILES)))
@@ -163,12 +160,6 @@ $(OFILES_SOURCES) : $(HFILES)
 #---------------------------------------------------------------------------------
 	@echo $(notdir $<)
 	$(bin2o)
-
-#---------------------------------------------------------------------------------
-%.tpl.o	%_tpl.h :	%.tpl
-#---------------------------------------------------------------------------------
-	@echo $(notdir $<)
-	@$(bin2o)
 
 
 -include $(DEPENDS)
