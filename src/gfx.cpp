@@ -18,8 +18,12 @@
 #include "resource/texture.h"
 
 #define DEFAULT_FIFO_SIZE (256 * 1024)
+#define CORNBLUE \
+  { 0x64, 0x95, 0xED, 0xFF }
+#define BLACK \
+  { 0x00, 0x00, 0x00, 0xFF }
 
-static GXColor background = {0x64, 0x95, 0xED, 0xFF};
+static GXColor background = CORNBLUE;
 static uint8_t colors[256 * 3] ATTRIBUTE_ALIGN(32);
 static void* frameBuffer[3];
 static u32 bufferIndex = 0;
@@ -138,32 +142,31 @@ void GFX_Init() {
   GX_ClearVtxDesc();
   GX_SetVtxDesc(GX_VA_POS, GX_DIRECT);
   GX_SetVtxDesc(GX_VA_NRM, GX_DIRECT);
-  GX_SetVtxDesc(GX_VA_CLR0, GX_DIRECT);
+  GX_SetVtxDesc(GX_VA_CLR0, GX_INDEX8);
   GX_SetVtxDesc(GX_VA_TEX0, GX_DIRECT);
 
-  // models
+  // Models
   // s16 needs 1 bit for +/- and 15 bits of precision
-  GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_POS, GX_POS_XYZ, GX_S16, 15);
-  GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_NRM, GX_NRM_XYZ, GX_S16, 15);
-  GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_TEX0, GX_TEX_ST, GX_U16, 16);
+  GX_SetVtxAttrFmt(MODELFMT, GX_VA_POS, GX_POS_XYZ, GX_S16, 15);
+  GX_SetVtxAttrFmt(MODELFMT, GX_VA_NRM, GX_NRM_XYZ, GX_S16, 15);
+  GX_SetVtxAttrFmt(MODELFMT, GX_VA_CLR0, GX_CLR_RGBA, GX_RGBA8, 0);
+  GX_SetVtxAttrFmt(MODELFMT, GX_VA_TEX0, GX_TEX_ST, GX_U16, 16);
 
-  // gui
-  GX_SetVtxAttrFmt(GX_VTXFMT1, GX_VA_POS, GX_POS_XYZ, GX_S16, 0);
-  GX_SetVtxAttrFmt(GX_VTXFMT1, GX_VA_CLR0, GX_CLR_RGBA, GX_RGBA8, 0);
-  GX_SetVtxAttrFmt(GX_VTXFMT1, GX_VA_TEX0, GX_TEX_ST, GX_U16, 8);
+  // GUI
+  GX_SetVtxAttrFmt(GUIFMT, GX_VA_POS, GX_POS_XYZ, GX_S16, 0);
+  GX_SetVtxAttrFmt(GUIFMT, GX_VA_CLR0, GX_CLR_RGBA, GX_RGBA8, 0);
+  GX_SetVtxAttrFmt(GUIFMT, GX_VA_TEX0, GX_TEX_ST, GX_U16, 8);
 
-  // font drawing
-  GX_SetVtxAttrFmt(GX_VTXFMT2, GX_VA_POS, GX_POS_XYZ, GX_S16, 0);
-  GX_SetVtxAttrFmt(GX_VTXFMT2, GX_VA_CLR0, GX_CLR_RGBA, GX_RGBA8, 0);
-  GX_SetVtxAttrFmt(GX_VTXFMT2, GX_VA_TEX0, GX_TEX_ST, GX_U8, 8);
+  // FONT
+  GX_SetVtxAttrFmt(FONTFMT, GX_VA_POS, GX_POS_XYZ, GX_S16, 0);
+  GX_SetVtxAttrFmt(FONTFMT, GX_VA_CLR0, GX_CLR_RGBA, GX_RGBA8, 0);
+  GX_SetVtxAttrFmt(FONTFMT, GX_VA_TEX0, GX_TEX_ST, GX_U8, 8);
 
   // lines?
-  GX_SetVtxAttrFmt(GX_VTXFMT3, GX_VA_POS, GX_POS_XYZ, GX_S16, 15);
-  GX_SetVtxAttrFmt(GX_VTXFMT3, GX_VA_CLR0, GX_CLR_RGBA, GX_RGBA8, 0);
+  GX_SetVtxAttrFmt(LINEFMT, GX_VA_POS, GX_POS_XYZ, GX_S16, 15);
+  GX_SetVtxAttrFmt(LINEFMT, GX_VA_CLR0, GX_CLR_RGBA, GX_RGBA8, 0);
 
-  // TODO: Access colors from renderer
-  // GX_SetArray(GX_VA_CLR0, colors, 3 * sizeof(uint8_t));
-
+  GX_SetArray(GX_VA_CLR0, colors, 3 * sizeof(uint8_t));
   GX_SetViewport(0, 0, rmode->fbWidth, rmode->efbHeight, 0, 1);
 
   // we will only need 1 channel for each
@@ -185,10 +188,6 @@ void GFX_Cleanup() {
   free(frameBuffer[1]);
 }
 
-void GFX_EnableLighting(bool enable) {
-  GX_SetVtxDesc(GX_VA_CLR0, enable ? GX_INDEX8 : GX_DIRECT);
-}
-
 void GFX_EnableCulling(bool enable) {
   GX_SetCullMode(enable ? GX_CULL_BACK : GX_CULL_NONE);
 }
@@ -203,23 +202,17 @@ void GFX_EnableAlphaTest(bool enable) {
   }
 }
 
-void GFX_BindTexture(TextureMap texmap) {
-  switch (texmap) {
-    case TEX_MODEL:
-      GX_SetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD0, GX_TEXMAP0, GX_COLOR0A0);
-      break;
-    case TEX_GUI:
-      GX_SetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD0, GX_TEXMAP1, GX_COLOR0A0);
-      break;
-    case TEX_FONT:
-      GX_SetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD0, GX_TEXMAP2, GX_COLOR0A0);
-      break;
-  }
-
-  GX_SetTevOp(GX_TEVSTAGE0, texmap != TEX_NONE ? GX_MODULATE : GX_PASSCLR);
+void GFX_EnableLighting(bool enable) {
+  GX_SetVtxDesc(GX_VA_CLR0, enable ? GX_INDEX8 : GX_DIRECT);
 }
 
 bool texMtxEnabledLast = true;
+
+void GFX_BindTexture(TextureMap texmap) {
+  GX_SetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD0, (u32)texmap, GX_COLOR0A0);
+  GX_SetTevOp(GX_TEVSTAGE0, texmap != TEX_NONE ? GX_MODULATE : GX_PASSCLR);
+}
+
 void GFX_TextureMatrix(bool enable, Mtx tex) {
   if (enable) {
     static Mtx flipped = {{1.0f, 0.0f, 0.0f, 0.0f},
@@ -228,7 +221,7 @@ void GFX_TextureMatrix(bool enable, Mtx tex) {
 
     Mtx convert;
     guMtxConcat(tex, flipped, convert);
-    GX_LoadTexMtxImm(convert, GX_TEXMTX0, GX_MTX2x4);
+    GX_LoadTexMtxImm(tex, GX_TEXMTX0, GX_MTX2x4);
   }
 
   if (enable != texMtxEnabledLast)
@@ -236,6 +229,13 @@ void GFX_TextureMatrix(bool enable, Mtx tex) {
                       enable ? GX_TEXMTX0 : GX_IDENTITY);
 
   texMtxEnabledLast = enable;
+}
+
+void GFX_NormalMatrix(Mtx model) {
+  Mtx nrm;
+  guMtxInverse(model, nrm);
+  guMtxTranspose(nrm, nrm);
+  GX_LoadNrmMtxImm(nrm, GX_PNMTX0);
 }
 
 void GFX_Projection(Mtx44 projection, int type) {
@@ -247,7 +247,7 @@ void GFX_ModelViewMatrix(Mtx model, Mtx _view) {
 
   Mtx modelview;
   guMtxIdentity(modelview);
-  guMtxConcat(modelview, _view, model);
+  guMtxConcat(_view, model, modelview);
   GX_LoadPosMtxImm(modelview, GX_PNMTX0);
 }
 
@@ -276,18 +276,45 @@ void GFX_DepthFunc(u8 func) {
   GX_SetZMode(lastDepthTest, lastDepthFunc, lastDepth);
 }
 
+// Sets the blend mode
+// but the result of which is enabled and disabled by
+// GX_SetColorUpdate and GX_SetAlphaUpdate
 void GFX_SetBlendMode(BlendMode mode) {
+  // src_pix is the color from the texture (with added GX_Color from TevStages)
+  // dst_pix is the color already in the framebuffer (black if nothing)
+  // blend function is:
+  // src_pix * src_factor + dst_pix * dst_factor
+
   switch (mode) {
+    // This is interpolated blending
     case MODE_BLEND:
       GX_SetBlendMode(GX_BM_BLEND, GX_BL_SRCALPHA, GX_BL_INVSRCALPHA,
                       GX_LO_NOOP);
       break;
-    case MODE_BLEND2:
-      GX_SetBlendMode(GX_BM_BLEND, GX_BL_SRCALPHA, GX_BL_ONE, GX_LO_NOOP);
+
+    case MODE_ADD:
+      GX_SetBlendMode(GX_BM_BLEND, GX_BL_ONE, GX_BL_ONE, GX_LO_NOOP);
       break;
+
+    case MODE_SUB:
+      GX_SetBlendMode(GX_BM_BLEND, GX_BL_ONE, GX_BL_ONE, GX_BM_SUBTRACT);
+      break;
+
+    case MODE_SOURCE:
+      GX_SetBlendMode(GX_BM_BLEND, GX_BL_SRCALPHA, GX_BL_ZERO, GX_LO_NOOP);
+
+    // The way the documentation describes, this should mean that
+    // the color is halved because each src pixel is multiplied by itself
+    case MODE_SOURCE_HALF:
+      GX_SetBlendMode(GX_BM_BLEND, GX_BL_SRCCLR, GX_BL_ZERO, GX_LO_NOOP);
+
+    // source being black 0, 0, 0
+    // destination being brown 127 (0.5), 64 (0.25), 0 (0)
+    // result being just black, basically...
     case MODE_BLEND3:
       GX_SetBlendMode(GX_BM_BLEND, GX_BL_DSTCLR, GX_BL_SRCCLR, GX_LO_NOOP);
       break;
+
     case MODE_INVERT:
       GX_SetBlendMode(GX_BM_LOGIC, GX_BL_ZERO, GX_BL_ZERO, GX_LO_INV);
       break;
@@ -297,8 +324,12 @@ void GFX_SetBlendMode(BlendMode mode) {
   }
 }
 
-void GFX_EnableBGColor(bool enable) {
+void GFX_EnableColor(bool enable) {
   GX_SetColorUpdate(enable ? GX_TRUE : GX_FALSE);
+}
+
+void GFX_EnableAlpha(bool enable) {
+  GX_SetAlphaUpdate(enable ? GX_TRUE : GX_FALSE);
 }
 
 void GFX_DepthRange(float near, float far) {
