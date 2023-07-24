@@ -142,7 +142,7 @@ void GFX_Init() {
   GX_ClearVtxDesc();
   GX_SetVtxDesc(GX_VA_POS, GX_DIRECT);
   GX_SetVtxDesc(GX_VA_NRM, GX_DIRECT);
-  GX_SetVtxDesc(GX_VA_CLR0, GX_INDEX8);
+  GX_SetVtxDesc(GX_VA_CLR0, GX_DIRECT);
   GX_SetVtxDesc(GX_VA_TEX0, GX_DIRECT);
 
   // Models
@@ -175,6 +175,7 @@ void GFX_Init() {
   GX_SetNumTevStages(1);
 
   GFX_BindTexture(TEX_MODEL);
+  GFX_EnableTexture(true);
   GFX_EnableAlphaTest(true);
 
   loadAllTextures();
@@ -202,15 +203,33 @@ void GFX_EnableAlphaTest(bool enable) {
   }
 }
 
+// it's set to modulate in initialize
+bool light = false;
+bool texture = false;
+
+// toggles texturing
+// Forces light to be enabled if texturing is disabled
+void GFX_EnableTexture(bool enable) {
+  texture = enable;
+  GX_SetTevOp(GX_TEVSTAGE0,
+              texture ? (light ? GX_MODULATE : GX_REPLACE) : GX_PASSCLR);
+}
+
 void GFX_EnableLighting(bool enable) {
-  GX_SetVtxDesc(GX_VA_CLR0, enable ? GX_INDEX8 : GX_DIRECT);
+  if (!enable && !texture) {
+    LOG_ERROR("Cannot disable lighting when texture is disabled.\n");
+    return;
+  }
+
+  light = enable;
+  GX_SetTevOp(GX_TEVSTAGE0,
+              light ? (texture ? GX_MODULATE : GX_PASSCLR) : GX_REPLACE);
 }
 
 bool texMtxEnabledLast = true;
 
 void GFX_BindTexture(TextureMap texmap) {
   GX_SetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD0, (u32)texmap, GX_COLOR0A0);
-  GX_SetTevOp(GX_TEVSTAGE0, texmap != TEX_NONE ? GX_MODULATE : GX_PASSCLR);
 }
 
 void GFX_TextureMatrix(bool enable, Mtx tex) {

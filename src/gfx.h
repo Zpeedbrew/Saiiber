@@ -40,6 +40,7 @@ void GFX_Finish(bool vsync);
 
 // settings
 void GFX_EnableAlphaTest(bool enable);
+void GFX_EnableTexture(bool enable);
 void GFX_EnableLighting(bool enable);
 void GFX_EnableCulling(bool enable);
 void GFX_EnableColor(bool enable);
