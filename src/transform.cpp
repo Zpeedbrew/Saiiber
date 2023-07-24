@@ -5,6 +5,9 @@ guVector copy(const guVector v) {
   return { v.x, v.y, v.z };
 }
 
+guVector Transform::UP = { 0.0f, 1.0f, 0.0f };
+guVector Transform::FORWARD = { 0.0f, 0.0f, -1.0f };
+
 bool Transform::intersects(float x, float y, float width, float height) {
   return (position.x + scale.x >= x && position.x <= x + width) &&
     (position.y + scale.y >= y && position.y <= y + height);
