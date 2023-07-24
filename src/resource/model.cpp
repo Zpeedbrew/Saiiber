@@ -32,8 +32,8 @@ void* make_model(u32& size) {
       indices, attrib.vertices.size(), attrib.texcoords.size());
 
   size_t szVertices = indices * 3 * sizeof(s16);
-  size_t szTexCoords = indices * 2 * sizeof(u16);
   size_t szNormals = indices * 3 * sizeof(s16);
+  size_t szTexCoords = indices * 2 * sizeof(u16);
   size_t szColor = indices * 4 * sizeof(u8);
   size_t total = 3 + szVertices + szTexCoords + szColor + szNormals + 63;
 
@@ -51,18 +51,21 @@ void* make_model(u32& size) {
   // That way they can be converted to s16
   {
     for (const auto& shape : shapes) {
-      GX_Begin(GX_TRIANGLES, GX_VTXFMT0, shape.mesh.indices.size());
+      GX_Begin(GX_TRIANGLES, MODELFMT, shape.mesh.indices.size());
       for (const auto& index : shape.mesh.indices) {
-        GX_Position3s16(attrib.vertices[3 * index.vertex_index + 0] * 32768,
-                        attrib.vertices[3 * index.vertex_index + 1] * 32768,
-                        attrib.vertices[3 * index.vertex_index + 2] * 32768);
+        GX_Position3s16(attrib.vertices[3 * index.vertex_index + 0] * 0x7FFF,
+                        attrib.vertices[3 * index.vertex_index + 1] * 0x7FFF,
+                        attrib.vertices[3 * index.vertex_index + 2] * 0x7FFF);
 
-        GX_Normal3s16(attrib.normals[3 * index.normal_index + 0] * 32768,
-                      attrib.normals[3 * index.normal_index + 1] * 32768,
-                      attrib.normals[3 * index.normal_index + 2] * 32768);
+        GX_Normal3s16(attrib.normals[3 * index.normal_index + 0] * 0x7FFF,
+                      attrib.normals[3 * index.normal_index + 1] * 0x7FFF,
+                      attrib.normals[3 * index.normal_index + 2] * 0x7FFF);
 
-        GX_TexCoord2u16(attrib.texcoords[2 * index.texcoord_index + 0] * 65536,
-                        attrib.texcoords[2 * index.texcoord_index + 1] * 65536);
+        GX_Color4u8(0xFF, 0xFF, 0xFF, 0xFF);
+
+        GX_TexCoord2u16(
+            attrib.texcoords[2 * index.texcoord_index + 0] * 0xFFFF,
+            attrib.texcoords[2 * index.texcoord_index + 1] * 0xFFFF);
       }
       GX_End();
     }
