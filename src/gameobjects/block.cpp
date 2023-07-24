@@ -24,6 +24,8 @@ void Block::update(f32 deltatime) {
 
 void Block::render() {
   GFX_BindTexture(TEX_MODEL);
+  GFX_EnableTexture(true);
+  GFX_EnableLighting(true);
 
   GFX_ModelViewMatrix(transform->matrix);
   GFX_TextureMatrix(true, texMtx);

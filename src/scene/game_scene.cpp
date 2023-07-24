@@ -54,7 +54,6 @@ GameScene::GameScene(std::string dir, BeatmapInfo info, Mode mode, Rank rank)
 GameScene::~GameScene() {}
 
 void GameScene::init() {
-  GFX_EnableLighting(false);
   GFX_SetBlendMode(MODE_BLEND);
   GFX_SetWriteBuffers(true, true, true);
   GFX_TextureMatrix(false);
@@ -112,48 +111,18 @@ void SetLight() {
 
   // set number of rasterized color channels
   GX_SetNumChans(1);
-  GX_SetChanCtrl(GX_COLOR0A0, GX_ENABLE, GX_SRC_VTX, GX_SRC_VTX, GX_LIGHT0,
+  GX_SetChanCtrl(GX_COLOR0A0, GX_ENABLE, GX_SRC_REG, GX_SRC_REG, GX_LIGHT0,
                  GX_DF_CLAMP, GX_AF_NONE);
   GX_SetChanAmbColor(GX_COLOR0A0, LightColors[1]);
   GX_SetChanMatColor(GX_COLOR0A0, LightColors[2]);
 }
 
-void perspectiveLine() {
-  GFX_SetWriteBuffers(true, true, true);
-
-  GFX_EnableAlphaTest(false);
-  GFX_EnableLighting(false);
-  GFX_SetBlendMode(MODE_BLEND);
-  GFX_BindTexture(TEX_NONE);
-
-  Mtx model;
-  guMtxIdentity(model);
-  guMtxTrans(model, 0.0f, -1.0f, 0.0f);
-  guMtxScale(model, 1.0f, 1.0f, -300.0f);
-  GFX_ModelViewMatrix(model);
-
-  // stream size < 16 there is a stream size mismatch in the following...
-  GX_Begin(GX_LINES, LINEFMT, 2);
-  GX_Position3s16(0, 0, 0x7F00);
-  GX_Normal3s8(0,0,0);
-  GX_Color4u8(0xFF, 0x00, 0x00, 0xFF);
-  GX_TexCoord2u8(0, 0);
-
-  GX_Position3s16(0, 0, -0x7F00);
-  GX_Normal3s8(0,0,0);
-  GX_Color4u8(0x00, 0xFF, 0x00, 0xFF);
-  GX_TexCoord2u8(0, 0);
-  GX_End();
-}
-
 void GameScene::render() {
-  perspectiveLine();
-
 #ifdef _DEBUG
   camera->render();
 #endif
 
-  //SetLight();
+  SetLight();
   for (size_t i = 0; i < gameObjects.size(); i++) {
     gameObjects[i]->render();
   }

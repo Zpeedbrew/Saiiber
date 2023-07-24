@@ -12,7 +12,7 @@ Saber::Saber(std::shared_ptr<Transform> transform) : GameObject(transform) {
 
   // Set texmtx to the top right of the texture
   guMtxIdentity(texMtx);
-  guMtxTransApply(texMtx, texMtx, 256, 256, 0);  // could be 256 or could be 0.5
+  guMtxTransApply(texMtx, texMtx, 0.5f, 0, 0);
   guMtxScaleApply(texMtx, texMtx, 0.5f, 0.5f, 0);
 }
 
@@ -21,11 +21,15 @@ void Saber::update(f32 deltatime) { GameObject::update(deltatime); }
 
 void Saber::render() {
   GFX_BindTexture(TEX_MODEL);
+  GFX_EnableTexture(true);
+  GFX_EnableLighting(true);
+
+  GFX_ModelViewMatrix(transform->matrix);
+  // GFX_NormalMatrix(transform->matrix);
   GFX_TextureMatrix(true, texMtx);
+
   GFX_EnableAlphaTest(true);
   GFX_SetBlendMode(MODE_BLEND);
   GFX_SetWriteBuffers(true, true, true);
-
-  GFX_ModelViewMatrix(transform->matrix);
   model->render();
 }

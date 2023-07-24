@@ -11,13 +11,14 @@ LoadingScene<T>::LoadingScene(T* nextScene) {
 
 template <typename T>
 void LoadingScene<T>::init() {
-  GFX_EnableLighting(false);
   GFX_SetBlendMode(MODE_BLEND);
   GFX_EnableAlphaTest(false);
   GFX_TextureMatrix(false);
   GFX_SetWriteBuffers(true, false, false);
 
   GFX_BindTexture(TEX_GUI);
+  GFX_EnableTexture(true);
+  GFX_EnableLighting(false);
 
   Mtx44 ortho;
   guOrtho(ortho, 0, SCREEN_HEIGHT, 0, SCREEN_WIDTH, 0, 1);

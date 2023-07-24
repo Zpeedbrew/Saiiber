@@ -114,9 +114,14 @@ s16 FNT_GetStringHeight(const char* str, float scale) {
 
 void FNT_DrawString(const char *str, s16 x, s16 y) {
   GFX_Projection(screen, GX_ORTHOGRAPHIC);
+
   GFX_BindTexture(TEX_FONT);
+  GFX_EnableTexture(true);
+  GFX_EnableLighting(false);
+
   GFX_ModelViewMatrix(screenView, screenView);
   GFX_TextureMatrix(false);
+  GFX_SetBlendMode(MODE_SOURCE);
 
   int offsetX = 0;
   int len = strlen(str);
