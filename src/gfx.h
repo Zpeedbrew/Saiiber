@@ -55,7 +55,10 @@ void GFX_SetWriteBuffers(bool color, bool depth, bool depth_test);
 void GFX_Projection(Mtx44 projection, int type);
 void GFX_ModelViewMatrix(Mtx model, Mtx _view = NULL);
 void GFX_TextureMatrix(bool enable, Mtx matrix = NULL);
-void GFX_NormalMatrix(Mtx model);
 void GFX_OutputMatrix(Mtx matrix);
+
+#ifdef SHADERS
+void GFX_NormalMatrix(Mtx model);
+#endif
 
 #endif  // GFX_H

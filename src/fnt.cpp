@@ -140,22 +140,30 @@ void FNT_DrawString(const char *str, s16 x, s16 y) {
     GX_Begin(GX_QUADS, FONTFMT, 4);
 
     GX_Position3s16(x1, y2, 0);
+#ifdef SHADERS
     GX_Normal3s8(0,0,0);
+#endif
     GX_Color4u8(r, g, b, a);
     GX_TexCoord2u8(info.x, info.y);
 
     GX_Position3s16(x2, y2, 0);
+#ifdef SHADERS
     GX_Normal3s8(0,0,0);
+#endif
     GX_Color4u8(r, g, b, a);
     GX_TexCoord2u8(u2, info.y);
 
     GX_Position3s16(x2, y1, 0);
+#ifdef SHADERS
     GX_Normal3s8(0,0,0);
+#endif
     GX_Color4u8(r, g, b, a);
     GX_TexCoord2u8(u2, v2);
 
     GX_Position3s16(x1, y1, 0);
+#ifdef SHADERS
     GX_Normal3s8(0,0,0);
+#endif
     GX_Color4u8(r, g, b, a);
     GX_TexCoord2u8(info.x, v2);
 

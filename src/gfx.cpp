@@ -123,6 +123,9 @@ void GFX_Init() {
   GX_Init(gp_fifo, DEFAULT_FIFO_SIZE);
   GX_SetCopyClear(background, GX_MAX_Z24);
 
+  // Least compression, with Antialiasing
+  GX_SetPixelFmt(GX_PF_RGB565_Z16, GX_ZC_LINEAR);
+
   // designate the viewing area
   GX_SetViewport(0, 0, rmode->fbWidth, rmode->efbHeight, 0, 1);
   GX_SetDispCopyYScale(GX_GetYScaleFactor(rmode->efbHeight, rmode->xfbHeight));
@@ -138,17 +141,21 @@ void GFX_Init() {
   GX_CopyDisp(frameBuffer[0], GX_TRUE);
   GX_SetDispCopyGamma(GX_GM_1_0);
 
+
   GX_InvalidateTexAll();
   GX_ClearVtxDesc();
   GX_SetVtxDesc(GX_VA_POS, GX_DIRECT);
-  GX_SetVtxDesc(GX_VA_NRM, GX_DIRECT);
   GX_SetVtxDesc(GX_VA_CLR0, GX_DIRECT);
   GX_SetVtxDesc(GX_VA_TEX0, GX_DIRECT);
+
+#ifdef SHADERS
+  GX_SetVtxDesc(GX_VA_NRM, GX_DIRECT);
+  GX_SetVtxAttrFmt(MODELFMT, GX_VA_NRM, GX_NRM_XYZ, GX_S16, 15);
+#endif
 
   // Models
   // s16 needs 1 bit for +/- and 15 bits of precision
   GX_SetVtxAttrFmt(MODELFMT, GX_VA_POS, GX_POS_XYZ, GX_S16, 15);
-  GX_SetVtxAttrFmt(MODELFMT, GX_VA_NRM, GX_NRM_XYZ, GX_S16, 15);
   GX_SetVtxAttrFmt(MODELFMT, GX_VA_CLR0, GX_CLR_RGBA, GX_RGBA8, 0);
   GX_SetVtxAttrFmt(MODELFMT, GX_VA_TEX0, GX_TEX_ST, GX_U16, 16);
 
@@ -250,12 +257,14 @@ void GFX_TextureMatrix(bool enable, Mtx tex) {
   texMtxEnabledLast = enable;
 }
 
+#ifdef SHADERS
 void GFX_NormalMatrix(Mtx model) {
   Mtx nrm;
   guMtxInverse(model, nrm);
   guMtxTranspose(nrm, nrm);
   GX_LoadNrmMtxImm(nrm, GX_PNMTX0);
 }
+#endif
 
 void GFX_Projection(Mtx44 projection, int type) {
   GX_LoadProjectionMtx(projection, type);

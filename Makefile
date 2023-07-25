@@ -22,7 +22,7 @@ MODELS		:=	assets/models
 TEXTURES	:=	assets/textures
 FONTS			:= 	assets/fonts
 INCLUDES	:=
-DEFINES		:=	_DEBUG
+DEFINES		:=	_DEBUG SHADERS
 
 #---------------------------------------------------------------------------------
 # options for code generation
