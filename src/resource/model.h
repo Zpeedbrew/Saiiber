@@ -2,12 +2,14 @@
 #define MODEL_H
 #include <gctypes.h>
 #include <fstream>
+#include <string>
 
 class Model {
 private:
   void* display; // displaylist
   u32 size;
   bool loaded;
+  std::string err;
 
 public:
   // TODO: add mesh data as first argument
@@ -16,6 +18,7 @@ public:
   ~Model();
   void render();
 
+  inline std::string& getError() { return err; }
   inline bool is_loaded() const { return loaded; }
 };
 

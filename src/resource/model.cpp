@@ -13,14 +13,16 @@
 #include "../logger.h"
 #include "tiny_obj_loader.h"
 
-tinyobj::attrib_t attrib;
-std::vector<tinyobj::shape_t> shapes;
-std::vector<tinyobj::material_t> materials;
-std::string err;
+struct ModelImpl {
+  tinyobj::attrib_t attrib;
+  std::vector<tinyobj::shape_t> shapes;
+  std::vector<tinyobj::material_t> materials;
+  u32 size;
+};
 
-void* make_model(u32& size) {
+void* make_model(ModelImpl& impl) {
   size_t indices = 0;
-  for (const auto& shape : shapes) {
+  for (const auto& shape : impl.shapes) {
     LOG_DEBUG("Shape %s has %d indices and %d vertices\n", shape.name.c_str(),
               shape.mesh.indices.size(), shape.mesh.num_face_vertices.size());
     indices += shape.mesh.indices.size();
@@ -29,7 +31,7 @@ void* make_model(u32& size) {
   LOG_DEBUG(
       "Initially loaded model with:\n\tIndices: %d\n\tVertices: "
       "%d\n\tTexCoords: %d\n",
-      indices, attrib.vertices.size(), attrib.texcoords.size());
+      indices, impl.attrib.vertices.size(), impl.attrib.texcoords.size());
 
   size_t szVertices = indices * 3 * sizeof(s16);
   size_t szNormals = indices * 3 * sizeof(s16);
@@ -43,6 +45,7 @@ void* make_model(u32& size) {
 
   void* display = memalign(32, total);
   memset(display, 0, total);
+
   DCInvalidateRange(display, total);
   GX_BeginDispList(display, total);
 
@@ -50,35 +53,36 @@ void* make_model(u32& size) {
   // Normalized so the vertices will be between -1 and 1
   // That way they can be converted to s16
   {
-    for (const auto& shape : shapes) {
+    for (const auto& shape : impl.shapes) {
       GX_Begin(GX_TRIANGLES, MODELFMT, shape.mesh.indices.size());
       for (const auto& index : shape.mesh.indices) {
-        GX_Position3s16(attrib.vertices[3 * index.vertex_index + 0] * 0x7FFF,
-                        attrib.vertices[3 * index.vertex_index + 1] * 0x7FFF,
-                        attrib.vertices[3 * index.vertex_index + 2] * 0x7FFF);
+        GX_Position3s16(
+            impl.attrib.vertices[3 * index.vertex_index + 0] * 0x7FFF,
+            impl.attrib.vertices[3 * index.vertex_index + 1] * 0x7FFF,
+            impl.attrib.vertices[3 * index.vertex_index + 2] * 0x7FFF);
 
-        GX_Normal3s16(attrib.normals[3 * index.normal_index + 0] * 0x7FFF,
-                      attrib.normals[3 * index.normal_index + 1] * 0x7FFF,
-                      attrib.normals[3 * index.normal_index + 2] * 0x7FFF);
+        GX_Normal3s16(impl.attrib.normals[3 * index.normal_index + 0] * 0x7FFF,
+                      impl.attrib.normals[3 * index.normal_index + 1] * 0x7FFF,
+                      impl.attrib.normals[3 * index.normal_index + 2] * 0x7FFF);
 
         GX_Color4u8(0xFF, 0xFF, 0xFF, 0xFF);
 
         GX_TexCoord2u16(
-            attrib.texcoords[2 * index.texcoord_index + 0] * 0xFFFF,
-            attrib.texcoords[2 * index.texcoord_index + 1] * 0xFFFF);
+            impl.attrib.texcoords[2 * index.texcoord_index + 0] * 0xFFFF,
+            impl.attrib.texcoords[2 * index.texcoord_index + 1] * 0xFFFF);
       }
       GX_End();
     }
   }
 
-  size = GX_EndDispList();
-  if (size == 0) {
+  impl.size = GX_EndDispList();
+  if (impl.size == 0) {
     LOG_ERROR("Failed to create display list for model\n");
     free(display);
     return NULL;
   }
 
-  LOG_DEBUG("Final size: %d\n", size);
+  LOG_DEBUG("Final size: %d\n", impl.size);
   return display;
 }
 
@@ -87,16 +91,16 @@ Model::Model(const char* filename) {
   snprintf(path, PATH_MAX, "%s%s", ASSET_PATH, filename);
   LOG_DEBUG("Loading model %s\n", path);
 
+  ModelImpl impl;
   std::ifstream file(path, std::ios::binary);
-  if (!tinyobj::LoadObj(&attrib, &shapes, &materials, &err, &file)) {
-    file.close();
-    return;
+  if (!tinyobj::LoadObj(&impl.attrib, &impl.shapes, &impl.materials, &err,
+                        &file)) {
+    display = make_model(impl);
+    loaded = display != NULL;
+    this->size = impl.size;
   }
 
   file.close();
-
-  display = make_model(this->size);
-  loaded = display != NULL;
 }
 
 /*
@@ -113,10 +117,15 @@ Model::Model(const uint8_t* data, u32 size) {
   membuf buf((char*)data, size);
   std::istream stream(&buf);
 
-  if (!tinyobj::LoadObj(&attrib, &shapes, &materials, &err, &stream)) return;
+  ModelImpl impl;
+  impl.size = size;
 
-  display = make_model(this->size);
+  if (!tinyobj::LoadObj(&impl.attrib, &impl.shapes, &impl.materials, &err,
+                        &stream))
+    return;
+  display = make_model(impl);
   loaded = display != NULL;
+  this->size = impl.size;
 }
 
 Model::~Model() { free(display); }
