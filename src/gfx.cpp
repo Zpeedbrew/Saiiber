@@ -319,14 +319,6 @@ void GFX_SetBlendMode(BlendMode mode) {
       GX_SetBlendMode(GX_BM_BLEND, GX_BL_ONE, GX_BL_ONE, GX_BM_SUBTRACT);
       break;
 
-    case MODE_SOURCE:
-      GX_SetBlendMode(GX_BM_BLEND, GX_BL_SRCALPHA, GX_BL_ZERO, GX_LO_NOOP);
-
-    // The way the documentation describes, this should mean that
-    // the color is halved because each src pixel is multiplied by itself
-    case MODE_SOURCE_HALF:
-      GX_SetBlendMode(GX_BM_BLEND, GX_BL_SRCCLR, GX_BL_ZERO, GX_LO_NOOP);
-
     // source being black 0, 0, 0
     // destination being brown 127 (0.5), 64 (0.25), 0 (0)
     // result being just black, basically...
@@ -337,6 +329,7 @@ void GFX_SetBlendMode(BlendMode mode) {
     case MODE_INVERT:
       GX_SetBlendMode(GX_BM_LOGIC, GX_BL_ZERO, GX_BL_ZERO, GX_LO_INV);
       break;
+
     case MODE_OFF:
       GX_SetBlendMode(GX_BM_NONE, GX_BL_ONE, GX_BL_ZERO, GX_LO_NOOP);
       break;

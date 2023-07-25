@@ -31,7 +31,7 @@ void Block::render() {
   GFX_TextureMatrix(true, texMtx);
 
   GFX_EnableAlphaTest(false);
-  GFX_SetBlendMode(MODE_SOURCE);
+  GFX_SetBlendMode(MODE_OFF);
   GFX_SetWriteBuffers(true, true, true);
 
   model->render();

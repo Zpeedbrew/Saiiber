@@ -121,7 +121,7 @@ void FNT_DrawString(const char *str, s16 x, s16 y) {
 
   GFX_ModelViewMatrix(screenView, screenView);
   GFX_TextureMatrix(false);
-  GFX_SetBlendMode(MODE_SOURCE);
+  GFX_SetBlendMode(MODE_OFF);
 
   int offsetX = 0;
   int len = strlen(str);

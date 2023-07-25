@@ -22,14 +22,14 @@ void Saber::update(f32 deltatime) { GameObject::update(deltatime); }
 void Saber::render() {
   GFX_BindTexture(TEX_MODEL);
   GFX_EnableTexture(true);
-  GFX_EnableLighting(true);
+  GFX_EnableLighting(false);
 
   GFX_ModelViewMatrix(transform->matrix);
   // GFX_NormalMatrix(transform->matrix);
   GFX_TextureMatrix(true, texMtx);
 
   GFX_EnableAlphaTest(true);
-  GFX_SetBlendMode(MODE_BLEND);
+  GFX_SetBlendMode(MODE_OFF);
   GFX_SetWriteBuffers(true, true, true);
   model->render();
 }
