@@ -25,7 +25,6 @@ void Saber::render() {
   GFX_EnableLighting(false);
 
   GFX_ModelViewMatrix(transform->matrix);
-  // GFX_NormalMatrix(transform->matrix);
   GFX_TextureMatrix(true, texMtx);
 
   GFX_EnableAlphaTest(true);

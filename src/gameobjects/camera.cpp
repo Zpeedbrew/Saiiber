@@ -61,7 +61,6 @@ void Camera::zoom(float amount) { fov += amount; }
 #include "../input.h"
 guVector lastPos;
 guVector lastRot;
-float movespeed = 0.5f;
 
 char turningString[15] = "Turning: False";
 char posString[39] = "Position: 0.000, 0.000, 0.000";
@@ -79,7 +78,15 @@ void Camera::render() {
 }
 
 void Camera::freecam(f32 deltatime) {
+  static float movespeed = 0.25f;
   bool turning = Input::isButtonHeld(WIIMOTE_BUTTON_B);
+
+  if (Input::isButtonDown(WIIMOTE_BUTTON_A) ||
+      Input::isButtonHeld(WIIMOTE_BUTTON_A))
+    movespeed = 0.5f;
+  
+  if (Input::isButtonUp(WIIMOTE_BUTTON_A))
+    movespeed = 0.25f;
 
   if (Input::isButtonDown(WIIMOTE_BUTTON_B))
     sprintf(turningString, "Turning: True");
