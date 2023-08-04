@@ -8,10 +8,11 @@
 
 #include "../exmath.h"
 #include "../fnt.h"
+#include "../gfx.h"
+#include "../gameobjects/stage.h"
 #include "../gameobjects/block.h"
 #include "../gameobjects/camera.h"
 #include "../gameobjects/saber.h"
-#include "../gfx.h"
 #include "../input.h"
 #include "../logger.h"
 #include "../resource/beatmap.h"
@@ -56,7 +57,7 @@ GameScene::~GameScene() {}
 void GameScene::init() {
   GFX_SetBlendMode(MODE_BLEND);
   GFX_SetWriteBuffers(true, true, true);
-  GFX_TextureMatrix(false);
+  GFX_Texture(TEX_NONE);
 
   // Camera setup
   camera = std::make_shared<Camera>();
@@ -76,6 +77,9 @@ void GameScene::init() {
   blueSaber = std::make_shared<Saber>(blueMote.transform);
   gameObjects.push_back(redSaber);
   gameObjects.push_back(blueSaber);
+
+  auto& stage = gameObjects.emplace_back(std::make_shared<Stage>());
+  stage->transform->position = {0.0f, 0.0f, -2.0f};
 
   LOG_DEBUG("Loaded GameScene\n");
 }
