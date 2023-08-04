@@ -60,10 +60,25 @@ void* make_model(ModelImpl& impl) {
     for (const auto& shape : impl.shapes) {
       GX_Begin(GX_TRIANGLES, MODELFMT, shape.mesh.indices.size());
       for (const auto& index : shape.mesh.indices) {
-        GX_Position3s16(
-            impl.attrib.vertices[3 * index.vertex_index + 0] * 0x7FFF,
-            impl.attrib.vertices[3 * index.vertex_index + 1] * 0x7FFF,
-            impl.attrib.vertices[3 * index.vertex_index + 2] * 0x7FFF);
+        int x = (int)impl.attrib.vertices[3 * index.vertex_index + 0];
+        int y = (int)impl.attrib.vertices[3 * index.vertex_index + 1];
+        int z = (int)impl.attrib.vertices[3 * index.vertex_index + 2];
+
+        int xfrac =
+            (impl.attrib.vertices[3 * index.vertex_index + 0] - x) * 256.0f;
+        int yfrac =
+            (impl.attrib.vertices[3 * index.vertex_index + 1] - y) * 256.0f;
+        int zfrac =
+            (impl.attrib.vertices[3 * index.vertex_index + 2] - z) * 256.0f;
+
+        x = x << 8;
+        y = y << 8;
+        z = z << 8;
+        x += xfrac;
+        y += yfrac;
+        z += zfrac;
+
+        GX_Position3s16(x, y, z);
 
 #ifdef SHADERS
         GX_Normal3s16(impl.attrib.normals[3 * index.normal_index + 0] * 0x7FFF,

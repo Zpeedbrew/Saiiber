@@ -6,7 +6,10 @@ class Model;
 
 class Stage : public GameObject {
 private:
-  static std::unique_ptr<Model> model;
+  static std::unique_ptr<Model> stagemodel;
+  static std::unique_ptr<Model> fxmodel;
+
+  Transform fxtransform;
   Mtx texMtx;
 
 public:
