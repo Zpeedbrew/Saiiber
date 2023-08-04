@@ -147,8 +147,6 @@ class Wiimote {
   float accelAngleZ = 0;  // Wiimote Z angle
 
   int chan = -1;
-  unsigned long lastread =
-      0;  // Internal program state variables last system clock in millis
 
   _wpad_data* wd = NULL;
 };

@@ -13,7 +13,6 @@ Wiimote::Wiimote() : transform(new Transform()) {
   yawRK.val_i_2 = 0;
   yawRK.val_i_1 = 0;
   yawRK.previous = 0;
-  lastread = millis();
 
   // TODO: push all data to transform after updating
   // add quaternion to Transform and replace all of the
@@ -36,7 +35,7 @@ void Wiimote::calibrateZeroes() {
     ya0 += ay_m;
     za0 += az_m;
 
-    sleep_for(10);
+    usleep(50000); // 50ms
   }
 
   yaw0 = y0 / (avg / 2);
@@ -204,6 +203,7 @@ int Wiimote::awaitConnect(u8 channel, int timeoutMs = -1) {
   // make sure we connect
   u64 timenow = SYS_Time();
   u64 lasttime = timenow;
+  u64 sleep = 0;
   float timeelapsed = 0;
 
   LOG_DEBUG("Awaiting %dms for Wiimote on channel %d to connect\n", timeoutMs,
@@ -211,8 +211,15 @@ int Wiimote::awaitConnect(u8 channel, int timeoutMs = -1) {
 
   while (true) {
     timenow = SYS_Time();
-    timeelapsed += (timenow - lasttime) / 1000.0f;
+    u64 diff = (timenow - lasttime) / 1000.0f;
     lasttime = timenow;
+
+    if (sleep > 0) {
+      sleep -= diff;
+      continue;
+    }
+
+    timeelapsed += (timenow - lasttime) / 1000.0f;
 
     WPAD_ScanPads();
     WPADData* tmpdata = WPAD_Data(channel);
@@ -226,8 +233,8 @@ int Wiimote::awaitConnect(u8 channel, int timeoutMs = -1) {
     if (tmpdata->err == WPAD_ERR_NONE) break;
     if (timeoutMs != -1 && timeelapsed > timeoutMs)
       return WPAD_CONNECT_TIMEOUT;
-
-    sleep_for(50);
+    
+    sleep = 50;
   }
 
   assignChannel(channel);
