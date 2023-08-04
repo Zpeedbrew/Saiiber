@@ -1,19 +1,18 @@
 #ifndef EXMATH_H
 #define EXMATH_H
-/**
- * Extended Math (exmath)
- * Author: TheSunCat
- * A collection of useful mathematical functions and constants.
- */
-
 #include <math.h>
 #include <ogc/gu.h>
 
 #undef guQuatMtx
-#undef guQuatAdd
 
+#define guMtxRotate _guQuatMtx
 #define guQuatMtx _guQuatMtx
-#define guQuatAdd _guQuatAdd
+
+/**
+ * Some quick notes:
+ * 1. guQuatNormalize is already optimized for fast inverse square root
+ * 2. All of the ps_* functions are optimized for SIMD (paired single)
+*/
 
 /* Typically, in a formal Mathematical setting, min/max would mean "magnitude,"
  * or the distance from 0. However, the < and > operators in C++ specifically
@@ -24,10 +23,11 @@ float minf(float a, float b);
 float maxf(float a, float b); 
 
 guQuaternion guQuatConjugate(guQuaternion& q);
-void _guQuatMtx(guQuaternion& q, Mtx& mtx);
 
-void _guQuatAdd(guQuaternion& q1, guQuaternion& q2, guQuaternion& dst);
-void _guQuatAdd(guVector& v, guQuaternion& q, guQuaternion& dst);
+// assumes the quaternion is normalized
+void _guQuatMtx(Mtx& mtx, guQuaternion& q);
+
+void guQuatAddVec(guVector& v, guQuaternion& q, guQuaternion& dst);
 
 guVector operator-(const guVector& v);
 
@@ -47,11 +47,12 @@ guVector& operator*=(guVector& left, guVector& right);
 guVector& operator+=(guVector& left, guVector right);
 guVector& operator-=(guVector& left, guVector right);
 
-/* Nunchuk accelerometer value to radian conversion.   Normalizes the measured
- * value into the range specified by hi-lo.  Most of the time lo should be 0,
- * and hi should be 1023. lo         the lowest possible reading from the
- * Nunchuk hi         the highest possible reading from the Nunchuk measured the
- * actual measurement */
-float angleInRadians(int lo, int hi, long measured);
+
+/// @brief Normalizes the measured value into the range specified by hi-lo.
+/// @param lo the lowest possible reading from the Nunchuk
+/// @param hi the highest possible reading from the Nunchuk
+/// @param me the actual measurement
+/// @return Nunchuk accelerometer value to radian conversion.
+float angleInRadians(int lo, int hi, long me);
 
 #endif  // EX_MATH
