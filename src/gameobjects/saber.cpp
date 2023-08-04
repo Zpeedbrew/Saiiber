@@ -20,12 +20,10 @@ Saber::Saber(std::shared_ptr<Transform> transform) : GameObject(transform) {
 void Saber::update(f32 deltatime) { GameObject::update(deltatime); }
 
 void Saber::render() {
-  GFX_BindTexture(TEX_MODEL);
-  GFX_EnableTexture(true);
+  GFX_Texture(TEX_MODEL, texMtx);
   GFX_EnableLighting(false);
 
   GFX_ModelViewMatrix(transform->matrix);
-  GFX_TextureMatrix(true, texMtx);
 
   GFX_EnableAlphaTest(true);
   GFX_SetBlendMode(MODE_OFF);

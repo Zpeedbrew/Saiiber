@@ -141,7 +141,6 @@ void GFX_Init() {
   GX_CopyDisp(frameBuffer[0], GX_TRUE);
   GX_SetDispCopyGamma(GX_GM_1_0);
 
-
   GX_InvalidateTexAll();
   GX_ClearVtxDesc();
   GX_SetVtxDesc(GX_VA_POS, GX_DIRECT);
@@ -155,7 +154,8 @@ void GFX_Init() {
 
   // Models
   // s16 needs 1 bit for +/- and 15 bits of precision
-  GX_SetVtxAttrFmt(MODELFMT, GX_VA_POS, GX_POS_XYZ, GX_S16, 15);
+
+  GX_SetVtxAttrFmt(MODELFMT, GX_VA_POS, GX_POS_XYZ, GX_S16, 8);
   GX_SetVtxAttrFmt(MODELFMT, GX_VA_CLR0, GX_CLR_RGBA, GX_RGBA8, 0);
   GX_SetVtxAttrFmt(MODELFMT, GX_VA_TEX0, GX_TEX_ST, GX_U16, 16);
 
@@ -181,8 +181,7 @@ void GFX_Init() {
   GX_SetNumTexGens(1);
   GX_SetNumTevStages(1);
 
-  GFX_BindTexture(TEX_MODEL);
-  GFX_EnableTexture(true);
+  GFX_Texture(TEX_MODEL);
   GFX_EnableAlphaTest(true);
 
   loadAllTextures();
@@ -213,13 +212,33 @@ void GFX_EnableAlphaTest(bool enable) {
 // it's set to modulate in initialize
 bool light = false;
 bool texture = false;
+bool texMtxEnabledLast = true;
 
 // toggles texturing
 // Forces light to be enabled if texturing is disabled
-void GFX_EnableTexture(bool enable) {
-  texture = enable;
+void GFX_Texture(TextureMap texmap, Mtx texmtx) {
+  texture = texmap != TEX_NONE;
+
+  // Always reset the TevOp according to the map
   GX_SetTevOp(GX_TEVSTAGE0,
               texture ? (light ? GX_MODULATE : GX_REPLACE) : GX_PASSCLR);
+
+  // Always reset the TexCoordGen according to the matrix
+  GX_SetTexCoordGen(GX_TEXCOORD0, GX_TG_MTX2x4, GX_TG_TEX0,
+                    texmtx == NULL ? GX_IDENTITY : GX_TEXMTX0);
+
+  if (!texture) return;
+
+  GX_SetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD0, (u32)texmap, GX_COLOR0A0);
+
+  if (texmtx != NULL) {
+    static Mtx flipped = {{1.0f, 0.0f, 0.0f, 0.0f},
+                          {0.0f, -1.0f, 0.0f, 0.0f},
+                          {0.0f, 0.0f, 1.0f, 0.0f}};
+    Mtx convert;
+    guMtxConcat(texmtx, flipped, convert);
+    GX_LoadTexMtxImm(convert, GX_TEXMTX0, GX_MTX2x4);
+  }
 }
 
 void GFX_EnableLighting(bool enable) {
@@ -231,30 +250,6 @@ void GFX_EnableLighting(bool enable) {
   light = enable;
   GX_SetTevOp(GX_TEVSTAGE0,
               light ? (texture ? GX_MODULATE : GX_PASSCLR) : GX_REPLACE);
-}
-
-bool texMtxEnabledLast = true;
-
-void GFX_BindTexture(TextureMap texmap) {
-  GX_SetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD0, (u32)texmap, GX_COLOR0A0);
-}
-
-void GFX_TextureMatrix(bool enable, Mtx tex) {
-  if (enable) {
-    static Mtx flipped = {{1.0f, 0.0f, 0.0f, 0.0f},
-                          {0.0f, -1.0f, 0.0f, 0.0f},
-                          {0.0f, 0.0f, 1.0f, 0.0f}};
-
-    Mtx convert;
-    guMtxConcat(tex, flipped, convert);
-    GX_LoadTexMtxImm(tex, GX_TEXMTX0, GX_MTX2x4);
-  }
-
-  if (enable != texMtxEnabledLast)
-    GX_SetTexCoordGen(GX_TEXCOORD0, GX_TG_MTX2x4, GX_TG_TEX0,
-                      enable ? GX_TEXMTX0 : GX_IDENTITY);
-
-  texMtxEnabledLast = enable;
 }
 
 #ifdef SHADERS

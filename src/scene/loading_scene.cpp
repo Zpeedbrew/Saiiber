@@ -13,11 +13,9 @@ template <typename T>
 void LoadingScene<T>::init() {
   GFX_SetBlendMode(MODE_BLEND);
   GFX_EnableAlphaTest(false);
-  GFX_TextureMatrix(false);
   GFX_SetWriteBuffers(true, false, false);
 
-  GFX_BindTexture(TEX_GUI);
-  GFX_EnableTexture(true);
+  GFX_Texture(TEX_GUI);
   GFX_EnableLighting(false);
 
   Mtx44 ortho;

@@ -252,9 +252,9 @@ MenuScene::MenuScene() : impl(new MenuSceneImpl()) {
   impl->menu = this;
   impl->MainMenu();
 
+  GFX_Texture(TEX_NONE);
   GFX_SetBlendMode(MODE_BLEND);
   GFX_EnableAlphaTest(false);
-  GFX_TextureMatrix(false);
   GFX_SetWriteBuffers(true, false, false);
 
   Mtx44 ortho;
