@@ -1,1 +1,1 @@
-$DEVKITPRO/devkitPPC/bin/powerpc-eabi-gdb Saiiber.elf
+$DEVKITPPC/bin/powerpc-eabi-gdb Saiiber.elf
