@@ -26,10 +26,14 @@ class Scene {
     currentScene->init();
   }
 
-  template <class T>
-  inline static void SetOverlayScene(T* scene) {
-    overlayScene.reset(scene);
+  template <class T, typename... Args>
+  inline static void SetOverlayScene(Args&&... args) {
+    overlayScene = std::unique_ptr<T>(new T(std::forward<Args>(args)...));
     overlayScene->init();
+  }
+
+  inline static void DestroyOverlayScene() {
+    overlayScene.reset();
   }
 
   inline static void Update(f32 deltatime) {

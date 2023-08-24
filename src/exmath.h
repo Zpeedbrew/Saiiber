@@ -8,6 +8,9 @@
 #include <glm/gtx/transform.hpp>
 #include <glm/gtx/quaternion.hpp>
 
+struct orient_t;
+struct vec3w_t;
+
 /**
  * Some quick notes:
  * 1. guQuatNormalize is already optimized for fast inverse square root
@@ -19,6 +22,15 @@
  * only compare the leftmost and rightmost. */
 float minf(float a, float b); // LEFTMOST value
 float maxf(float a, float b); // RIGHTMOST value
+
+glm::quat operator-(const orient_t& a, const orient_t& b);
+glm::vec3 operator-(const vec3w_t& a, const vec3w_t& b);
+
+orient_t& operator+=(orient_t& a, const orient_t& b);
+orient_t& operator-=(orient_t& a, const orient_t& b);
+
+vec3w_t& operator+=(vec3w_t& a, const vec3w_t& b);
+vec3w_t& operator-=(vec3w_t& a, const vec3w_t& b);
 
 /// @brief Normalizes the measured value into the range specified by hi-lo.
 /// @param lo the lowest possible reading from the Nunchuk

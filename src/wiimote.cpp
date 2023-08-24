@@ -1,253 +1,223 @@
 #include "wiimote.h"
+
+#define LO_PASS_VALUE 4.0f
+
+// Quick few notes...
+// According to the Motion Plus documentation
+// Relative to standing the Wiimote towards the sky...
+// Roll is the forward/backwards tilt of the remote
+// Pitch is the left/right tilt of the remote
+// Yaw is the left and right rotation of the remote
+// I am not exactly sure if the motion plus accounts for the offset
+//  around the base of the remote, where the attachment is.
+
+// To translate that into our Transform, that would mean
+// Yaw of the remote is the Pitch of the Transform
+// Pitch of the remote is the Yaw of the Transform
+// Roll is the same for both
+
+#include <string.h>
 #include <unistd.h>
 #include <wiiuse/wpad.h>
-#include <string.h>
+
 #include <cmath>
-#include "transform.h"
 
 #include "exmath.h"
+#include "gfx.h"
 #include "logger.h"
+#include "transform.h"
 
-Wiimote::Wiimote() : transform(new Transform()) {
-  yawRK.val_i_3 = 0;
-  yawRK.val_i_2 = 0;
-  yawRK.val_i_1 = 0;
-  yawRK.previous = 0;
+// top left is 0,0
+static glm::vec3 SENSOR =
+    glm::vec3(SCREEN_WIDTH / 2.0f, (f32)SCREEN_HEIGHT, 0.0f);
 
-  // TODO: push all data to transform after updating
-  // add quaternion to Transform and replace all of the
-  //  roll pitch yaw stuff with it
+Wiimote::Wiimote() : transform(new Transform()), history(10) {}
+
+void Wiimote::nextFrame() {
+  orient_t orient;
+  vec3w_t accel;
+  ir_t ir;
+
+  WPAD_Orientation(chan, &orient);
+  WPAD_Accel(chan, &accel);
+  WPAD_IR(chan, &ir);
+
+  if (history.size() >= 10) history.pop_front();
+  history.push_back(current);
+
+  // Acceleration is always +/- 512
+  // With the exception of the gravity (z) which is +315
+  // Except that when the remote is sat on it's face, it's +103
+
+  bool flipped = abs(orient.pitch) >= 90.0f;
+
+  // Fix gimbal lock by preventing pitch from going passed 90 degrees
+  current.orient = glm::quat(
+      glm::vec3(glm::radians(glm::clamp(-orient.pitch, -89.9f, 89.9f)),
+                glm::radians(flipped ? -orient.yaw : orient.yaw),
+                glm::radians(-orient.a_roll)));
+  current.accel = glm::vec3((f32)accel.x, (f32)accel.y, (f32)accel.z);
+  current.accel -= zeroes.accel;
+
+  // We use the raw position because it goes out of bounds of the screen
+  // z is questionable distance in meters from screen
+  current.cursor = glm::vec3(ir.ax, ir.ay, ir.z);
+  current.pos_valid = ir.raw_valid;
+
+  // Angle corresponds to the rotation of the wiimote, we don't need it.
 }
 
-void Wiimote::calibrateZeroes() {
-  long y0 = 0, p0 = 0, r0 = 0;
-  long xa0 = 0, ya0 = 0, za0 = 0;
-  int avg = 300;
+// Calibrate Zeroes relative to a standing saber and remote.
+bool Wiimote::calibrate() {
+  zeroes.orient = current.orient;
+  zeroes.accel = current.accel;
+  zeroes.cursor = current.cursor;
 
-  for (int i = 0; i < avg; i++) {
-    rawReadData();
+  // clear history
+  history.clear();
 
-    y0 += yaw;
-    r0 += roll;
-    p0 += pitch;
-
-    xa0 += ax_m;
-    ya0 += ay_m;
-    za0 += az_m;
-
-    usleep(50000); // 50ms
-  }
-
-  yaw0 = y0 / (avg / 2);
-  roll0 = r0 / (avg / 2);
-  pitch0 = p0 / (avg / 2);
-  xAcc0 = xa0 / (avg / 2);
-  yAcc0 = ya0 / (avg / 2);
-  zAcc0 = za0 / (avg / 2);
-}
-
-void Wiimote::initGyroKalman(struct GyroKalman *kalman, const float Q_angle,
-                             const float Q_gyro, const float R_angle) {
-  kalman->Q_angle = Q_angle;
-  kalman->Q_gyro = Q_gyro;
-  kalman->R_angle = R_angle;
-  kalman->P_00 = 0;
-  kalman->P_01 = 0;
-  kalman->P_10 = 0;
-  kalman->P_11 = 0;
-}
-
-void Wiimote::predict(struct GyroKalman *kalman, double dotAngle, double dt) {
-  kalman->x_angle += dt * (dotAngle - kalman->x_bias);
-  kalman->P_00 += -1 * dt * (kalman->P_10 + kalman->P_01) +
-                  dt * dt * kalman->P_11 + kalman->Q_angle;
-  kalman->P_01 += -1 * dt * kalman->P_11;
-  kalman->P_10 += -1 * dt * kalman->P_11;
-  kalman->P_11 += kalman->Q_gyro;
-}
-
-double Wiimote::updateKalman(struct GyroKalman *kalman, double angle_m) {
-  const double y = angle_m - kalman->x_angle;
-  const double S = kalman->P_00 + kalman->R_angle;
-  const double K_0 = kalman->P_00 / S;
-  const double K_1 = kalman->P_10 / S;
-  kalman->x_angle += K_0 * y;
-  kalman->x_bias += K_1 * y;
-  kalman->P_00 -= K_0 * kalman->P_00;
-  kalman->P_01 -= K_0 * kalman->P_01;
-  kalman->P_10 -= K_1 * kalman->P_00;
-  kalman->P_11 -= K_1 * kalman->P_01;
-  return kalman->x_angle;
-}
-
-double Wiimote::computeRungeKutta4(struct RungeKutta *rk, double val_i_0) {
-  rk->previous +=
-      0.16667 * (rk->val_i_3 + 2 * rk->val_i_2 + 2 * rk->val_i_1 + val_i_0);
-  rk->val_i_3 = rk->val_i_2;
-  rk->val_i_2 = rk->val_i_1;
-  rk->val_i_1 = val_i_0;
-  return rk->previous;
-}
-
-WPADData lastData;
-void outputChangedButtons(WPADData* wd) {
-  if (wd->btns_d != lastData.btns_d)
-    LOG_DEBUG("BTNS_D changed to %d from %d\n", wd->btns_d, lastData.btns_d);
-  
-  if (wd->btns_u != lastData.btns_u)
-    LOG_DEBUG("BTNS_U changed to %d from %d\n", wd->btns_u, lastData.btns_u);
-  
-  if (wd->btns_l != lastData.btns_l)
-    LOG_DEBUG("BTNS_L changed to %d from %d\n", wd->btns_l, lastData.btns_l);
-  
-  if (wd->btns_h != lastData.btns_h)
-    LOG_DEBUG("BTNS_H changed to %d from %d\n", wd->btns_h, lastData.btns_h);
+  return true;
 }
 
 void Wiimote::update(f32 dt) {
-  if (chan == -1) return;
+  if (chan == -1 || !enabled) return;
+  nextFrame();
 
-  memcpy(&lastData, wd, sizeof(WPADData));
-  wd = WPAD_Data(chan);
-  if (wd == NULL) return;
+  DataFrame &lastFrame = history.back();
 
-  outputChangedButtons(wd);
-  readData();
+  if (!current.pos_valid)
+    current.cursor = lastFrame.cursor;  // set to last known position
 
-  // TODO not handling slow/fast mode, can this cause problems or does WPAD do
-  // that for me?
-  readingsX = roll;
-  readingsY = pitch;
-  readingsZ = yaw;
+  // Create vec of the cursor direction
+  glm::vec3 posCursor =
+      glm::normalize(glm::vec3(current.cursor.x, current.cursor.y, 0.0f));
 
-  // predict the future
-  // *Doctor Who theme plays*
-  predict(&rollData, DegToRad(readingsX), dt);
-  predict(&pitchData, DegToRad(readingsY), dt);
+  // Line up the vector to the axis of the remote
+  glm::vec3 dirCursor = glm::normalize(current.orient * posCursor);
+  glm::vec3 dirSensor =
+      glm::normalize(glm::vec3(SENSOR.x, SENSOR.y, current.cursor.z));
 
-  orient.x = RadToDeg(updateKalman(&rollData, accelAngleX));
-  orient.y = RadToDeg(updateKalman(&rollData, accelAngleX));
-  orient.z = RadToDeg(computeRungeKutta4(&yawRK, DegToRad(readingsZ) * dt));
+  float dotWiimote = glm::dot(dirCursor, dirSensor);  // in radians
+  // Check that dotWiimote and angle values are similar
+  LOG_DEBUG("Dot Wiimote: %f %f\n", dotWiimote, glm::degrees(dotWiimote));
+
+  // Get the distance^2 to the wiimote from the cursor and sensor bar
+  float dSensor = current.cursor.z;
+  float dCursor = glm::distance(posCursor, SENSOR);
+  float sqSensor = dSensor * dSensor;
+  float sqCursor = dCursor * dCursor;
+
+  // Since the triangle could be scalene, third side is calculated using
+  // c2 = a2 + b2 - 2ab cos(C)
+  float wmMag =
+      glm::sqrt(sqCursor + sqSensor - 2 * dSensor * dCursor * cosf(dotWiimote));
+  LOG_DEBUG("Wiimote Distance Values: %f\n", wmMag);
+
+  // Get the real position of the remote
+  glm::vec3 wmPos = dirCursor * -wmMag;
+  LOG_DEBUG("dirCursor * -wmMag Position: %f %f %f\n", wmPos.x, wmPos.y,
+            wmPos.z);
+
+  glm::vec3 accelDiff = current.accel - lastFrame.accel;
+
+  // Apply low pass filter to acceleration difference to remove noise
+  accelDiff.x = abs(accelDiff.x) > LO_PASS_VALUE ? accelDiff.x : 0;
+  accelDiff.y = abs(accelDiff.y) > LO_PASS_VALUE ? accelDiff.y : 0;
+  accelDiff.z = abs(accelDiff.z) > LO_PASS_VALUE ? accelDiff.z : 0;
+
+  current.velocity = lastFrame.velocity + accelDiff * dt;
+  current.direction =
+      glm::normalize(VEC_FORWARD * current.orient * current.velocity);
+
+  LOG_DEBUG("Cursor Position (%s): %f %f %f", current.pos_valid ? "+" : "-",
+            current.cursor.x, current.cursor.y, current.cursor.z);
+  // LOG_DEBUG("Wiimote Velocity: %f, %f, %f", current.velocity.x,
+  // current.velocity.y, current.velocity.z);
+  // LOG_DEBUG("Wiimote Direction: %f, %f, %f", current.direction.x,
+  // current.direction.y, current.direction.z);
+  // LOG_DEBUG("Wiimote Acceleration: %f, %f, %f", accelDiff.x, accelDiff.y,
+  // accelDiff.z);
+  // LOG_DEBUG("Wiimote Orient: %f, %f, %f", current.orient.x, current.orient.y,
+  // current.orient.z);
+
+  // pos += current.velocity * dt; needs proper positional data from the wiimote
+
+  transform->rotation = current.orient;
+  transform->position = glm::vec3(wmPos.x, wmPos.y, transform->position.z);
 
   transform->update();
 }
 
-void Wiimote::readData() {
-  rawReadData();
+Gesture Wiimote::getLastGesture() {
+  // Approximate Gesture based on history
+  Gesture gesture = NONE;
 
-  // apply calibration values
-  yaw -= yaw0;
-  roll -= roll0;
-  pitch -= pitch0;
-  ax_m -= xAcc0;
-  ay_m -= yAcc0;
-  az_m = zAcc0;
+  // Ensure that the gesture is significant enough to recognize
 
-  az_m += 211;  // account for the gravity of the situation (720?)
-
-  // The real purpose of this method is to convert the accelometer values into
-  // usable angle values. see app note:
-  // http://www.freescale.com/files/sensors/doc/app_note/AN3461.pdf That paper
-  // gives the math for implementing a tilt sensor using 3-axis accelerometers.
-  // Roll(X) and pitch(Y) are directly applicable.  Yaw(Z) is not since there is
-  // no 'tilt' with respect to the earth. Once the accelerometer values have
-  // been biased to zero (by subtracting calibration value above), then they
-  // should fall in a range from -512 to +511.
-  double x = angleInRadians(-512, 511, ax_m),
-         y = angleInRadians(-512, 511, ay_m),
-         z = angleInRadians(-512, 511, az_m);
-  // compute values that are used in multiple places
-  double xSquared = x * x;
-  double ySquared = y * y;
-  double zSquared = z * z;
-  accelAngleX = (accelAngleX * 0.8 + atan(x / sqrt(ySquared + zSquared)) * 0.2);
-  accelAngleY = (accelAngleY * 0.8 + atan(y / sqrt(xSquared + zSquared)) * 0.2);
-  accelAngleZ = (accelAngleZ * 0.8 + atan(sqrt(xSquared + ySquared) / z) * 0.2);
-  // filter readings using low pass filter for acceleromters to remove jitter
-  // big percentage of previous value plus smaller percentage of current value
-  // effect is delay large changes from reaching the output but at cost of
-  // reduced sensitivity
+  return gesture;
 }
 
-void Wiimote::rawReadData() {
-  // MotionPlus
-  yaw = wd->exp.mp.ry / wmpFastToDegreePerSec;
-  roll = wd->exp.mp.rz / wmpFastToDegreePerSec;
-  pitch = wd->exp.mp.rx / wmpFastToDegreePerSec;
-
-  // TODO not handling slow/fast mode, can this cause problems or does WPAD do
-  // that for me?
-  /*slowPitch = data[3] & 1;
-  slowYaw = data[3] & 2;
-  slowRoll = data[4] & 2;*/
-
-  // This function processes the byte array from the wii nunchuck (Wiimote?).
-  ax_m = wd->accel.x;
-  ay_m = wd->accel.y;
-  az_m = wd->accel.z;
+bool Wiimote::isButtonDown(int button) {
+  if (chan == -1) return false;
+  u32 btns = WPAD_ButtonsDown(chan);
+  return (btns & button) != 0;
 }
 
-void Wiimote::assignChannel(u8 channel) {
+bool Wiimote::isButtonUp(int button) {
+  if (chan == -1) return false;
+  u32 btns = WPAD_ButtonsUp(chan);
+  return (btns & button) != 0;
+}
+
+bool Wiimote::isButtonHeld(int button) {
+  if (chan == -1) return false;
+  u32 btns = WPAD_ButtonsHeld(chan);
+  return (btns & button) != 0;
+}
+
+const char *GetStatusString(int status) {
+  switch (status) {
+    case WPAD_STATE_DISABLED:
+      return "Disabled";
+    case WPAD_STATE_ENABLING:
+      return "Enabling";
+    case WPAD_STATE_ENABLED:
+      return "Enabled";
+    default:
+      return "Unknown";
+  }
+}
+
+void Wiimote::assignChannel(int channel) {
   chan = channel;
-  wd = WPAD_Data(chan); // initialize for calibration
+  wd = WPAD_Data(channel);  // initialize for calibration
+  enabled = wd != NULL;     // it shouldn't ever be NULL but just in case
 
-  calibrateZeroes();
-  initGyroKalman(&rollData, Q_angle, Q_gyro, R_angle);
-  initGyroKalman(&pitchData, Q_angle, Q_gyro, R_angle);
-  initGyroKalman(&yawData, Q_angle, Q_gyro, R_angle);
+  nextFrame();
 
-  LOG_DEBUG("Wiimote on channel %d initialized\n", channel);
+  const char *status = GetStatusString(WPAD_GetStatus());
+  LOG_DEBUG("Wiimote on channel %d initialized: %s\n", channel, status);
 }
 
-int Wiimote::awaitConnect(u8 channel, int timeoutMs = -1) {
-  // make sure we connect
-  u64 timenow = SYS_Time();
-  u64 lasttime = timenow;
-  u64 sleep = 0;
-  float timeelapsed = 0;
-
-  LOG_DEBUG("Awaiting %dms for Wiimote on channel %d to connect\n", timeoutMs,
-            channel);
-
-  while (true) {
-    timenow = SYS_Time();
-    u64 diff = (timenow - lasttime) / 1000.0f;
-    lasttime = timenow;
-
-    if (sleep > 0) {
-      sleep -= diff;
-      continue;
-    }
-
-    timeelapsed += (timenow - lasttime) / 1000.0f;
-
-    WPAD_ScanPads();
-    WPADData* tmpdata = WPAD_Data(channel);
-    if (tmpdata == NULL) {
-      LOG_ERROR("WPAD_Data(%d) returned NULL\n", channel);
-      return WPAD_CONNECT_ERROR;
-    }
-
-    // this shouldn't happen but there is a
-    //  chance it might and we need to handle it.
-    if (tmpdata->err == WPAD_ERR_NONE) break;
-    if (timeoutMs != -1 && timeelapsed > timeoutMs)
-      return WPAD_CONNECT_TIMEOUT;
-    
-    sleep = 50;
+const char *WPAD_GetError(s32 err) {
+  switch (err) {
+    case WPAD_ERR_NONE:
+      return "WPAD Initialized successfully";
+    case WPAD_ERR_NO_CONTROLLER:
+      return "No WPAD controllers found";
+    case WPAD_ERR_TRANSFER:
+      return "WPAD transfer error";
+    case WPAD_ERR_BAD_CHANNEL:
+      return "WPAD bad channel";
+    case WPAD_ERR_NOT_READY:
+      return "WPAD not ready";
+    case WPAD_ERR_QUEUE_EMPTY:
+      return "WPAD queue empty";
+    case WPAD_ERR_BADVALUE:
+      return "WPAD bad value";
+    case WPAD_ERR_BADCONF:
+      return "WPAD bad configuration";
+    default:
+      return "WPAD unknown error";
   }
-
-  assignChannel(channel);
-  return WPAD_CONNECTED;
-}
-
-void Wiimote_Init() {
-  int err = WPAD_Init();
-  if (err != 0) {
-    LOG_ERROR("WPAD_Init returned error %d\n", err);
-    return;
-  }
-
-  WPAD_SetDataFormat(WPAD_CHAN_ALL, WPAD_FMT_BTNS_ACC_IR);
-  WPAD_SetMotionPlus(WPAD_CHAN_ALL, TRUE);
 }

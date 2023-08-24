@@ -1,13 +1,16 @@
 #include "transform.h"
 
-guVector VEC_FORWARD = {0.0f, 0.0f, -1.0f};
-guVector VEC_UP = {0.0f, 1.0f, 0.0f};
+#include "gfx.h"
+#include "logger.h"
+
+glm::vec3 VEC_FORWARD(0.0f, 0.0f, -1.0f);
+glm::vec3 VEC_UP(0.0f, 1.0f, 0.0f);
 
 Transform::Transform()
-    : rotation{0, 0, 0, 1},
-      scale{1, 1, 1},
-      position{0, 0, 0},
-      matrix{{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}} {}
+    : rotation(1.0f, 0.0f, 0.0f, 0.0f),
+      scale(1.0f, 1.0f, 1.0f),
+      position(0.0f, 0.0f, 0.0f),
+      matrix(1.0f) {}
 
 bool Transform::intersects(float x, float y, float width, float height) {
   return (position.x + scale.x >= x && position.x <= x + width) &&
@@ -26,37 +29,44 @@ bool Transform::intersects(Transform other) {
 }
 
 void Transform::update() {
-  guMtxIdentity(matrix);
-  guMtxTrans(matrix, position.x, position.y, position.z);
-  guMtxRotate(matrix, rotation);
-  guMtxScale(matrix, scale.x, scale.y, scale.z);
+  // This is verifiably correct!
+  matrix = glm::translate(position) * glm::toMat4(rotation) * glm::scale(scale);
 }
 
-guVector Transform::forward() { return rotation * VEC_FORWARD; }
-
-guVector Transform::right() {
-  guVector right;
-  guVector front = forward();
-
-  guVecCross(&front, &VEC_UP, &right);
-  guVecNormalize(&right);
-  return right;
+glm::vec3 Transform::forward() {
+  glm::vec3 f = glm::normalize(rotation * VEC_FORWARD);
+  return f;
 }
 
-void Transform::rotate(float yaw, float pitch, float roll) {
-  guQuaternion y = {0, sinf(DegToRad(yaw) / 2.0f), 0,
-                    cosf(DegToRad(yaw) / 2.0f)};
+glm::vec3 Transform::right() {
+  glm::vec3 r = glm::normalize(glm::cross(forward(), VEC_UP));
+  return r;
+}
 
-  guQuaternion p = {sinf(DegToRad(pitch) / 2.0f), 0, 0,
-                    cosf(DegToRad(pitch) / 2.0f)};
+void Transform::rotate(glm::quat quaternion) {
+  rotation = glm::normalize(rotation * quaternion);
+}
 
-  guQuaternion r = {0, 0, sinf(DegToRad(roll) / 2.0f),
-                    cosf(DegToRad(roll) / 2.0f)};
+void Transform::rotate(glm::vec3 euler) {
+  rotate(glm::quat(glm::radians(euler)));
+}
 
-  // Tested and works as intended and very optimally
-  guQuaternion q = { 0, 0, 0, 1 };
-  guQuatMultiply(&y, &p, &q);
-  guQuatMultiply(&q, &r, &q);
-  guQuatMultiply(&rotation, &q, &q);
-  guQuatNormalize(&q, &rotation);
+void Transform::rotate(float pitch, float yaw, float roll) {
+  rotate(glm::vec3(pitch, yaw, roll));
+}
+
+void Transform::setRotation(glm::vec3 euler) {
+  rotation = glm::normalize(glm::quat(glm::radians(euler)));
+}
+
+void Transform::setRotation(float pitch, float yaw, float roll) {
+  setRotation(glm::vec3(pitch, yaw, roll));
+}
+
+void Transform::lerpRotation(float dt, float yaw, float pitch, float roll) {
+  rotation = glm::normalize(
+      glm::lerp(rotation,
+                glm::quat(glm::vec3(glm::radians(pitch), glm::radians(yaw),
+                                    glm::radians(roll))),
+                dt));
 }

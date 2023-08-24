@@ -1,5 +1,7 @@
 #include "loading_scene.h"
 
+#include <ogc/gx.h>
+
 #include "../gfx.h"
 #include "../logger.h"
 
@@ -18,12 +20,11 @@ void LoadingScene<T>::init() {
   GFX_Texture(TEX_GUI);
   GFX_EnableLighting(false);
 
-  Mtx44 ortho;
-  guOrtho(ortho, 0, SCREEN_HEIGHT, 0, SCREEN_WIDTH, 0, 1);
-  GX_LoadProjectionMtx(ortho, GX_ORTHOGRAPHIC);
-
-  guMtxIdentity(view);
-  GFX_ModelViewMatrix(view);
+  glm::mat4 ortho =
+      glm::ortho(0.0f, (f32)SCREEN_WIDTH, (f32)SCREEN_HEIGHT, 0.0f, 0.0f, 1.0f);
+  GFX_Projection(ortho, ORTHOGRAPHIC);
+  view = glm::mat4(1.0f);
+  GFX_ModelMatrix(view);
 }
 
 template <typename T>

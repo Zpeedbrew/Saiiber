@@ -10,7 +10,7 @@ private:
   static std::unique_ptr<Model> fxmodel;
 
   Transform fxtransform;
-  Mtx texMtx;
+  glm::mat4 texMtx;
 
 public:
   Stage();
