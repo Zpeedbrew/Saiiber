@@ -88,30 +88,31 @@ void Wiimote::update(f32 dt) {
   if (!current.pos_valid)
     current.cursor = lastFrame.cursor;  // set to last known position
 
-  // Create vec of the cursor direction
-  glm::vec3 posCursor =
-      glm::normalize(glm::vec3(current.cursor.x, current.cursor.y, 0.0f));
+  glm::vec3 posCursor = glm::vec3(current.cursor.x, current.cursor.y, 0.0f);
 
-  // Line up the vector to the axis of the remote
+  // direction to the cursor from the sensor
+  glm::vec3 dirSensor = glm::normalize(SENSOR - posCursor);
+
+  // direction to the cursor from the remote
   glm::vec3 dirCursor = glm::normalize(current.orient * posCursor);
-  glm::vec3 dirSensor =
-      glm::normalize(glm::vec3(SENSOR.x, SENSOR.y, current.cursor.z));
 
+  // Gets the angle between the ray from the remote to the cursor and the
+  // direction to the cursor from the sensor
   float dotWiimote = glm::dot(dirCursor, dirSensor);  // in radians
-  // Check that dotWiimote and angle values are similar
-  LOG_DEBUG("Dot Wiimote: %f %f\n", dotWiimote, glm::degrees(dotWiimote));
 
-  // Get the distance^2 to the wiimote from the cursor and sensor bar
+  // Then we can use Z as the side opposite of the angle
+  // and distance from sensor to cursor as another side length
   float dSensor = current.cursor.z;
   float dCursor = glm::distance(posCursor, SENSOR);
-  float sqSensor = dSensor * dSensor;
-  float sqCursor = dCursor * dCursor;
 
-  // Since the triangle could be scalene, third side is calculated using
+  // then find the angle between the two sides using the sine rule
+  float aWiimote = glm::asin(dCursor * glm::sin(dotWiimote) / dSensor);
+  float aSensor = M_PI - aWiimote - dotWiimote;
+
+  // now use law of cosines to find the distance from the remote to the cursor
   // c2 = a2 + b2 - 2ab cos(C)
-  float wmMag =
-      glm::sqrt(sqCursor + sqSensor - 2 * dSensor * dCursor * cosf(dotWiimote));
-  LOG_DEBUG("Wiimote Distance Values: %f\n", wmMag);
+  float wmMag = glm::sqrt(dCursor * dCursor + dSensor * dSensor -
+                          2 * dCursor * dSensor * cosf(aSensor));
 
   // Get the real position of the remote
   glm::vec3 wmPos = dirCursor * -wmMag;

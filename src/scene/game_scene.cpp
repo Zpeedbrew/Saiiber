@@ -117,7 +117,7 @@ void GameScene::update(f32 deltatime) {
   camera->freecam(deltatime);
 
   if (!calibrated) {
-    // while not calibrated, lock the position of the saber in place.
+    // lock the position of the saber in place until calibrated
     glm::vec3 front = camera->transform->position + camera->transform->forward();
     redSaber->transform->position = glm::vec3{0.0f, -0.25f, -0.5f} + front;
     redSaber->transform->update();
