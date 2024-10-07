@@ -16,7 +16,7 @@ public:
   void update(f32 deltatime);
   void render();
 
-  void setTexMtx(s16 x, s16 y, s16 w, s16 h);
+  void setTexMtx(s16 x, s16 y, s8 w, s16 h); //i hope this the c and why beacuse thats what im setting it to
 //is this the width. hight
 };
 
