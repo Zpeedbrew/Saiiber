@@ -11,7 +11,7 @@
 #include "../resource/model.h"
 
 #include "../gameobjects/block.h"
-#iclude "../gameobjects/saber.h"
+#include "../gameobjects/saber.h"
 
 // TODO: Lighting
 static GXColor LightColors[] = {
