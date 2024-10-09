@@ -3,7 +3,7 @@
 #include "../resource/model.h"
 #include "../gfx.h"
 
-Model* Block::model = NULL;
+Model* Saber::model = NULL; // dont know where the model is supposed to be stored
 
 Block::Block() { }
 Block::~Block() { }
