@@ -4,7 +4,7 @@
 
 class Model;
 
-class Block : public GameObject {
+class Saber : public GameObject {
 private:
   Mtx texMtx;
 
