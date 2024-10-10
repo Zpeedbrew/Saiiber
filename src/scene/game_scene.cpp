@@ -111,6 +111,10 @@ void SetLight(Mtx view, GXColor litcol, GXColor ambcol, GXColor matcol)
 }
 
 void exit() //or pause i dont know if this is right in c++
+{//need to stup up wii pad properly //anc i include wpad in this
+//meed to make sire i exit out of gx
+exit(0)  
+}
 
 void GameScene::render() {
   GFX_EnableTextures(false);
