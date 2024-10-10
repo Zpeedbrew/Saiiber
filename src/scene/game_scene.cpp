@@ -110,6 +110,8 @@ void SetLight(Mtx view, GXColor litcol, GXColor ambcol, GXColor matcol)
 	GX_SetChanMatColor(GX_COLOR0A0,matcol);
 }
 
+void exit() //or pause i dont know if this is right in c++
+
 void GameScene::render() {
   GFX_EnableTextures(false);
   GX_Begin(GX_LINES, GX_VTXFMT1, 2);
