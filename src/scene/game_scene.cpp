@@ -11,6 +11,7 @@
 #include "../resource/model.h"
 
 #include "../gameobjects/block.h"
+#include "../gameobjects/saber.h"
 
 // TODO: Lighting
 static GXColor LightColors[] = {
@@ -107,6 +108,12 @@ void SetLight(Mtx view, GXColor litcol, GXColor ambcol, GXColor matcol)
 	GX_SetChanCtrl(GX_COLOR0A0,GX_ENABLE,GX_SRC_REG,GX_SRC_REG,GX_LIGHT0,GX_DF_CLAMP,GX_AF_NONE);
 	GX_SetChanAmbColor(GX_COLOR0A0,ambcol);
 	GX_SetChanMatColor(GX_COLOR0A0,matcol);
+}
+
+void exit() //or pause i dont know if this is right in c++
+{//need to stup up wii pad properly //anc i include wpad in this
+//meed to make sire i exit out of gx
+exit(0)  
 }
 
 void GameScene::render() {
