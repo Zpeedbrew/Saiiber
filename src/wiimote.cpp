@@ -1,4 +1,4 @@
-#include "Wiimote.h"
+#include "wiimote.h"
 #include <wiiuse/wpad.h>
 
 #include "exmath.h"
