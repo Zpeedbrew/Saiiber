@@ -6,8 +6,12 @@ Wiibrew Page: http://wiibrew.org/wiki/User:Zpeedbrew/Saiiber
 
 # FAQ:
 
+#compiling 
+--add something about devkitpro
+needed lirarys
+
 Is this project alive?<br>
-Yes, it will be developed by Flamix & Leafy.
+Yes, it will be developed guinea7pig
 
 Is this real?<br>
 It is. We're not trolling around. This is an actual project that's going to be developed.
