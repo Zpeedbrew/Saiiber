@@ -7,14 +7,19 @@
 */
 
 #include <gccore.h>
+#include <math.h>
 
 const double PI = 3.14159265358979323846;
 
 guVector operator+(const guVector& left, const guVector& right);
 guVector operator-(const guVector& left, const guVector& right);
 guVector operator/(const guVector& left, const float right);
+guVector operator*(const guVector& left, const float scalar);
 
-guVector makeGuVector(float x, float y, float z);
+bool operator!=(guVector& left, guVector& right);
+
+guVector& operator+=(guVector& left, guVector right);
+guVector& operator-=(guVector& left, guVector right);
 
 int millis();
 

@@ -1,29 +1,34 @@
 #ifndef SCENE_H
 #define SCENE_H
-#include "../gfx.h"
 #include <gctypes.h>
 
+#include <memory>
+
 class Scene {
-protected:
+ protected:
   bool loaded = false;
 
-public:
-  static Scene* currentScene;
-  static Scene* overlayScene;
+ public:
+  static std::unique_ptr<Scene> currentScene;
+  static std::unique_ptr<Scene> overlayScene;
 
-  virtual ~Scene() { }
+  virtual ~Scene() {}
 
-  inline static void SetScene(Scene* scene) {
-    if (currentScene != NULL)
-      delete currentScene;
-    currentScene = scene;
+  template <class T, typename... Args>
+  inline static void ChangeScene(Args&&... args) {
+    currentScene = std::unique_ptr<T>(new T(std::forward<Args>(args)...));
     currentScene->init();
   }
 
-  inline static void SetOverlayScene(Scene* scene) {
-    if (overlayScene != NULL)
-      delete overlayScene;
-    overlayScene = scene;
+  template <class T>
+  inline static void ChangeScene(T* scene) {
+    currentScene.reset(scene);
+    currentScene->init();
+  }
+
+  template <class T>
+  inline static void SetOverlayScene(T* scene) {
+    overlayScene.reset(scene);
     overlayScene->init();
   }
 
@@ -41,11 +46,11 @@ public:
       currentScene->render();
   }
 
-  virtual void init() { }
-  virtual void update(f32 deltatime) { }
-  virtual void render() { }
+  virtual void init() {}
+  virtual void update(f32 deltatime) {}
+  virtual void render() {}
 
   inline bool isLoaded() { return loaded; }
 };
 
-#endif // SCENE_H
+#endif  // SCENE_H
