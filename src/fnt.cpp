@@ -1,14 +1,10 @@
 #include "fnt.h"
-
-#include <ogc/gx.h>
-#include <string.h>
-
-#include <istream>
-#include <map>
-
 #include "beon_fnt.h"
-#include "exmath.h"
+#include <string.h>
+#include <map>
+#include <istream>
 #include "gfx.h"
+#include "exmath.h"
 
 // We can have more fonts if we want to load them here
 // Just set make a "SetFont" function and an Enum for the fonts that get loaded
@@ -21,17 +17,18 @@ struct CharInfo {
 };
 
 std::map<char, CharInfo> font;
-glm::mat4 screen;
-glm::mat4 screenView;
-int maxHeight = 0;
+Mtx44 screen;
+Mtx screenView;
 
 static float xScale = 1.0f;
 static float yScale = 1.0f;
 static u8 r = 255, g = 255, b = 255, a = 255;
 
 // util class for looking at the memory as if it were a stream
-struct membuf : std::streambuf {
-  membuf(char* base, std::ptrdiff_t n) { this->setg(base, base, base + n); }
+struct membuf: std::streambuf {
+  membuf(char* base, std::ptrdiff_t n) {
+    this->setg(base, base, base + n);
+  }
 };
 
 void FNT_Init() {
@@ -41,22 +38,20 @@ void FNT_Init() {
   std::string line;
   while (std::getline(in, line)) {
     // check if line starts with "char"
-    if (line.find("char") != 0) continue;
+    if (line.find("char") != 0)
+      continue;
 
     int id = 0;
     CharInfo info;
-    sscanf(line.c_str(),
-           "char id=%d x=%d y=%d width=%d height=%d xoffset=%d yoffset=%d "
-           "xadvance=%d",
-           &id, &info.x, &info.y, &info.width, &info.height, &info.xoffset,
-           &info.yoffset, &info.xadvance);
-
-    if (info.height > maxHeight) maxHeight = info.height;
+    sscanf(line.c_str(), "char id=%d x=%d y=%d width=%d height=%d xoffset=%d yoffset=%d xadvance=%d",
+      &id, &info.x, &info.y, &info.width, &info.height, &info.xoffset, &info.yoffset, &info.xadvance);
     font[id] = info;
   }
 
-  screen = glm::ortho(0.0f, (f32)SCREEN_WIDTH, (f32)SCREEN_HEIGHT, 0.0f);
-  screenView = glm::mat4(1.0f);
+  guMtx44Identity(screen);
+  guOrtho(screen, 0, SCREEN_HEIGHT, 0, SCREEN_WIDTH, 0, 1);
+
+  guMtxIdentity(screenView);
 }
 
 void FNT_SetScale(float scale) {
@@ -77,15 +72,15 @@ void FNT_SetColor(int color) {
 }
 
 void FNT_SetColor(u8 _r, u8 _g, u8 _b, u8 _a) {
-  r = _r;
-  g = _g;
-  b = _b;
-  a = _a;
+  r = _r; g = _g;
+  b = _b; a = _a;
 }
 
-u16 FNT_GetStringWidth(const char* str, float scale) {
+s16 FNT_GetStringWidth(const char* str, float scale) {
   int width = 0;
-  if (scale == -1.0f) scale = xScale;
+
+  if (scale == 1.0f)
+    scale = xScale;
 
   // add xadvance for all characters except last
   int len = strlen(str);
@@ -95,21 +90,37 @@ u16 FNT_GetStringWidth(const char* str, float scale) {
   }
 
   width += font[toupper(str[len - 1])].width;
-  return (u16)minf(round((f32)width * scale), 65535.0f);
+  return width * scale;
 }
 
-u16 FNT_GetStringHeight(float scale) {
-  if (scale == -1.0f) scale = yScale;
-  return (u16)minf(round((f32)maxHeight * scale), 65535.0f);
+int max(int a, int b) {
+  return a > b ? a : b;
 }
 
-void FNT_DrawString(const char* str, s16 x, s16 y) {
-  GFX_Projection(screen, ORTHOGRAPHIC);
+s16 FNT_GetStringHeight(const char* str, float scale) {
+  int height = 0;
 
-  GFX_Texture(TEX_FONT);
+  if (scale == 1.0f)
+    scale = yScale;
+
+  int len = strlen(str);
+  for (int i = 0; i < len; i++) {
+    CharInfo info = font[toupper(str[i])];
+    height = max(height, info.height);
+  }
+
+  return height * scale;
+}
+
+void FNT_DrawString(const char *str, s16 x, s16 y) {
+  GFX_Projection(screen, GX_ORTHOGRAPHIC);
+
+  GFX_BindTexture(TEX_FONT);
+  GFX_EnableTexture(true);
   GFX_EnableLighting(false);
 
   GFX_ModelViewMatrix(screenView, screenView);
+  GFX_TextureMatrix(false);
   GFX_SetBlendMode(MODE_OFF);
 
   int offsetX = 0;
@@ -129,35 +140,27 @@ void FNT_DrawString(const char* str, s16 x, s16 y) {
     GX_Begin(GX_QUADS, FONTFMT, 4);
 
     GX_Position3s16(x1, y2, 0);
-#ifdef SHADERS
-    GX_Normal3s8(0, 0, 0);
-#endif
+    GX_Normal3s8(0,0,0);
     GX_Color4u8(r, g, b, a);
     GX_TexCoord2u8(info.x, info.y);
 
     GX_Position3s16(x2, y2, 0);
-#ifdef SHADERS
-    GX_Normal3s8(0, 0, 0);
-#endif
+    GX_Normal3s8(0,0,0);
     GX_Color4u8(r, g, b, a);
     GX_TexCoord2u8(u2, info.y);
 
     GX_Position3s16(x2, y1, 0);
-#ifdef SHADERS
-    GX_Normal3s8(0, 0, 0);
-#endif
+    GX_Normal3s8(0,0,0);
     GX_Color4u8(r, g, b, a);
     GX_TexCoord2u8(u2, v2);
 
     GX_Position3s16(x1, y1, 0);
-#ifdef SHADERS
-    GX_Normal3s8(0, 0, 0);
-#endif
+    GX_Normal3s8(0,0,0);
     GX_Color4u8(r, g, b, a);
     GX_TexCoord2u8(info.x, v2);
 
     GX_End();
-
+    
     // I believe xadvance is the width + kerning
     offsetX += (info.xadvance * xScale);
   }

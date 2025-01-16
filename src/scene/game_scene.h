@@ -11,7 +11,6 @@
 class GameObject;
 class Saber;
 class Camera;
-class Block;
 
 class GameScene : public Scene {
  private:
@@ -19,13 +18,8 @@ class GameScene : public Scene {
   std::shared_ptr<Saber> redSaber;
   std::shared_ptr<Saber> blueSaber;
 
-  // debugging purposes
-  std::shared_ptr<Block> block;
-
   std::vector<std::shared_ptr<GameObject>> gameObjects;
   Beatmap beatmap;
-  Mode mode;
-  bool calibrated = false;
 
  public:
   GameScene(std::string directory, BeatmapInfo info, Mode mode, Rank rank);
@@ -34,7 +28,6 @@ class GameScene : public Scene {
   void init();
   void update(f32 deltatime);
   void render();
-  void postProcess(void* buf);
 };
 
 #endif  // GAME_SCENE_H

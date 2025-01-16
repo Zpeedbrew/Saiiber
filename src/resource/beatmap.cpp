@@ -7,7 +7,6 @@ Mode ModeFromString(const char* name) {
     return Mode::Standard;
   else if (strcmp(name, "OneSaber") == 0)
     return Mode::OneSaber;
-  /*
   else if (strcmp(name, "NoArrows") == 0)
     return Mode::NoArrows;
   else if (strcmp(name, "360Degree") == 0)
@@ -20,8 +19,6 @@ Mode ModeFromString(const char* name) {
     return Mode::Lawless;
   else
     return Mode::Unknown;
-*/
-  return Mode::OneSaber;
 }
 
 Rank RankFromString(const char* name) {

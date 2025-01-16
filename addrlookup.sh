@@ -1,1 +1,0 @@
-$DEVKITPPC/bin/powerpc-eabi-addr2line -e Saiiber.elf $1

@@ -1,42 +1,38 @@
 #ifndef EXMATH_H
 #define EXMATH_H
-#define GLM_FORCE_RADIANS
-#define GLM_FORCE_DEPTH_ZERO_TO_ONE
-#include <gctypes.h>
-#include <math.h>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtx/transform.hpp>
-#include <glm/gtx/quaternion.hpp>
-
-struct orient_t;
-struct vec3w_t;
-
 /**
- * Some quick notes:
- * 1. guQuatNormalize is already optimized for fast inverse square root
- * 2. All of the ps_* functions are optimized for SIMD (paired single)
+ * Extended Math (exmath)
+ * Author: TheSunCat
+ * A collection of useful mathematical functions and constants.
 */
 
-/* Typically, in a formal Mathematical setting, min/max would mean "magnitude,"
- * or the distance from 0. However, the < and > operators in C++ specifically
- * only compare the leftmost and rightmost. */
-float minf(float a, float b); // LEFTMOST value
-float maxf(float a, float b); // RIGHTMOST value
+#include <gccore.h>
+#include <math.h>
 
-glm::quat operator-(const orient_t& a, const orient_t& b);
-glm::vec3 operator-(const vec3w_t& a, const vec3w_t& b);
+const double PI = 3.14159265358979323846;
 
-orient_t& operator+=(orient_t& a, const orient_t& b);
-orient_t& operator-=(orient_t& a, const orient_t& b);
+guVector operator+(const guVector& left, const guVector& right);
+guVector operator-(const guVector& left, const guVector& right);
+guVector operator/(const guVector& left, const float right);
+guVector operator*(const guVector& left, const float scalar);
 
-vec3w_t& operator+=(vec3w_t& a, const vec3w_t& b);
-vec3w_t& operator-=(vec3w_t& a, const vec3w_t& b);
+bool operator!=(guVector& left, guVector& right);
 
-/// @brief Normalizes the measured value into the range specified by hi-lo.
-/// @param lo the lowest possible reading from the Nunchuk
-/// @param hi the highest possible reading from the Nunchuk
-/// @param me the actual measurement
-/// @return Nunchuk accelerometer value to radian conversion.
-float angleInRadians(int lo, int hi, long me);
+guVector& operator+=(guVector& left, guVector right);
+guVector& operator-=(guVector& left, guVector right);
 
-#endif  // EX_MATH
+int millis();
+
+void sleep_for(int ms);
+
+// Block until A is pressed
+void pressA(int wiimote = 0);
+
+/* Nunchuk accelerometer value to radian conversion.   Normalizes the measured value
+ * into the range specified by hi-lo.  Most of the time lo should be 0, and hi should be 1023.
+ * lo         the lowest possible reading from the Nunchuk
+ * hi         the highest possible reading from the Nunchuk
+ * measured   the actual measurement */
+float angleInRadians(int lo, int hi, long measured);
+
+#endif // EX_MATH
