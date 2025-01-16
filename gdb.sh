@@ -1,2 +1,1 @@
-export LANG=en_US.UTF-32
-$DEVKITPRO/devkitPPC/bin/powerpc-eabi-gdb sd/apps/saiiber/boot.elf
+$DEVKITPPC/bin/powerpc-eabi-gdb Saiiber.elf

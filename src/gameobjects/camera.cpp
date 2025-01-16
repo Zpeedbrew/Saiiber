@@ -1,67 +1,55 @@
 #include "camera.h"
 
-#include "../exmath.h"
 #include "../gfx.h"
+#include "../logger.h"
 
 Camera::Camera() {
-  transform->position = {0.0F, 2.0F, 2.0F};
-  up = {0.0f, 1.0f, 0.0f};
+  transform->position = glm::vec3(0.0F, 2.0F, 2.0f);
+  // transform->rotate(0.0f, -90.0f, 0.0f);
 
-  guVector direction;
-  direction.x = cosf(DegToRad(yaw)) * cosf(DegToRad(pitch));
-  direction.y = sinf(DegToRad(pitch));
-  direction.z = sinf(DegToRad(yaw)) * cosf(DegToRad(pitch));
+  // This took actually forever to figure out...
+  // Creates the desired matrix (like how guPerspective works)
+  projection = glm::perspectiveFovLH_ZO(glm::radians(fov), (f32)SCREEN_WIDTH,
+                                   (f32)SCREEN_HEIGHT, -300.0f, -0.1f);
+  // Needs to be -1.0f because we're facing -1.0f in the Z axis
+  projection[2][3] = -1.0f;
 
-  front = direction;
-  guVecNormalize(&front);
+  // This is also verifiably correct
+  glm::vec3 pos = transform->position;
+  glm::vec3 target = pos + transform->forward();
+  view = glm::lookAt(pos, target, VEC_UP);
 
-  guVector target = transform->position + front;
-
-  // Set up the projection matrix
-  // This creates a perspective matrix with a view angle of 90
-  // an aspect ratio that matches the screen, and z-near
-  guPerspective(projection, fov, (f32)SCREEN_WIDTH / (f32)SCREEN_HEIGHT, 0.1f,
-                300.0f);
-  guLookAt(view, &transform->position, &up, &target);
-
-  GFX_Projection(projection, GX_PERSPECTIVE);
+  GFX_Projection(projection, PERSPECTIVE);
 }
 
 void Camera::update(f32 deltatime) {
   GameObject::update(deltatime);
 
-  if (pitch > 89.0f) pitch = 89.0f;
-  if (pitch < -89.0f) pitch = -89.0f;
-
   if (fov < 1.0f) fov = 1.0f;
   if (fov > 45.0f) fov = 45.0f;
 
-  guVector direction;
-  direction.x = cosf(DegToRad(yaw)) * cosf(DegToRad(pitch));
-  direction.y = sinf(DegToRad(pitch));
-  direction.z = sinf(DegToRad(yaw)) * cosf(DegToRad(pitch));
+  glm::vec3 pos = transform->position;
+  glm::vec3 target = pos + transform->forward();
+  view = glm::lookAt(pos, target, VEC_UP);
 
-  front = direction;
-  guVecNormalize(&front);
-
-  guVector target = transform->position + front;
-  guLookAt(view, &transform->position, &up, &target);
-
-  guPerspective(projection, fov, (f32)SCREEN_WIDTH / (f32)SCREEN_HEIGHT, 0.1f,
-                300.0f);
-  GFX_Projection(projection, GX_PERSPECTIVE);
+  projection = glm::perspectiveFovLH_ZO(glm::radians(fov), (f32)SCREEN_WIDTH,
+                                   (f32)SCREEN_HEIGHT, -300.0f, -0.1f);
+  projection[2][3] = -1.0f;
 }
 
 void Camera::zoom(float amount) { fov += amount; }
 
-#ifdef _DEBUG
+#ifndef _DEBUG
+void Camera::render() {
+  GFX_Projection(projection, PERSPECTIVE);
+}
+#else
 #include <iostream>
 
 #include "../fnt.h"
 #include "../input.h"
-guVector lastPos;
-guVector lastRot;
-float movespeed = 0.5f;
+glm::vec3 lastPos;
+glm::vec3 lastRot;
 
 char turningString[15] = "Turning: False";
 char posString[39] = "Position: 0.000, 0.000, 0.000";
@@ -71,15 +59,27 @@ void Camera::render() {
   FNT_SetColor(0xFFFFFFFF);
   FNT_SetScale(0.5f);
 
-  s16 height = FNT_GetStringHeight(turningString);
+  u16 height = FNT_GetStringHeight();
 
   FNT_DrawString(turningString, 0, 0);
   FNT_DrawString(posString, 0, height + 2);
   FNT_DrawString(rotString, 0, height + 2 + height + 2);
+
+  GFX_Projection(projection, PERSPECTIVE);
 }
 
+// TODO: Fix drift...
 void Camera::freecam(f32 deltatime) {
+  static float movespeed = 0.25f;
   bool turning = Input::isButtonHeld(WIIMOTE_BUTTON_B);
+
+  glm::vec3 front = transform->forward();
+
+  if (Input::isButtonDown(WIIMOTE_BUTTON_A) ||
+      Input::isButtonHeld(WIIMOTE_BUTTON_A))
+    movespeed = 0.5f;
+
+  if (Input::isButtonUp(WIIMOTE_BUTTON_A)) movespeed = 0.25f;
 
   if (Input::isButtonDown(WIIMOTE_BUTTON_B))
     sprintf(turningString, "Turning: True");
@@ -88,39 +88,45 @@ void Camera::freecam(f32 deltatime) {
 
   if (Input::isButtonDown(WIIMOTE_BUTTON_UP) ||
       Input::isButtonHeld(WIIMOTE_BUTTON_UP)) {
-    if (turning)
-      pitch += 0.5f * deltatime;
-    else
-      transform->position += front * deltatime;
+    if (turning) {
+      // leftmost positive value
+      float diff = minf(0.5f * deltatime, 89.0f - pitch);
+      pitch += diff;
+      transform->rotate(diff, 0.0f, 0.0f);
+    } else
+      transform->position += movespeed * deltatime * transform->forward();
   }
 
   if (Input::isButtonDown(WIIMOTE_BUTTON_DOWN) ||
       Input::isButtonHeld(WIIMOTE_BUTTON_DOWN)) {
-    if (turning)
-      pitch -= 0.5f * deltatime;
-    else
-      transform->position += front * movespeed * -deltatime;
+    if (turning) {
+      // rightmost negative value
+      float diff = maxf(-0.5f * deltatime, -89.0f - pitch);
+      pitch += diff;
+      transform->rotate(diff, 0.0f, 0.0f);
+    } else
+      transform->position += -movespeed * deltatime * transform->forward();
   }
 
   if (Input::isButtonDown(WIIMOTE_BUTTON_LEFT) ||
       Input::isButtonHeld(WIIMOTE_BUTTON_LEFT)) {
     if (turning)
-      yaw -= 0.5f * deltatime;
+      transform->rotate(0.0f, 0.5f * deltatime, 0.0f);
     else
-      transform->position += right() * movespeed * -deltatime;
+      transform->position += movespeed * -deltatime * transform->right();
   }
 
   if (Input::isButtonDown(WIIMOTE_BUTTON_RIGHT) ||
       Input::isButtonHeld(WIIMOTE_BUTTON_RIGHT)) {
     if (turning)
-      yaw += 0.5f * deltatime;
+      transform->rotate(0.0f, -0.5f * deltatime, 0.0f);
     else
-      transform->position += right() * movespeed * deltatime;
+      transform->position += movespeed * deltatime * transform->right();
   }
 
   if (Input::isButtonDown(WIIMOTE_BUTTON_ONE) ||
       Input::isButtonHeld(WIIMOTE_BUTTON_ONE)) {
-    transform->position += up * movespeed * deltatime;
+    transform->position += movespeed * deltatime * VEC_UP;
   }
 
   if (Input::isButtonDown(WIIMOTE_BUTTON_PLUS) ||
@@ -135,22 +141,19 @@ void Camera::freecam(f32 deltatime) {
 
   if (Input::isButtonDown(WIIMOTE_BUTTON_TWO) ||
       Input::isButtonHeld(WIIMOTE_BUTTON_TWO)) {
-    transform->position += up * movespeed * -deltatime;
+    transform->position += -movespeed * deltatime * VEC_UP;
   }
 
   if (transform->position != lastPos) {
     sprintf(posString, "Position: %.3f, %.3f, %.3f", transform->position.x,
             transform->position.y, transform->position.z);
     lastPos = transform->position;
-
-    update(deltatime);
   }
 
+  // TODO: Fix
   if (front != lastRot) {
     sprintf(rotString, "Rotation: %.3f, %.3f, %.3f", front.x, front.y, front.z);
     lastRot = front;
-
-    update(deltatime);
   }
 }
 #endif

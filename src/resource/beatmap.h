@@ -14,12 +14,22 @@
 JS_ENUM(Mode,
   Standard,
   OneSaber,
-  NoArrows,
   ThreeSixty,
   Ninety,
+  NoArrows,
   Lightshow,
   Lawless,
   Unknown
+)
+
+JS_ENUM(Modifier,
+  ThreeSixty,
+  Ninety,
+  Unknown,
+  NoArrows,
+  Lightshow,
+  Lawless,
+  NoFail
 )
 
 JS_ENUM(Rank,
