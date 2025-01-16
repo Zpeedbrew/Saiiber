@@ -7,7 +7,7 @@ class Model;
 class Block : public GameObject {
 private:
   static std::unique_ptr<Model> model;
-  glm::mat4 texMtx;
+  Mtx texMtx;
 
 public:
   Block();

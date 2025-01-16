@@ -2,7 +2,6 @@
 #include <fat.h>
 #include <gccore.h>
 #include <malloc.h>
-#include <ogc/isfs.h>
 #include <sdcard/wiisd_io.h>
 #include <string.h>
 #include <wiiuse/wpad.h>
@@ -15,17 +14,11 @@
 #include "input.h"
 #include "logger.h"
 #include "resource/beatmap.h"
-#include "scene/debug_scene.h"
 #include "scene/game_scene.h"
 #include "scene/loading_scene.h"
 #include "scene/menu_scene.h"
 #include "scene/scene.h"
 #include "sfx.h"
-
-#ifdef _DEBUG
-#include <debug.h>
-#include <network.h>
-#endif
 
 static bool running = true;
 
@@ -33,6 +26,7 @@ std::unique_ptr<Scene> Scene::currentScene(nullptr);
 std::unique_ptr<Scene> Scene::overlayScene(nullptr);
 
 bool vsync = false;
+float gpuWait, vsyncWait;
 
 FILE* logfile;
 
@@ -48,69 +42,35 @@ void LOG_Init() {
 }
 
 void Logger::log(const char* format, ...) {
-  char buffer[256];
-
   va_list args;
   va_start(args, format);
-  vsnprintf(buffer, 256, format, args);
-  va_end(args);
 
   if (logfile != NULL) {
-    fprintf(logfile, buffer);
+    vfprintf(logfile, format, args);
     fflush(logfile);
-  }
+  } else
+    vprintf(format, args);
 
-  printf(buffer);
+  va_end(args);
 }
 
-// This might be the controller reload?
-void reload(u32 irq, void* ctx) { LOG_DEBUG("Reloading %u\n", irq); }
+void reload(u32 irq, void* ctx) { running = false; }
 
 // When shutdown is invoked we can no longer write to the log file.
 void shutdown() {
-  WPAD_Shutdown();
   Input::enabled = false;
   running = false;
 }
 
-const char* tcp_localip = "192.168.1.119";
-const char* tcp_netmask = "255.255.255.0";
-const char* tcp_gateway = "192.168.1.1";
-
 int main(int argc, char** argv) {
-  s32 err;
-
-#ifdef _DEBUG
-  err = if_config("192.168.1.121", "255.255.255.0", "192.168.1.1", true, 5);
-  DEBUG_Init(GDBSTUB_DEVICE_TCP, 5656);
-  _break();
-#endif
-
   if (!fatInitDefault()) return -1;
+
   if (!fatMountSimple("sd", &__io_wiisd)) return -1;
+
   LOG_Init();
-
-  if (err != 0) {
-    LOG_ERROR("Failed to configure network with error: %d.\n", err);
-    return -1;
-  } else
-    LOG_DEBUG("Network configured successfully.\n");
-
-  err = WPAD_Init();
-  if (err != 0) {
-    LOG_DEBUG("Failed to initialize WPAD with error: %s.\n",
-              WPAD_GetError(err));
-    return -1;
-  } else
-    LOG_DEBUG("WPAD initialized successfully.\n");
-
-  s32 mperr = WPAD_SetMotionPlus(WPAD_CHAN_ALL, TRUE);
-  s32 dferr = WPAD_SetDataFormat(WPAD_CHAN_ALL, WPAD_FMT_BTNS_ACC_IR);
-  LOG_DEBUG("WPAD_SetDataFormat: %d\n", dferr);
-  LOG_DEBUG("WPAD_SetMotionPlus: %d\n", mperr);
-
   GFX_Init();
   SFX_Init();
+  Wiimote_Init();
   FNT_Init();
 
   SYS_SetResetCallback(reload);
@@ -126,12 +86,14 @@ int main(int argc, char** argv) {
   //  in separate thread until one is established. Change the gamemode options
   //  based on whether or not a second controller is connected.
 
-  /*err = blueMote.awaitConnect(1, 0);
+  int err = blueMote.awaitConnect(0, 10000);
   if (err != WPAD_CONNECTED)
     LOG_ERROR("BlueMote failed to connect with error: %d.\n", err);
-  */
 
-  redMote.assignChannel(0);
+  // 2000 because when debugging I don't usually connect it anyway
+  err = redMote.awaitConnect(1, 2000);
+  if (err != WPAD_CONNECTED)
+    LOG_ERROR("RedMote failed to connect with error: %d.\n", err);
 
 #ifdef _DEBUG
   std::string path = "sd:/Songs/Tuxedo - Do It";
@@ -155,20 +117,21 @@ int main(int argc, char** argv) {
 
   LOG_DEBUG("Beginning game loop\n");
   while (running) {
-    timeNow = SYS_Time();  // each tick is 16nanoseconds
-    deltatime = (timeNow - lastTime) * 0.000000016f;  // convert to seconds
-    lastTime = timeNow;
+    timeNow = SYS_Time();
+    deltatime = (timeNow - lastTime) / 1000000.0f;
 
     // do state scan once per frame
     Input::Update(deltatime);
     Scene::Update(deltatime);
 
-    GFX_FlipBuffers();
+    GFX_FlipBuffers(&gpuWait, &vsyncWait);
+
+    GX_SetViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 1);
     Scene::Render();
     GFX_Finish(false);
+    lastTime = timeNow;
   }
 
-  WPAD_Shutdown();
   GFX_Cleanup();
   SFX_Cleanup();
 

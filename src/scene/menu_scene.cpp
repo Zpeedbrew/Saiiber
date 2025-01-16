@@ -14,7 +14,6 @@
 #include "../logger.h"
 #include "../resource/beatmap.h"
 #include "../sfx.h"
-#include "../transform.h"
 #include "../ui.h"
 #include "game_scene.h"
 #define SONGPATH "sd:/Songs"
@@ -134,7 +133,6 @@ void MenuSceneImpl::ModeSelect(int i) {
   if (modeFlags & (1 << (int)Mode::OneSaber))
     buttons->add("One Saber", 100, 200 + (yIdx++ * 50));
 
-/* TODO: Make Modifiers
   if (modeFlags & (1 << (int)Mode::NoArrows))
     buttons->add("No Arrows", 100, 200 + (yIdx++ * 50));
 
@@ -149,7 +147,6 @@ void MenuSceneImpl::ModeSelect(int i) {
 
   if (modeFlags & (1 << (int)Mode::Lawless))
     buttons->add("Lawless", 100, 200 + (yIdx++ * 50));
-*/
 
   buttons->onButtonPressed([=](int button, u32 choice, GuiButton& element) {
     if (button == WIIMOTE_BUTTON_B) {
@@ -255,26 +252,27 @@ MenuScene::MenuScene() : impl(new MenuSceneImpl()) {
   impl->menu = this;
   impl->MainMenu();
 
-  GFX_Texture(TEX_NONE);
   GFX_SetBlendMode(MODE_BLEND);
   GFX_EnableAlphaTest(false);
+  GFX_TextureMatrix(false);
   GFX_SetWriteBuffers(true, false, false);
 
-  glm::mat4 ortho = glm::transpose(
-      glm::ortho(0.0f, (f32)SCREEN_WIDTH, (f32)SCREEN_HEIGHT, 0.0f));
+  Mtx44 ortho;
+  guOrtho(ortho, 0, SCREEN_HEIGHT, 0, SCREEN_WIDTH, 0, 1);
   GFX_Projection(ortho, GX_ORTHOGRAPHIC);
 
-  glm::vec3 camPos(0.0f, 0.0f, 0.0f);
-  glm::vec3 camUp(0.0f, 1.0f, 0.0f);
-  glm::vec3 camAt(0.0f, 0.0f, -1.0f);
-  view = glm::lookAt(camPos, camAt, camUp);
-
-  glm::mat4 origin(1.0f);
-  GFX_ModelMatrix(origin);
+  guVector camPos = { 0.0f, 0.0f, 0.0f };
+  guVector camUp = { 0.0f, 1.0f, 0.0f };
+  guVector camAt = { 0.0f, 0.0f, -1.0f };
+  guLookAt(view, &camPos, &camUp, &camAt);
+  
+  Mtx model;
+  guMtxIdentity(model);
+  GFX_ModelViewMatrix(model);
 }
 
 // proper pimpl idiom requires destructor
-MenuScene::~MenuScene() {}
+MenuScene::~MenuScene() { }
 
 void MenuScene::reset() { guiElements.clear(); }
 
