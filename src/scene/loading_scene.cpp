@@ -1,43 +1,45 @@
 #include "loading_scene.h"
+
+#include <ogc/gx.h>
+
 #include "../gfx.h"
 #include "../logger.h"
 
-LoadingScene::LoadingScene(Scene *nextScene) {
+template <typename T>
+LoadingScene<T>::LoadingScene(T* nextScene) {
   this->nextScene = nextScene;
   LOG_DEBUG("Loading scene constructed. Loading resources.\n");
 }
 
-LoadingScene::~LoadingScene() { }
-
-void LoadingScene::init() {
-  GFX_EnableLighting(false);
+template <typename T>
+void LoadingScene<T>::init() {
   GFX_SetBlendMode(MODE_BLEND);
   GFX_EnableAlphaTest(false);
-  GFX_TextureMatrix(false);
   GFX_SetWriteBuffers(true, false, false);
 
-  GFX_BindTexture(TEX_GUI);
-  GFX_EnableTextures(true);
+  GFX_Texture(TEX_GUI);
+  GFX_EnableLighting(false);
 
-  Mtx44 ortho;
-  guOrtho(ortho, 0, SCREEN_HEIGHT, 0, SCREEN_WIDTH, 0, 1);
-  GX_LoadProjectionMtx(ortho, GX_ORTHOGRAPHIC);
-
-	guMtxIdentity(view);
-  GFX_ModelViewMatrix(view);
+  glm::mat4 ortho =
+      glm::ortho(0.0f, (f32)SCREEN_WIDTH, (f32)SCREEN_HEIGHT, 0.0f, 0.0f, 1.0f);
+  GFX_Projection(ortho, ORTHOGRAPHIC);
+  view = glm::mat4(1.0f);
+  GFX_ModelMatrix(view);
 }
 
-void LoadingScene::update(f32 deltatime) {
+template <typename T>
+void LoadingScene<T>::update(f32 deltatime) {
   if (nextScene->isLoaded()) {
     // We're done loading, so we can switch to the next scene
-    SetScene(nextScene);
+    ChangeScene<T>(nextScene);
   }
 }
 
-void LoadingScene::render() {
+template <typename T>
+void LoadingScene<T>::render() {
   // GX_VTXFMT1 is where our GUI vertices are stored
   GX_Begin(GX_QUADS, GX_VTXFMT1, 4);
-  
+
   // Top left
   GX_Position3s16(0, 0, 0);
   GX_Color4u8(0xFF, 0xFF, 0xFF, 0xFF);

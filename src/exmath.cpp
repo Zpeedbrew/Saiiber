@@ -1,55 +1,60 @@
 #include "exmath.h"
-#include <chrono>
-#include <thread>
-#include <wiiuse/wpad.h>
 
-guVector operator+(const guVector& left, const guVector& right)
-{
-    return {left.x + right.x, left.y + right.y, left.z + right.z};
+#include <wiiuse/wiiuse.h>
+
+float minf(float a, float b) {
+  if (a < b) return a;
+  return b;
 }
 
-guVector operator-(const guVector& left, const guVector& right)
-{
-    return {left.x - right.x, left.y - right.y, left.z - right.z};
+float maxf(float a, float b) {
+  if (a > b) return a;
+  return b;
 }
 
-guVector operator/(const guVector& left, const float right)
-{
-    return {left.x / right, left.y / right, left.z / right};
+glm::quat operator-(const orient_t &a, const orient_t &b) {
+  // Yaw of the Quat is the Pitch of the Orientation
+  // Pitch of the Quat is the Yaw of the Orientation
+  // Roll is the same for both
+  return glm::quat(glm::vec3(glm::radians(a.pitch - b.pitch),
+                             glm::radians(a.yaw - b.yaw),
+                             glm::radians(a.roll - b.roll)));
 }
 
-guVector makeGuVector(float x, float y, float z)
-{
-    return {x, y, z};
+glm::vec3 operator-(const vec3w_t &a, const vec3w_t &b) {
+  return glm::vec3((f32)a.x - (f32)b.x, (f32)a.y - (f32)b.y,
+                   (f32)a.z - (f32)b.z);
 }
 
-int millis()
-{
-    auto time = std::chrono::system_clock::now();
-    auto since_epoch = time.time_since_epoch();
-    auto millis = std::chrono::duration_cast<std::chrono::milliseconds>(since_epoch);
-
-    return millis.count();
+orient_t &operator+=(orient_t &a, const orient_t &b) {
+  a.yaw += b.yaw;
+  a.pitch += b.pitch;
+  a.roll += b.roll;
+  return a;
 }
 
-void sleep_for(int ms)
-{
-    std::this_thread::sleep_for(std::chrono::milliseconds(ms));
+orient_t &operator-=(orient_t &a, const orient_t &b) {
+  a.yaw -= b.yaw;
+  a.pitch -= b.pitch;
+  a.roll -= b.roll;
+  return a;
 }
 
-void pressA(int wiimote)
-{
-    while(1)
-    {
-        WPAD_ScanPads();
-        u32 gcPressed = WPAD_ButtonsDown(wiimote);
-        if (gcPressed & WPAD_BUTTON_A) break;
+vec3w_t &operator+=(vec3w_t &a, const vec3w_t &b) {
+  a.x += b.x;
+  a.y += b.y;
+  a.z += b.z;
+  return a;
+}
 
-        sleep_for(50);
-    }
+vec3w_t &operator-=(vec3w_t &a, const vec3w_t &b) {
+  a.x -= b.x;
+  a.y -= b.y;
+  a.z -= b.z;
+  return a;
 }
 
 float angleInRadians(int lo, int hi, long measured) {
-    float x = (hi - lo);
-    return (float)(measured/x) * PI;
+  float x = (hi - lo);
+  return (float)(measured / x) * M_PI;
 }

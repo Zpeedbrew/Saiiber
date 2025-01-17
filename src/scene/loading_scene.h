@@ -2,17 +2,17 @@
 #define LOADING_SCENE_H
 #include "scene.h"
 
+template <typename T>
 class LoadingScene : public Scene {
-private:
-  Scene* nextScene;
+ private:
+  T* nextScene;
 
-public:
-  LoadingScene(Scene* nextScene);
-  ~LoadingScene();
-  
+ public:
+  LoadingScene(T* nextScene);
+
   void init();
   void update(f32 deltatime);
   void render();
 };
 
-#endif // LOADING_SCENE_H
+#endif  // LOADING_SCENE_H
