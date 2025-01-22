@@ -1,7 +1,0 @@
-build
-*.code-workspace
-.vscode
-*.elf
-*.dol
-*.log
-*.pdn
