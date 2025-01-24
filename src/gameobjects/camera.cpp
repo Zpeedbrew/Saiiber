@@ -70,16 +70,16 @@ void Camera::render() {
 
 // TODO: Fix drift...
 void Camera::freecam(f32 deltatime) {
-  static float movespeed =  1f;
+  static float movespeed =  0.9f;
   bool turning = Input::isButtonHeld(WIIMOTE_BUTTON_B);
 
   glm::vec3 front = transform->forward();
 
   if (Input::isButtonDown(WIIMOTE_BUTTON_A) ||
       Input::isButtonHeld(WIIMOTE_BUTTON_A))
-    movespeed = 0.5f;
+    movespeed = 0.9f;
 
-  if (Input::isButtonUp(WIIMOTE_BUTTON_A)) movespeed = 0.25f;
+  if (Input::isButtonUp(WIIMOTE_BUTTON_A)) movespeed = 0.9f;
 
   if (Input::isButtonDown(WIIMOTE_BUTTON_B))
     sprintf(turningString, "Turning: True");
