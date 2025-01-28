@@ -23,7 +23,7 @@ Join the Discord server, go to #opt-in-for-announcement-pings and select the ðŸ›
 - Install devkitPPC (if you are on linux install wii-dev with dkp-pacman)
 - Install the dependenices in the dependencies.txt file
 - Compile it using make
-- Use the sd folder as the SD card in Dolphin or copy it to your Wii's SD Card
+- launch the .elf file dolphin
 
 # Developer Notes
 Uses clang-format with Google formatting. All pull requests must comply with these formatting requirements. 
