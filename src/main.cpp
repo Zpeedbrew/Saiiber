@@ -92,7 +92,7 @@ int main(int argc, char** argv) {
 
   if (err != 0) {
     LOG_ERROR("Failed to configure network with error: %d.\n", err);
-    return -1;
+    
   } else
     LOG_DEBUG("Network configured successfully.\n");
 
@@ -142,6 +142,7 @@ int main(int argc, char** argv) {
   }
 
   // std::string dir, BeatmapInfo info, Mode mode, Rank rank
+  //want to change to menuscene
   Scene::ChangeScene<GameScene>(path, info, Mode::Standard, Rank::Hard);
 
 #else

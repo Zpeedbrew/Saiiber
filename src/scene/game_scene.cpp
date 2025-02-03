@@ -31,7 +31,7 @@ static GXColor LightColors[] = {
 
 GameScene::GameScene(std::string dir, BeatmapInfo info, Mode mode, Rank rank)
     : beatmap(dir, info) {
-  LOG_DEBUG("GameScene constructor\n");
+  LOG_DEBUG("GameScene Constructor\n");
   this->mode = mode;
 
   if (beatmap.loadMap(mode, rank) != 0) {
@@ -72,7 +72,7 @@ void GameScene::init() {
   // So THIS is C++
   auto& refblock = gameObjects.emplace_back(std::make_shared<Block>());
   refblock->transform->position = {-2.0f, 1.0f, -10.0f};
-  refblock->transform->scale = {0.5f, 0.5f, 0.5f};
+  refblock->transform->scale = {0.9f, 0.9f, 0.9f};
   block = std::dynamic_pointer_cast<Block>(refblock);
 
   redSaber = std::make_shared<Saber>(redMote.transform);
