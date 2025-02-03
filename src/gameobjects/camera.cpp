@@ -65,7 +65,7 @@ void Camera::render() {
   FNT_DrawString(turningString, 0, 0);
   FNT_DrawString(posString, 0, height + 2);
   FNT_DrawString(rotString, 0, height + 2 + height + 2);
-  FNT_DrawString(versionString, 0, height + 10 + height + 10);
+  FNT_DrawString(versionString, 0, height + 12 + height + 12);
 
   
 
