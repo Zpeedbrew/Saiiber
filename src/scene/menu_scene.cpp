@@ -96,7 +96,7 @@ void MenuSceneImpl::DifficultySelect(int i, Mode mode) {
     buttons->add("Expert", 100, 200 + (50 * yIdx++));
 
   if (diffFlags & (1 << (int)Rank::ExpertPlus))
-    buttons->add("Expert+", 100, 200 + (50 * yIdx++));
+    buttons->add("impossible", 100, 200 + (50 * yIdx++));
 
   buttons->onButtonPressed([=](int button, u32 choice, GuiButton& element) {
     if (button == WIIMOTE_BUTTON_B) {
