@@ -24283,7 +24283,7 @@ Linker script and memory map
  .rodata._ZN13MenuSceneImpl10SongSelectEv.str1.4
                 0x8016ac0c       0x58 menu_scene.o
  .rodata._ZN13MenuSceneImpl16DifficultySelectEi4Mode.str1.4
-                0x8016ac0c       0x3e menu_scene.o
+                0x8016ac0c       0x3f menu_scene.o
  .rodata._ZTS9MenuScene
                 0x8016ac0c        0xb menu_scene.o
                 0x8016ac0c                _ZTS9MenuScene
