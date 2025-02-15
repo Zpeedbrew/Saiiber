@@ -75,7 +75,7 @@ void MenuSceneImpl::DifficultySelect(int i, Mode mode) {
   int width = FNT_GetStringWidth("Difficulty Select", 2.0f);
   s16 middle = (SCREEN_WIDTH / 2) - (width / 2);
   auto title =
-      std::make_unique<GuiText>("Difficulty Select", middle, 100, 2.0f);
+      std::make_unique<GuiText>("Difficulty Select", middle, 100, 1.5);
   title->setPosition(middle, 100);
   title->setColor(0xFF0000FF);
 
@@ -228,7 +228,7 @@ void MenuSceneImpl::MainMenu() {
   buttons->add("Versus", 100, 250);
   buttons->add("Practice", 100, 300);
   buttons->add("Settings", 100, 350);
-  buttons->add("Quit", 100, 400);
+  buttons->add("Quit", 100, 400  );
 
 
   buttons->onButtonPressed([=](int button, u32 choice, GuiButton& element) {
