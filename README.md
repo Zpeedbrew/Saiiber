@@ -13,7 +13,7 @@ Is this real?<br>
 It is. We're not trolling around. This is an actual project that's going to be developed.
 
 Is this available?<br>
-As of right now, no, it's currently being developed.
+yes as beta tests, it's currently being developed.
 
 How can I get updates about the project?<br>
 Join the Discord server, go to #opt-in-for-announcement-pings and select the 🛠️ emoji to get the Dev-Opt role.
