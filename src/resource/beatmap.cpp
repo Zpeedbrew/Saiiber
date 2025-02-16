@@ -33,7 +33,7 @@ Rank RankFromString(const char* name) {
     return Rank::Hard;
   else if (strcmp(name, "Expert") == 0)
     return Rank::Expert;
-  else if (strcmp(name, "ExpertPlus") == 0)
+  else if (strcmp(name, "imposible") == 0)
     return Rank::ExpertPlus;
   else
     return Rank::Normal;

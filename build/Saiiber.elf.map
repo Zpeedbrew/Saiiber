@@ -24108,542 +24108,542 @@ Linker script and memory map
                 0x80158160                models_png
                 0x80167588                models_png_end
  .rodata._Z8FNT_Initv.str1.4
-                0x80167588     0x2e07 fnt.o
+                0x80167588     0x2e13 fnt.o
                                  0x52 (size before relaxing)
- *fill*         0x8016a38f        0x1 
+ *fill*         0x8016a39b        0x1 
  .rodata._ZTI6membuf
-                0x8016a390        0xc fnt.o
-                0x8016a390                _ZTI6membuf
+                0x8016a39c        0xc fnt.o
+                0x8016a39c                _ZTI6membuf
  .rodata._ZTV6membuf
-                0x8016a39c       0x40 fnt.o
-                0x8016a39c                _ZTV6membuf
- .rodata.cst4   0x8016a3dc      0x250 fnt.o
+                0x8016a3a8       0x40 fnt.o
+                0x8016a3a8                _ZTV6membuf
+ .rodata.cst4   0x8016a3e8      0x250 fnt.o
                                  0x18 (size before relaxing)
  .rodata._Z16GFX_OutputMatrixRN3glm3matILi4ELi4EfLNS_9qualifierE0EEE.str1.4
-                0x8016a62c       0x15 gfx.o
+                0x8016a638       0x15 gfx.o
  .rodata._Z15loadAllTexturesv.str1.4
-                0x8016a62c       0x16 gfx.o
+                0x8016a638       0x16 gfx.o
  .rodata._Z8GFX_Initv.str1.4
-                0x8016a62c       0x88 gfx.o
+                0x8016a638       0x88 gfx.o
  .rodata._Z11GFX_Cleanupv.str1.4
-                0x8016a62c       0x16 gfx.o
+                0x8016a638       0x16 gfx.o
  .rodata._Z18GFX_EnableLightingb.str1.4
-                0x8016a62c       0x3b gfx.o
+                0x8016a638       0x3b gfx.o
  .rodata._Z16GFX_SetBlendMode9BlendMode
-                0x8016a62c       0x1c gfx.o
+                0x8016a638       0x1c gfx.o
  .rodata._ZL10background
-                0x8016a648        0x4 gfx.o
- .rodata.cst4   0x8016a64c       0x18 gfx.o
+                0x8016a654        0x4 gfx.o
+ .rodata.cst4   0x8016a658       0x18 gfx.o
  .rodata._Z8LOG_Initv.str1.4
-                0x8016a64c       0x2b main.o
+                0x8016a658       0x2b main.o
  .rodata._Z6reloadjPv.str1.4
-                0x8016a64c       0x16 main.o
+                0x8016a658       0x16 main.o
  .rodata.main.str1.4
-                0x8016a64c      0x1a6 main.o
+                0x8016a658      0x1a6 main.o
  .rodata.str1.4
-                0x8016a64c        0xe main.o
- .rodata.cst4   0x8016a64c        0x4 main.o
+                0x8016a658        0xe main.o
+ .rodata.cst4   0x8016a658        0x4 main.o
  .rodata._Z8SFX_LoadPKc.str1.4
-                0x8016a64c       0x34 sfx.o
- .rodata.cst4   0x8016a64c       0x14 transform.o
+                0x8016a658       0x34 sfx.o
+ .rodata.cst4   0x8016a658       0x14 transform.o
  .rodata._Z15GetStatusStringi.str1.4
-                0x8016a64c        0x8 wiimote.o
+                0x8016a658        0x8 wiimote.o
  .rodata._Z13WPAD_GetErrori.str1.4
-                0x8016a64c       0x13 wiimote.o
+                0x8016a658       0x13 wiimote.o
  .rodata._ZNSt5dequeI9DataFrameSaIS0_EE16_M_push_back_auxIJRKS0_EEEvDpOT_.str1.4
-                0x8016a64c       0x30 wiimote.o
+                0x8016a658       0x30 wiimote.o
  .rodata._ZN7Wiimote6updateEf.str1.4
-                0x8016a64c       0x5f wiimote.o
+                0x8016a658       0x5f wiimote.o
  .rodata._ZN7Wiimote13assignChannelEi.str1.4
-                0x8016a64c       0x2f wiimote.o
+                0x8016a658       0x2f wiimote.o
  .rodata.str1.4
-                0x8016a64c       0xd0 wiimote.o
+                0x8016a658       0xd0 wiimote.o
  .rodata.CSWTCH.59
-                0x8016a64c       0x28 wiimote.o
+                0x8016a658       0x28 wiimote.o
  .rodata.CSWTCH.57
-                0x8016a674        0xc wiimote.o
+                0x8016a680        0xc wiimote.o
  .rodata._ZTSSt11_Mutex_baseILN9__gnu_cxx12_Lock_policyE2EE
-                0x8016a680       0x2f wiimote.o
-                0x8016a680                _ZTSSt11_Mutex_baseILN9__gnu_cxx12_Lock_policyE2EE
- *fill*         0x8016a6af        0x1 
+                0x8016a68c       0x2f wiimote.o
+                0x8016a68c                _ZTSSt11_Mutex_baseILN9__gnu_cxx12_Lock_policyE2EE
+ *fill*         0x8016a6bb        0x1 
  .rodata._ZTSSt16_Sp_counted_baseILN9__gnu_cxx12_Lock_policyE2EE
-                0x8016a6b0       0x34 wiimote.o
-                0x8016a6b0                _ZTSSt16_Sp_counted_baseILN9__gnu_cxx12_Lock_policyE2EE
+                0x8016a6bc       0x34 wiimote.o
+                0x8016a6bc                _ZTSSt16_Sp_counted_baseILN9__gnu_cxx12_Lock_policyE2EE
  .rodata._ZTISt16_Sp_counted_baseILN9__gnu_cxx12_Lock_policyE2EE
-                0x8016a6e4        0xc wiimote.o
-                0x8016a6e4                _ZTISt16_Sp_counted_baseILN9__gnu_cxx12_Lock_policyE2EE
+                0x8016a6f0        0xc wiimote.o
+                0x8016a6f0                _ZTISt16_Sp_counted_baseILN9__gnu_cxx12_Lock_policyE2EE
  .rodata._ZTSSt15_Sp_counted_ptrIP9TransformLN9__gnu_cxx12_Lock_policyE2EE
-                0x8016a6f0       0x3e wiimote.o
-                0x8016a6f0                _ZTSSt15_Sp_counted_ptrIP9TransformLN9__gnu_cxx12_Lock_policyE2EE
- *fill*         0x8016a72e        0x2 
+                0x8016a6fc       0x3e wiimote.o
+                0x8016a6fc                _ZTSSt15_Sp_counted_ptrIP9TransformLN9__gnu_cxx12_Lock_policyE2EE
+ *fill*         0x8016a73a        0x2 
  .rodata._ZTISt15_Sp_counted_ptrIP9TransformLN9__gnu_cxx12_Lock_policyE2EE
-                0x8016a730        0xc wiimote.o
-                0x8016a730                _ZTISt15_Sp_counted_ptrIP9TransformLN9__gnu_cxx12_Lock_policyE2EE
+                0x8016a73c        0xc wiimote.o
+                0x8016a73c                _ZTISt15_Sp_counted_ptrIP9TransformLN9__gnu_cxx12_Lock_policyE2EE
  .rodata._ZTVSt15_Sp_counted_ptrIP9TransformLN9__gnu_cxx12_Lock_policyE2EE
-                0x8016a73c       0x1c wiimote.o
-                0x8016a73c                _ZTVSt15_Sp_counted_ptrIP9TransformLN9__gnu_cxx12_Lock_policyE2EE
- .rodata.cst4   0x8016a758       0x2c wiimote.o
- .rodata.cst8   0x8016a758      0x248 wiimote.o
+                0x8016a748       0x1c wiimote.o
+                0x8016a748                _ZTVSt15_Sp_counted_ptrIP9TransformLN9__gnu_cxx12_Lock_policyE2EE
+ .rodata.cst4   0x8016a764       0x2c wiimote.o
+ *fill*         0x8016a764        0x4 
+ .rodata.cst8   0x8016a768      0x248 wiimote.o
                                   0x8 (size before relaxing)
  .rodata._ZTSSt19_Sp_make_shared_tag
-                0x8016a9a0       0x18 debug_scene.o
-                0x8016a9a0                _ZTSSt19_Sp_make_shared_tag
+                0x8016a9b0       0x18 debug_scene.o
+                0x8016a9b0                _ZTSSt19_Sp_make_shared_tag
  .rodata._ZTSSt23_Sp_counted_ptr_inplaceI6CameraSaIvELN9__gnu_cxx12_Lock_policyE2EE
-                0x8016a9b8       0x47 debug_scene.o
-                0x8016a9b8                _ZTSSt23_Sp_counted_ptr_inplaceI6CameraSaIvELN9__gnu_cxx12_Lock_policyE2EE
- *fill*         0x8016a9ff        0x1 
+                0x8016a9c8       0x47 debug_scene.o
+                0x8016a9c8                _ZTSSt23_Sp_counted_ptr_inplaceI6CameraSaIvELN9__gnu_cxx12_Lock_policyE2EE
+ *fill*         0x8016aa0f        0x1 
  .rodata._ZTISt23_Sp_counted_ptr_inplaceI6CameraSaIvELN9__gnu_cxx12_Lock_policyE2EE
-                0x8016aa00        0xc debug_scene.o
-                0x8016aa00                _ZTISt23_Sp_counted_ptr_inplaceI6CameraSaIvELN9__gnu_cxx12_Lock_policyE2EE
+                0x8016aa10        0xc debug_scene.o
+                0x8016aa10                _ZTISt23_Sp_counted_ptr_inplaceI6CameraSaIvELN9__gnu_cxx12_Lock_policyE2EE
  .rodata._ZTVSt23_Sp_counted_ptr_inplaceI6CameraSaIvELN9__gnu_cxx12_Lock_policyE2EE
-                0x8016aa0c       0x1c debug_scene.o
-                0x8016aa0c                _ZTVSt23_Sp_counted_ptr_inplaceI6CameraSaIvELN9__gnu_cxx12_Lock_policyE2EE
+                0x8016aa1c       0x1c debug_scene.o
+                0x8016aa1c                _ZTVSt23_Sp_counted_ptr_inplaceI6CameraSaIvELN9__gnu_cxx12_Lock_policyE2EE
  .rodata._ZN9GameScene6updateEf.str1.4
-                0x8016aa28       0x5b game_scene.o
+                0x8016aa38       0x5b game_scene.o
  .rodata._ZNSt6vectorISt10shared_ptrI10GameObjectESaIS2_EE17_M_realloc_appendIJS2_EEEvDpOT_.str1.4
-                0x8016aa28       0x1a game_scene.o
+                0x8016aa38       0x1a game_scene.o
  .rodata._ZN9GameScene4initEv.str1.4
-                0x8016aa28       0x1a game_scene.o
+                0x8016aa38       0x1a game_scene.o
  .rodata._ZN9GameSceneC2ENSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE11BeatmapInfo4Mode4Rank.str1.4
-                0x8016aa28       0x7c game_scene.o
+                0x8016aa38       0x7c game_scene.o
  .rodata._ZTSSt24_Weak_result_type_memfunIM9GameSceneFvPvELb1EE
-                0x8016aa28       0x33 game_scene.o
-                0x8016aa28                _ZTSSt24_Weak_result_type_memfunIM9GameSceneFvPvELb1EE
- *fill*         0x8016aa5b        0x1 
+                0x8016aa38       0x33 game_scene.o
+                0x8016aa38                _ZTSSt24_Weak_result_type_memfunIM9GameSceneFvPvELb1EE
+ *fill*         0x8016aa6b        0x1 
  .rodata._ZTSSt17_Weak_result_typeIM9GameSceneFvPvEE
-                0x8016aa5c       0x28 game_scene.o
-                0x8016aa5c                _ZTSSt17_Weak_result_typeIM9GameSceneFvPvEE
+                0x8016aa6c       0x28 game_scene.o
+                0x8016aa6c                _ZTSSt17_Weak_result_typeIM9GameSceneFvPvEE
  .rodata._ZTISt17_Weak_result_typeIM9GameSceneFvPvEE
-                0x8016aa84        0xc game_scene.o
-                0x8016aa84                _ZTISt17_Weak_result_typeIM9GameSceneFvPvEE
+                0x8016aa94        0xc game_scene.o
+                0x8016aa94                _ZTISt17_Weak_result_typeIM9GameSceneFvPvEE
  .rodata._ZTS9GameScene
-                0x8016aa90        0xb game_scene.o
-                0x8016aa90                _ZTS9GameScene
- *fill*         0x8016aa9b        0x1 
+                0x8016aaa0        0xb game_scene.o
+                0x8016aaa0                _ZTS9GameScene
+ *fill*         0x8016aaab        0x1 
  .rodata._ZTI9GameScene
-                0x8016aa9c        0xc game_scene.o
-                0x8016aa9c                _ZTI9GameScene
+                0x8016aaac        0xc game_scene.o
+                0x8016aaac                _ZTI9GameScene
  .rodata._ZTS10GameObject
-                0x8016aaa8        0xd game_scene.o
-                0x8016aaa8                _ZTS10GameObject
- *fill*         0x8016aab5        0x3 
+                0x8016aab8        0xd game_scene.o
+                0x8016aab8                _ZTS10GameObject
+ *fill*         0x8016aac5        0x3 
  .rodata._ZTSSt5_BindIFM9GameSceneFvPvEPS0_St12_PlaceholderILi1EEEE
-                0x8016aab8       0x37 game_scene.o
-                0x8016aab8                _ZTSSt5_BindIFM9GameSceneFvPvEPS0_St12_PlaceholderILi1EEEE
- *fill*         0x8016aaef        0x1 
+                0x8016aac8       0x37 game_scene.o
+                0x8016aac8                _ZTSSt5_BindIFM9GameSceneFvPvEPS0_St12_PlaceholderILi1EEEE
+ *fill*         0x8016aaff        0x1 
  .rodata._ZTISt5_BindIFM9GameSceneFvPvEPS0_St12_PlaceholderILi1EEEE
-                0x8016aaf0        0xc game_scene.o
-                0x8016aaf0                _ZTISt5_BindIFM9GameSceneFvPvEPS0_St12_PlaceholderILi1EEEE
+                0x8016ab00        0xc game_scene.o
+                0x8016ab00                _ZTISt5_BindIFM9GameSceneFvPvEPS0_St12_PlaceholderILi1EEEE
  .rodata._ZTSSt23_Sp_counted_ptr_inplaceI5BlockSaIvELN9__gnu_cxx12_Lock_policyE2EE
-                0x8016aafc       0x46 game_scene.o
-                0x8016aafc                _ZTSSt23_Sp_counted_ptr_inplaceI5BlockSaIvELN9__gnu_cxx12_Lock_policyE2EE
- *fill*         0x8016ab42        0x2 
+                0x8016ab0c       0x46 game_scene.o
+                0x8016ab0c                _ZTSSt23_Sp_counted_ptr_inplaceI5BlockSaIvELN9__gnu_cxx12_Lock_policyE2EE
+ *fill*         0x8016ab52        0x2 
  .rodata._ZTISt23_Sp_counted_ptr_inplaceI5BlockSaIvELN9__gnu_cxx12_Lock_policyE2EE
-                0x8016ab44        0xc game_scene.o
-                0x8016ab44                _ZTISt23_Sp_counted_ptr_inplaceI5BlockSaIvELN9__gnu_cxx12_Lock_policyE2EE
+                0x8016ab54        0xc game_scene.o
+                0x8016ab54                _ZTISt23_Sp_counted_ptr_inplaceI5BlockSaIvELN9__gnu_cxx12_Lock_policyE2EE
  .rodata._ZTSSt23_Sp_counted_ptr_inplaceI5SaberSaIvELN9__gnu_cxx12_Lock_policyE2EE
-                0x8016ab50       0x46 game_scene.o
-                0x8016ab50                _ZTSSt23_Sp_counted_ptr_inplaceI5SaberSaIvELN9__gnu_cxx12_Lock_policyE2EE
- *fill*         0x8016ab96        0x2 
+                0x8016ab60       0x46 game_scene.o
+                0x8016ab60                _ZTSSt23_Sp_counted_ptr_inplaceI5SaberSaIvELN9__gnu_cxx12_Lock_policyE2EE
+ *fill*         0x8016aba6        0x2 
  .rodata._ZTISt23_Sp_counted_ptr_inplaceI5SaberSaIvELN9__gnu_cxx12_Lock_policyE2EE
-                0x8016ab98        0xc game_scene.o
-                0x8016ab98                _ZTISt23_Sp_counted_ptr_inplaceI5SaberSaIvELN9__gnu_cxx12_Lock_policyE2EE
+                0x8016aba8        0xc game_scene.o
+                0x8016aba8                _ZTISt23_Sp_counted_ptr_inplaceI5SaberSaIvELN9__gnu_cxx12_Lock_policyE2EE
  .rodata._ZTSSt23_Sp_counted_ptr_inplaceI5StageSaIvELN9__gnu_cxx12_Lock_policyE2EE
-                0x8016aba4       0x46 game_scene.o
-                0x8016aba4                _ZTSSt23_Sp_counted_ptr_inplaceI5StageSaIvELN9__gnu_cxx12_Lock_policyE2EE
- *fill*         0x8016abea        0x2 
+                0x8016abb4       0x46 game_scene.o
+                0x8016abb4                _ZTSSt23_Sp_counted_ptr_inplaceI5StageSaIvELN9__gnu_cxx12_Lock_policyE2EE
+ *fill*         0x8016abfa        0x2 
  .rodata._ZTISt23_Sp_counted_ptr_inplaceI5StageSaIvELN9__gnu_cxx12_Lock_policyE2EE
-                0x8016abec        0xc game_scene.o
-                0x8016abec                _ZTISt23_Sp_counted_ptr_inplaceI5StageSaIvELN9__gnu_cxx12_Lock_policyE2EE
+                0x8016abfc        0xc game_scene.o
+                0x8016abfc                _ZTISt23_Sp_counted_ptr_inplaceI5StageSaIvELN9__gnu_cxx12_Lock_policyE2EE
  .rodata._ZTV9GameScene
-                0x8016abf8       0x1c game_scene.o
-                0x8016abf8                _ZTV9GameScene
+                0x8016ac08       0x1c game_scene.o
+                0x8016ac08                _ZTV9GameScene
  .rodata._ZTVSt23_Sp_counted_ptr_inplaceI5BlockSaIvELN9__gnu_cxx12_Lock_policyE2EE
-                0x8016ac14       0x1c game_scene.o
-                0x8016ac14                _ZTVSt23_Sp_counted_ptr_inplaceI5BlockSaIvELN9__gnu_cxx12_Lock_policyE2EE
+                0x8016ac24       0x1c game_scene.o
+                0x8016ac24                _ZTVSt23_Sp_counted_ptr_inplaceI5BlockSaIvELN9__gnu_cxx12_Lock_policyE2EE
  .rodata._ZTVSt23_Sp_counted_ptr_inplaceI5SaberSaIvELN9__gnu_cxx12_Lock_policyE2EE
-                0x8016ac30       0x1c game_scene.o
-                0x8016ac30                _ZTVSt23_Sp_counted_ptr_inplaceI5SaberSaIvELN9__gnu_cxx12_Lock_policyE2EE
+                0x8016ac40       0x1c game_scene.o
+                0x8016ac40                _ZTVSt23_Sp_counted_ptr_inplaceI5SaberSaIvELN9__gnu_cxx12_Lock_policyE2EE
  .rodata._ZTVSt23_Sp_counted_ptr_inplaceI5StageSaIvELN9__gnu_cxx12_Lock_policyE2EE
-                0x8016ac4c       0x1c game_scene.o
-                0x8016ac4c                _ZTVSt23_Sp_counted_ptr_inplaceI5StageSaIvELN9__gnu_cxx12_Lock_policyE2EE
+                0x8016ac5c       0x1c game_scene.o
+                0x8016ac5c                _ZTVSt23_Sp_counted_ptr_inplaceI5StageSaIvELN9__gnu_cxx12_Lock_policyE2EE
  .rodata._ZL11LightColors
-                0x8016ac68        0xc game_scene.o
- .rodata.cst4   0x8016ac74       0x20 game_scene.o
+                0x8016ac78        0xc game_scene.o
+ .rodata.cst4   0x8016ac84       0x20 game_scene.o
  .rodata._ZNSt6vectorISt10unique_ptrI10GuiElementSt14default_deleteIS1_EESaIS4_EE17_M_realloc_appendIJS4_EEEvDpOT_.str1.4
-                0x8016ac74       0x1a menu_scene.o
+                0x8016ac84       0x1a menu_scene.o
  .rodata._ZN13MenuSceneImpl10ModeSelectEi.str1.4
-                0x8016ac74       0x22 menu_scene.o
+                0x8016ac84       0x22 menu_scene.o
  .rodata._ZN13MenuSceneImpl8MainMenuEv.str1.4
-                0x8016ac74       0x39 menu_scene.o
+                0x8016ac84       0x39 menu_scene.o
  .rodata._ZN9MenuSceneC2Ev.str1.4
-                0x8016ac74       0x1f menu_scene.o
+                0x8016ac84       0x1f menu_scene.o
  .rodata._ZN13MenuSceneImpl9loadSongsB5cxx11Ev.str1.4
-                0x8016ac74       0x7a menu_scene.o
+                0x8016ac84       0x7a menu_scene.o
  .rodata._ZN13MenuSceneImpl10SongSelectEv.str1.4
-                0x8016ac74       0x58 menu_scene.o
+                0x8016ac84       0x58 menu_scene.o
  .rodata._ZN13MenuSceneImpl16DifficultySelectEi4Mode.str1.4
-                0x8016ac74       0x3f menu_scene.o
+                0x8016ac84       0x3f menu_scene.o
  .rodata._ZTS9MenuScene
-                0x8016ac74        0xb menu_scene.o
-                0x8016ac74                _ZTS9MenuScene
- *fill*         0x8016ac7f        0x1 
+                0x8016ac84        0xb menu_scene.o
+                0x8016ac84                _ZTS9MenuScene
+ *fill*         0x8016ac8f        0x1 
  .rodata._ZTI9MenuScene
-                0x8016ac80        0xc menu_scene.o
-                0x8016ac80                _ZTI9MenuScene
+                0x8016ac90        0xc menu_scene.o
+                0x8016ac90                _ZTI9MenuScene
  .rodata._ZTIZN13MenuSceneImpl16DifficultySelectEi4ModeEUlijR9GuiButtonE_
-                0x8016ac8c        0x8 menu_scene.o
+                0x8016ac9c        0x8 menu_scene.o
  .rodata._ZTSZN13MenuSceneImpl16DifficultySelectEi4ModeEUlijR9GuiButtonE_
-                0x8016ac94       0x3e menu_scene.o
- *fill*         0x8016acd2        0x2 
+                0x8016aca4       0x3e menu_scene.o
+ *fill*         0x8016ace2        0x2 
  .rodata._ZTIZN13MenuSceneImpl10ModeSelectEiEUlijR9GuiButtonE_
-                0x8016acd4        0x8 menu_scene.o
+                0x8016ace4        0x8 menu_scene.o
  .rodata._ZTSZN13MenuSceneImpl10ModeSelectEiEUlijR9GuiButtonE_
-                0x8016acdc       0x33 menu_scene.o
- *fill*         0x8016ad0f        0x1 
+                0x8016acec       0x33 menu_scene.o
+ *fill*         0x8016ad1f        0x1 
  .rodata._ZTIZN13MenuSceneImpl10SongSelectEvEUlijR9GuiButtonE_
-                0x8016ad10        0x8 menu_scene.o
+                0x8016ad20        0x8 menu_scene.o
  .rodata._ZTSZN13MenuSceneImpl10SongSelectEvEUlijR9GuiButtonE_
-                0x8016ad18       0x33 menu_scene.o
- *fill*         0x8016ad4b        0x1 
+                0x8016ad28       0x33 menu_scene.o
+ *fill*         0x8016ad5b        0x1 
  .rodata._ZTIZN13MenuSceneImpl8MainMenuEvEUlijR9GuiButtonE_
-                0x8016ad4c        0x8 menu_scene.o
+                0x8016ad5c        0x8 menu_scene.o
  .rodata._ZTSZN13MenuSceneImpl8MainMenuEvEUlijR9GuiButtonE_
-                0x8016ad54       0x30 menu_scene.o
+                0x8016ad64       0x30 menu_scene.o
  .rodata._ZTV9MenuScene
-                0x8016ad84       0x1c menu_scene.o
-                0x8016ad84                _ZTV9MenuScene
- .rodata.cst4   0x8016ada0       0x20 menu_scene.o
+                0x8016ad94       0x1c menu_scene.o
+                0x8016ad94                _ZTV9MenuScene
+ .rodata.cst4   0x8016adb0       0x20 menu_scene.o
  .rodata._ZN2JS8Internal17CallbackContainerIFvRNS_9TokenizerEEE3decEj.part.0.str1.4
-                0x8016ada0       0xb8 beatmap.o
+                0x8016adb0       0xb8 beatmap.o
  .rodata._ZN2JS8Internal17CallbackContainerIFvRNS_9TokenizerEEE3incEj.part.0.str1.4
-                0x8016ada0       0x80 beatmap.o
+                0x8016adb0       0x80 beatmap.o
  .rodata._ZN2JSL13metaForTokensERKNS_10JsonTokensE.str1.4
-                0x8016ada0       0xd3 beatmap.o
+                0x8016adb0       0xd3 beatmap.o
  .rodata._ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEC2EPKcjRKS3_.isra.0.str1.4
-                0x8016ada0       0x32 beatmap.o
+                0x8016adb0       0x32 beatmap.o
  .rodata._ZNK2JS9Tokenizer15makeErrorStringB5cxx11Ev.str1.4
-                0x8016ada0       0x26 beatmap.o
+                0x8016adb0       0x26 beatmap.o
  .rodata._ZN2JS9Tokenizer19populateFromDataRefERNS_7DataRefERNS_4TypeERKS1_.str1.4
-                0x8016ada0       0x63 beatmap.o
+                0x8016adb0       0x63 beatmap.o
  .rodata._ZN2JS9Tokenizer28populateNextTokenFromDataRefERNS_5TokenERKNS_7DataRefE.str1.4
-                0x8016ada0        0x1 beatmap.o
+                0x8016adb0        0x1 beatmap.o
  .rodata._ZNK2JS12ParseContext15makeErrorStringB5cxx11Ev.str1.4
-                0x8016ada0      0x19e beatmap.o
+                0x8016adb0      0x19e beatmap.o
  .rodata._Z14ModeFromStringPKc.str1.4
-                0x8016ada0        0x9 beatmap.o
+                0x8016adb0        0x9 beatmap.o
  .rodata._Z14RankFromStringPKc.str1.4
-                0x8016ada0       0x2b beatmap.o
+                0x8016adb0       0x2a beatmap.o
  .rodata._ZN2JS8Internal17populateEnumNamesILj78EEEvRSt6vectorINS_7DataRefESaIS3_EERAT__Kc.str1.4
-                0x8016ada0       0x7a beatmap.o
+                0x8016adb0       0x7a beatmap.o
  .rodata._ZN2JS8Internal17populateEnumNamesILj39EEEvRSt6vectorINS_7DataRefESaIS3_EERAT__Kc.str1.4
-                0x8016ada0       0x6e beatmap.o
+                0x8016adb0       0x6e beatmap.o
  .rodata._ZN2JS9Tokenizer18updateErrorContextENS_5ErrorERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE.isra.0.str1.4
-                0x8016ada0       0xe2 beatmap.o
+                0x8016adb0       0xe2 beatmap.o
  .rodata._ZN2JS9Tokenizer9nextTokenERNS_5TokenE.str1.4
-                0x8016ada0      0x146 beatmap.o
+                0x8016adb0      0x146 beatmap.o
  .rodata._ZN2JS8InternalL17skipArrayOrObjectERNS_12ParseContextE.isra.0.str1.4
-                0x8016ada0       0x58 beatmap.o
+                0x8016adb0       0x58 beatmap.o
  .rodata._ZN2JS8Internal13MemberCheckerI20NullableColorPaletteNS_5TupleIJNS_2MII5ColorS2_NS3_IJNS0_13StringLiteralILj13EEEEEEEENS4_IS5_S2_NS3_IJNS6_ILj14EEEEEEEENS4_IS5_S2_NS3_IJNS6_ILj11EEEEEEEESF_NS4_IS5_S2_NS3_IJNS6_ILj15EEEEEEEENS4_IS5_S2_NS3_IJNS6_ILj16EEEEEEEESL_NS4_IS5_S2_NS3_IJNS6_ILj20EEEEEEEENS4_IS5_S2_NS3_IJNS6_ILj9EEEEEEEEEEELj0ELj8EE13verifyMembersERKSS_PbbRSt6vectorINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESaIS13_EEPKc.str1.4
-                0x8016ada0        0x3 beatmap.o
+                0x8016adb0        0x3 beatmap.o
  .rodata._ZNSt6vectorINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESaIS5_EE15_M_range_insertIN9__gnu_cxx17__normal_iteratorIPS5_S7_EEEEvSC_T_SD_St20forward_iterator_tag.isra.0.str1.4
-                0x8016ada0       0x18 beatmap.o
+                0x8016adb0       0x18 beatmap.o
  .rodata._ZN2JS8Internal13MemberCheckerI10DifficultyNS_5TupleIJNS_2MII4ModeS2_NS3_IJNS0_13StringLiteralILj4EEEEEEEENS4_I4RankS2_NS3_IJNS6_ILj14EEEEEEEENS4_I17BeatmapDifficultyS2_NS3_IJNS6_ILj17EEEEEEEENS4_IfS2_NS3_IJNS6_ILj13EEEEEEEENS4_IfS2_NS3_IJNS6_ILj11EEEEEEEENS4_INSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES2_NS3_IJNS6_ILj5EEEEEEEENS4_ISt6vectorIST_SaIST_EES2_NS3_IJNS6_ILj12EEEEEEEENS4_I20NullableColorPaletteS2_NS3_IJNS6_ILj6EEEEEEEEEEELj0ELj1EE13unpackMembersERS2_RKS17_RNS_12ParseContextEbPb.str1.4
-                0x8016ada0       0x76 beatmap.o
+                0x8016adb0       0x76 beatmap.o
  .rodata._ZN2JS11TypeHandlerI20NullableColorPalettevE2toERS1_RNS_12ParseContextE.str1.4
-                0x8016ada0       0x92 beatmap.o
+                0x8016adb0       0x92 beatmap.o
  .rodata._ZN2JS11TypeHandlerI20CustomDifficultyDatavE2toERS1_RNS_12ParseContextE.str1.4
-                0x8016ada0       0x6b beatmap.o
+                0x8016adb0       0x6b beatmap.o
  .rodata._ZN2JS11TypeHandlerI17DifficultyBeatmapvE2toERS1_RNS_12ParseContextE.str1.4
-                0x8016ada0       0x70 beatmap.o
+                0x8016adb0       0x70 beatmap.o
  .rodata._ZN2JS11TypeHandlerI20DifficultyBeatmapSetvE2toERS1_RNS_12ParseContextE.str1.4
-                0x8016ada0       0x2f beatmap.o
+                0x8016adb0       0x2f beatmap.o
  .rodata._Z14GetInfoFromDirPKcR11BeatmapInfo.str1.4
-                0x8016ada0      0x1a5 beatmap.o
+                0x8016adb0      0x1a5 beatmap.o
  .rodata._ZN2JS11TypeHandlerI21BeatmapCustomNoteDatavE2toERS1_RNS_12ParseContextE.str1.4
-                0x8016ada0        0x6 beatmap.o
+                0x8016adb0        0x6 beatmap.o
  .rodata._ZN2JS11TypeHandlerI16BeatmapColorNotevE2toERS1_RNS_12ParseContextE.str1.4
-                0x8016ada0        0xb beatmap.o
+                0x8016adb0        0xb beatmap.o
  .rodata._ZN2JS11TypeHandlerI20BeatmapRotationEventvE2toERS1_RNS_12ParseContextE.str1.4
-                0x8016ada0        0x2 beatmap.o
+                0x8016adb0        0x2 beatmap.o
  .rodata._ZN2JS11TypeHandlerI23BeatmapCustomObjectDatavE2toERS1_RNS_12ParseContextE.str1.4
-                0x8016ada0        0xc beatmap.o
+                0x8016adb0        0xc beatmap.o
  .rodata._ZN2JS11TypeHandlerI18CustomObstacleDatavE2toERS1_RNS_12ParseContextE.str1.4
-                0x8016ada0        0x5 beatmap.o
+                0x8016adb0        0x5 beatmap.o
  .rodata._ZN2JS11TypeHandlerI23BeatmapCustomSliderDatavE2toERS1_RNS_12ParseContextE.str1.4
-                0x8016ada0       0x10 beatmap.o
+                0x8016adb0       0x10 beatmap.o
  .rodata._ZN2JS11TypeHandlerI13BeatmapSlidervE2toERS1_RNS_12ParseContextE.str1.4
-                0x8016ada0        0x4 beatmap.o
+                0x8016adb0        0x4 beatmap.o
  .rodata._Z14LoadDifficultyRNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEER10Difficulty.str1.4
-                0x8016ada0       0xaa beatmap.o
+                0x8016adb0       0xaa beatmap.o
  .rodata._ZN7Beatmap7loadMapE4Mode4Rank.str1.4
-                0x8016ada0       0xb3 beatmap.o
+                0x8016adb0       0xb3 beatmap.o
  .rodata.str1.4
-                0x8016ada0      0x376 beatmap.o
+                0x8016adb0      0x376 beatmap.o
  .rodata._ZTSZN2JS11TypeHandlerISt6vectorINS_5TokenESaIS2_EEvE2toERS4_RNS_12ParseContextEEUlRNS_9TokenizerEE_
-                0x8016ada0       0x61 beatmap.o
-                0x8016ada0                _ZTSZN2JS11TypeHandlerISt6vectorINS_5TokenESaIS2_EEvE2toERS4_RNS_12ParseContextEEUlRNS_9TokenizerEE_
- *fill*         0x8016ae01        0x3 
+                0x8016adb0       0x61 beatmap.o
+                0x8016adb0                _ZTSZN2JS11TypeHandlerISt6vectorINS_5TokenESaIS2_EEvE2toERS4_RNS_12ParseContextEEUlRNS_9TokenizerEE_
+ *fill*         0x8016ae11        0x3 
  .rodata._ZZN2JS8InternalL16push_back_escapeEcRNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEE13replace_table
-                0x8016ae04        0x8 beatmap.o
+                0x8016ae14        0x8 beatmap.o
  .rodata._ZZN2JS8InternalL16push_back_escapeEcRNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEE13escaped_table
-                0x8016ae0c        0x8 beatmap.o
+                0x8016ae1c        0x8 beatmap.o
  .rodata._ZN2JS8InternalL13error_stringsE
-                0x8016ae14       0x70 beatmap.o
+                0x8016ae24       0x70 beatmap.o
  .rodata._ZZN2JS8InternalL6lookupEvE3tmp
-                0x8016ae84      0x100 beatmap.o
- .rodata.cst4   0x8016af84        0x8 beatmap.o
+                0x8016ae94      0x100 beatmap.o
+ .rodata.cst4   0x8016af94        0x8 beatmap.o
  .rodata._ZL18checkColorValidity16LodePNGColorTypej
-                0x8016af84       0x1c lodepng.o
+                0x8016af94       0x1c lodepng.o
  .rodata._ZL14readChunk_bKGDP11LodePNGInfoPKhj
-                0x8016afa0       0x1c lodepng.o
+                0x8016afb0       0x1c lodepng.o
  .rodata._ZL18getPixelColorRGBA8PhS_S_S_PKhjPK16LodePNGColorMode
-                0x8016afbc       0x1c lodepng.o
+                0x8016afcc       0x1c lodepng.o
  .rodata._ZL8unfilterPhPKhjjj
-                0x8016afd8       0x60 lodepng.o
+                0x8016afe8       0x60 lodepng.o
  .rodata._ZL13addChunk_PLTEP8ucvectorPK16LodePNGColorMode.str1.4
-                0x8016b038        0x5 lodepng.o
+                0x8016b048        0x5 lodepng.o
  .rodata._ZL13addChunk_tEXtP8ucvectorPKcS2_.str1.4
-                0x8016b038        0x5 lodepng.o
+                0x8016b048        0x5 lodepng.o
  .rodata._Z15lodepng_convertPhPKhPK16LodePNGColorModeS4_jj
-                0x8016b038       0x54 lodepng.o
+                0x8016b048       0x54 lodepng.o
  .rodata._Z15lodepng_inspectPjS_P12LodePNGStatePKhj.str1.4
-                0x8016b08c        0x5 lodepng.o
+                0x8016b09c        0x5 lodepng.o
  .rodata._Z21lodepng_inspect_chunkP12LodePNGStatejPKhj.str1.4
-                0x8016b08c       0x55 lodepng.o
+                0x8016b09c       0x55 lodepng.o
  .rodata._Z14lodepng_decodePPhPjS1_P12LodePNGStatePKhj.str1.4
-                0x8016b08c        0xd lodepng.o
+                0x8016b09c        0xd lodepng.o
  .rodata.CSWTCH.545
-                0x8016b08c       0x1c lodepng.o
+                0x8016b09c       0x1c lodepng.o
  .rodata._ZL8ADAM7_DY
-                0x8016b0a8       0x1c lodepng.o
+                0x8016b0b8       0x1c lodepng.o
  .rodata._ZL8ADAM7_DX
-                0x8016b0c4       0x1c lodepng.o
+                0x8016b0d4       0x1c lodepng.o
  .rodata._ZL8ADAM7_IY
-                0x8016b0e0       0x1c lodepng.o
+                0x8016b0f0       0x1c lodepng.o
  .rodata._ZL8ADAM7_IX
-                0x8016b0fc       0x1c lodepng.o
+                0x8016b10c       0x1c lodepng.o
  .rodata._ZL20lodepng_crc32_table7
-                0x8016b118      0x400 lodepng.o
+                0x8016b128      0x400 lodepng.o
  .rodata._ZL20lodepng_crc32_table6
-                0x8016b518      0x400 lodepng.o
+                0x8016b528      0x400 lodepng.o
  .rodata._ZL20lodepng_crc32_table5
-                0x8016b918      0x400 lodepng.o
+                0x8016b928      0x400 lodepng.o
  .rodata._ZL20lodepng_crc32_table4
-                0x8016bd18      0x400 lodepng.o
+                0x8016bd28      0x400 lodepng.o
  .rodata._ZL20lodepng_crc32_table3
-                0x8016c118      0x400 lodepng.o
+                0x8016c128      0x400 lodepng.o
  .rodata._ZL20lodepng_crc32_table2
-                0x8016c518      0x400 lodepng.o
+                0x8016c528      0x400 lodepng.o
  .rodata._ZL20lodepng_crc32_table1
-                0x8016c918      0x400 lodepng.o
+                0x8016c928      0x400 lodepng.o
  .rodata._ZL20lodepng_crc32_table0
-                0x8016cd18      0x400 lodepng.o
+                0x8016cd28      0x400 lodepng.o
  .rodata._ZL10CLCL_ORDER
-                0x8016d118       0x4c lodepng.o
+                0x8016d128       0x4c lodepng.o
  .rodata._ZL13DISTANCEEXTRA
-                0x8016d164       0x78 lodepng.o
+                0x8016d174       0x78 lodepng.o
  .rodata._ZL12DISTANCEBASE
-                0x8016d1dc       0x78 lodepng.o
+                0x8016d1ec       0x78 lodepng.o
  .rodata._ZL11LENGTHEXTRA
-                0x8016d254       0x74 lodepng.o
+                0x8016d264       0x74 lodepng.o
  .rodata._ZL10LENGTHBASE
-                0x8016d2c8       0x74 lodepng.o
+                0x8016d2d8       0x74 lodepng.o
  .rodata._ZN7tinyobjL12InitMaterialEPNS_10material_tE.str1.4
-                0x8016d33c        0x1 model.o
+                0x8016d34c        0x1 model.o
  .rodata._ZN7tinyobjL25ParseTextureNameAndOptionEPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEPNS_16texture_option_tEPKcb.isra.0.str1.4
-                0x8016d33c       0x89 model.o
+                0x8016d34c       0x89 model.o
  .rodata._Z10make_modelR9ModelImpl.str1.4
-                0x8016d33c       0xec model.o
+                0x8016d34c       0xec model.o
  .rodata._ZNSt6vectorIN7tinyobj7index_tESaIS1_EE17_M_realloc_appendIJRKS1_EEEvDpOT_.str1.4
-                0x8016d33c       0x1a model.o
+                0x8016d34c       0x1a model.o
  .rodata._ZNSt6vectorIiSaIiEE17_M_default_appendEj.str1.4
-                0x8016d33c       0x1a model.o
+                0x8016d34c       0x1a model.o
  .rodata._ZN7tinyobj19LoadObjWithCallbackERSiRKNS_11callback_t_EPvPNS_14MaterialReaderEPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE.str1.4
-                0x8016d33c      0x1e9 model.o
+                0x8016d34c      0x1e9 model.o
  .rodata._ZN7tinyobj7LoadObjEPNS_8attrib_tEPSt6vectorINS_7shape_tESaIS3_EEPS2_INS_10material_tESaIS7_EEPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEPSiPNS_14MaterialReaderEb.str1.4
-                0x8016d33c       0x86 model.o
- *fill*         0x8016d33c        0x4 
+                0x8016d34c       0x86 model.o
+ *fill*         0x8016d34c        0x4 
  .rodata._ZZN7tinyobjL14tryParseDoubleEPKcS1_PdE7pow_lut
-                0x8016d340       0x40 model.o
- .rodata.cst4   0x8016d380       0x24 model.o
+                0x8016d350       0x40 model.o
+ .rodata.cst4   0x8016d390       0x24 model.o
  .rodata._Z14tex_conv_rgb32Phjji.str1.4
-                0x8016d380       0x8f texture.o
+                0x8016d390       0x8f texture.o
  .rodata._Z14tex_conv_rgb16Phjji.str1.4
-                0x8016d380       0x34 texture.o
+                0x8016d390       0x34 texture.o
  .rodata._Z11tex_conv_i8Phjj.str1.4
-                0x8016d380       0x5c texture.o
+                0x8016d390       0x5c texture.o
  .rodata._Z12tex_conv_ia4Phjj.str1.4
-                0x8016d380       0x2d texture.o
+                0x8016d390       0x2d texture.o
  .rodata._Z8load_pngPhjj13TextureFormatiib.str1.4
-                0x8016d380       0x23 texture.o
+                0x8016d390       0x23 texture.o
  .rodata._Z17LoadPNGFromMemoryPKhj13TextureFormatiib.str1.4
-                0x8016d380       0x57 texture.o
+                0x8016d390       0x57 texture.o
  .rodata._ZN5BlockC2Ev.str1.4
-                0x8016d380       0x16 block.o
+                0x8016d390       0x16 block.o
  .rodata._ZTI5Block
-                0x8016d380        0xc block.o
-                0x8016d380                _ZTI5Block
+                0x8016d390        0xc block.o
+                0x8016d390                _ZTI5Block
  .rodata._ZTV10GameObject
-                0x8016d38c       0x18 block.o
-                0x8016d38c                _ZTV10GameObject
+                0x8016d39c       0x18 block.o
+                0x8016d39c                _ZTV10GameObject
  .rodata._ZTV5Block
-                0x8016d3a4       0x18 block.o
-                0x8016d3a4                _ZTV5Block
- .rodata.cst4   0x8016d3bc        0xc block.o
+                0x8016d3b4       0x18 block.o
+                0x8016d3b4                _ZTV5Block
+ .rodata.cst4   0x8016d3cc        0xc block.o
  .rodata._ZN6Camera7freecamEf.str1.4
-                0x8016d3bc       0x57 camera.o
+                0x8016d3cc       0x57 camera.o
  .rodata._ZN6Camera6updateEf.str1.4
-                0x8016d3bc       0xfc camera.o
+                0x8016d3cc       0xfc camera.o
  .rodata._ZTI6Camera
-                0x8016d3bc        0xc camera.o
-                0x8016d3bc                _ZTI6Camera
+                0x8016d3cc        0xc camera.o
+                0x8016d3cc                _ZTI6Camera
  .rodata._ZTV6Camera
-                0x8016d3c8       0x18 camera.o
-                0x8016d3c8                _ZTV6Camera
- .rodata.cst4   0x8016d3e0       0x40 camera.o
+                0x8016d3d8       0x18 camera.o
+                0x8016d3d8                _ZTV6Camera
+ .rodata.cst4   0x8016d3f0       0x40 camera.o
  .rodata._ZN5SaberC2ESt10shared_ptrI9TransformE.str1.4
-                0x8016d3e0       0x17 saber.o
+                0x8016d3f0       0x17 saber.o
  .rodata._ZTI5Saber
-                0x8016d3e0        0xc saber.o
-                0x8016d3e0                _ZTI5Saber
+                0x8016d3f0        0xc saber.o
+                0x8016d3f0                _ZTI5Saber
  .rodata._ZTV5Saber
-                0x8016d3ec       0x18 saber.o
-                0x8016d3ec                _ZTV5Saber
- .rodata.cst4   0x8016d404       0x20 saber.o
+                0x8016d3fc       0x18 saber.o
+                0x8016d3fc                _ZTV5Saber
+ .rodata.cst4   0x8016d414       0x20 saber.o
  .rodata._ZN5StageC2Ev.str1.4
-                0x8016d404       0x17 stage.o
+                0x8016d414       0x17 stage.o
  .rodata._ZTI5Stage
-                0x8016d404        0xc stage.o
-                0x8016d404                _ZTI5Stage
+                0x8016d414        0xc stage.o
+                0x8016d414                _ZTI5Stage
  .rodata._ZTV5Stage
-                0x8016d410       0x18 stage.o
-                0x8016d410                _ZTV5Stage
- .rodata.cst4   0x8016d428        0xc stage.o
+                0x8016d420       0x18 stage.o
+                0x8016d420                _ZTV5Stage
+ .rodata.cst4   0x8016d438        0xc stage.o
  .rodata._ZTS10GuiElement
-                0x8016d428        0xd button.o
-                0x8016d428                _ZTS10GuiElement
- *fill*         0x8016d435        0x3 
+                0x8016d438        0xd button.o
+                0x8016d438                _ZTS10GuiElement
+ *fill*         0x8016d445        0x3 
  .rodata._ZTS9GuiButton
-                0x8016d438        0xb button.o
-                0x8016d438                _ZTS9GuiButton
- *fill*         0x8016d443        0x1 
+                0x8016d448        0xb button.o
+                0x8016d448                _ZTS9GuiButton
+ *fill*         0x8016d453        0x1 
  .rodata._ZTI9GuiButton
-                0x8016d444        0xc button.o
-                0x8016d444                _ZTI9GuiButton
+                0x8016d454        0xc button.o
+                0x8016d454                _ZTI9GuiButton
  .rodata._ZTV9GuiButton
-                0x8016d450       0x18 button.o
-                0x8016d450                _ZTV9GuiButton
- .rodata.cst4   0x8016d468        0x4 button.o
+                0x8016d460       0x18 button.o
+                0x8016d460                _ZTV9GuiButton
+ .rodata.cst4   0x8016d478        0x4 button.o
  .rodata._ZN7GuiList6updateEf.str1.4
-                0x8016d468       0x4a list.o
+                0x8016d478       0x4a list.o
  .rodata._ZNSt6vectorISt10unique_ptrI9GuiButtonSt14default_deleteIS1_EESaIS4_EE17_M_realloc_appendIJRPS1_EEEvDpOT_.str1.4
-                0x8016d468       0x1a list.o
+                0x8016d478       0x1a list.o
  .rodata._ZTS7GuiList
-                0x8016d468        0x9 list.o
-                0x8016d468                _ZTS7GuiList
- *fill*         0x8016d471        0x3 
+                0x8016d478        0x9 list.o
+                0x8016d478                _ZTS7GuiList
+ *fill*         0x8016d481        0x3 
  .rodata._ZTI7GuiList
-                0x8016d474        0xc list.o
-                0x8016d474                _ZTI7GuiList
+                0x8016d484        0xc list.o
+                0x8016d484                _ZTI7GuiList
  .rodata._ZTV7GuiList
-                0x8016d480       0x18 list.o
-                0x8016d480                _ZTV7GuiList
+                0x8016d490       0x18 list.o
+                0x8016d490                _ZTV7GuiList
  .rodata._ZTS7GuiText
-                0x8016d498        0x9 text.o
-                0x8016d498                _ZTS7GuiText
- *fill*         0x8016d4a1        0x3 
+                0x8016d4a8        0x9 text.o
+                0x8016d4a8                _ZTS7GuiText
+ *fill*         0x8016d4b1        0x3 
  .rodata._ZTI7GuiText
-                0x8016d4a4        0xc text.o
-                0x8016d4a4                _ZTI7GuiText
+                0x8016d4b4        0xc text.o
+                0x8016d4b4                _ZTI7GuiText
  .rodata._ZTV7GuiText
-                0x8016d4b0       0x18 text.o
-                0x8016d4b0                _ZTV7GuiText
+                0x8016d4c0       0x18 text.o
+                0x8016d4c0                _ZTV7GuiText
  .rodata.c_debug_handler.str1.4
-                0x8016d4c8        0x3 /opt/devkitpro/libogc/lib/wii/libdb.a(debug.o)
+                0x8016d4d8        0x3 /opt/devkitpro/libogc/lib/wii/libdb.a(debug.o)
  .rodata.c_debug_handler
-                0x8016d4c8       0xf0 /opt/devkitpro/libogc/lib/wii/libdb.a(debug.o)
+                0x8016d4d8       0xf0 /opt/devkitpro/libogc/lib/wii/libdb.a(debug.o)
  .rodata.hexchars
-                0x8016d5b8       0x11 /opt/devkitpro/libogc/lib/wii/libdb.a(debug.o)
-                0x8016d5b8                hexchars
+                0x8016d5c8       0x11 /opt/devkitpro/libogc/lib/wii/libdb.a(debug.o)
+                0x8016d5c8                hexchars
  .rodata.gdbstub_getthreadinfo.str1.4
-                0x8016d5c9       0x32 /opt/devkitpro/libogc/lib/wii/libdb.a(debug_supp.o)
+                0x8016d5d9       0x32 /opt/devkitpro/libogc/lib/wii/libdb.a(debug_supp.o)
  .rodata.packqq.str1.4
-                0x8016d5c9       0x39 /opt/devkitpro/libogc/lib/wii/libdb.a(debug_supp.o)
- *fill*         0x8016d5c9        0x3 
+                0x8016d5d9       0x39 /opt/devkitpro/libogc/lib/wii/libdb.a(debug_supp.o)
+ *fill*         0x8016d5d9        0x3 
  .rodata.uip_tcp_close
-                0x8016d5cc       0x20 /opt/devkitpro/libogc/lib/wii/libdb.a(uip_tcp.o)
+                0x8016d5dc       0x20 /opt/devkitpro/libogc/lib/wii/libdb.a(uip_tcp.o)
  .rodata.uip_tcpinput
-                0x8016d5ec       0x28 /opt/devkitpro/libogc/lib/wii/libdb.a(uip_tcp.o)
+                0x8016d5fc       0x28 /opt/devkitpro/libogc/lib/wii/libdb.a(uip_tcp.o)
  .rodata.uip_tcp_backoff
-                0x8016d614        0xd /opt/devkitpro/libogc/lib/wii/libdb.a(uip_tcp.o)
-                0x8016d614                uip_tcp_backoff
- *fill*         0x8016d621        0x3 
+                0x8016d624        0xd /opt/devkitpro/libogc/lib/wii/libdb.a(uip_tcp.o)
+                0x8016d624                uip_tcp_backoff
+ *fill*         0x8016d631        0x3 
  .rodata.__wpad_eventCB
-                0x8016d624       0x30 /opt/devkitpro/libogc/lib/wii/libwiiuse.a(wpad.o)
- .rodata.cst4   0x8016d654       0x10 /opt/devkitpro/libogc/lib/wii/libwiiuse.a(wpad.o)
- .rodata.cst4   0x8016d654       0x28 /opt/devkitpro/libogc/lib/wii/libwiiuse.a(dynamics.o)
+                0x8016d634       0x30 /opt/devkitpro/libogc/lib/wii/libwiiuse.a(wpad.o)
+ .rodata.cst4   0x8016d664       0x10 /opt/devkitpro/libogc/lib/wii/libwiiuse.a(wpad.o)
+ .rodata.cst4   0x8016d664       0x28 /opt/devkitpro/libogc/lib/wii/libwiiuse.a(dynamics.o)
  .rodata.wiiuse_disable_expansion
-                0x8016d654       0x18 /opt/devkitpro/libogc/lib/wii/libwiiuse.a(io.o)
+                0x8016d664       0x18 /opt/devkitpro/libogc/lib/wii/libwiiuse.a(io.o)
  .rodata.wiiuse_set_ir.str1.4
-                0x8016d66c       0x41 /opt/devkitpro/libogc/lib/wii/libwiiuse.a(ir.o)
- .rodata.cst4   0x8016d66c       0x64 /opt/devkitpro/libogc/lib/wii/libwiiuse.a(ir.o)
- .rodata.cst4   0x8016d66c        0x4 /opt/devkitpro/libogc/lib/wii/libwiiuse.a(wiiuse.o)
+                0x8016d67c       0x41 /opt/devkitpro/libogc/lib/wii/libwiiuse.a(ir.o)
+ .rodata.cst4   0x8016d67c       0x64 /opt/devkitpro/libogc/lib/wii/libwiiuse.a(ir.o)
+ .rodata.cst4   0x8016d67c        0x4 /opt/devkitpro/libogc/lib/wii/libwiiuse.a(wiiuse.o)
  .rodata.handle_expansion
-                0x8016d66c       0x18 /opt/devkitpro/libogc/lib/wii/libwiiuse.a(events.o)
+                0x8016d67c       0x18 /opt/devkitpro/libogc/lib/wii/libwiiuse.a(events.o)
  .rodata.parse_event.str1.4
-                0x8016d684       0xa9 /opt/devkitpro/libogc/lib/wii/libwiiuse.a(events.o)
+                0x8016d694       0xa9 /opt/devkitpro/libogc/lib/wii/libwiiuse.a(events.o)
  .rodata.parse_event
-                0x8016d684       0x60 /opt/devkitpro/libogc/lib/wii/libwiiuse.a(events.o)
- .rodata.cst4   0x8016d6e4        0x4 /opt/devkitpro/libogc/lib/wii/libwiiuse.a(guitar_hero_3.o)
+                0x8016d694       0x60 /opt/devkitpro/libogc/lib/wii/libwiiuse.a(events.o)
+ .rodata.cst4   0x8016d6f4        0x4 /opt/devkitpro/libogc/lib/wii/libwiiuse.a(guitar_hero_3.o)
  .rodata.bte_hci_patch_complete.str1.4
-                0x8016d6e4        0x8 /opt/devkitpro/libogc/lib/wii/libbte.a(bte.o)
+                0x8016d6f4        0x8 /opt/devkitpro/libogc/lib/wii/libbte.a(bte.o)
  .rodata.bte_hci_initsub_complete.str1.4
-                0x8016d6e4        0x4 /opt/devkitpro/libogc/lib/wii/libbte.a(bte.o)
+                0x8016d6f4        0x4 /opt/devkitpro/libogc/lib/wii/libbte.a(bte.o)
  .rodata.bte_hci_initsub_complete
-                0x8016d6e4       0xd4 /opt/devkitpro/libogc/lib/wii/libbte.a(bte.o)
+                0x8016d6f4       0xd4 /opt/devkitpro/libogc/lib/wii/libbte.a(bte.o)
  .rodata.hci_event_handler.str1.4
-                0x8016d7b8       0x28 /opt/devkitpro/libogc/lib/wii/libbte.a(hci.o)
+                0x8016d7c8       0x28 /opt/devkitpro/libogc/lib/wii/libbte.a(hci.o)
  .rodata.hci_event_handler
-                0x8016d7b8       0x64 /opt/devkitpro/libogc/lib/wii/libbte.a(hci.o)
+                0x8016d7c8       0x64 /opt/devkitpro/libogc/lib/wii/libbte.a(hci.o)
  .rodata.l2cap_process_sig
-                0x8016d81c       0x28 /opt/devkitpro/libogc/lib/wii/libbte.a(l2cap.o)
+                0x8016d82c       0x28 /opt/devkitpro/libogc/lib/wii/libbte.a(l2cap.o)
  .rodata.dvmMountVolume.str1.4
-                0x8016d844        0xc /opt/devkitpro/libogc/lib/wii/libfat.a(dvm_volume.o)
+                0x8016d854        0xc /opt/devkitpro/libogc/lib/wii/libfat.a(dvm_volume.o)
  .rodata.fatMountSimple.str1.4
-                0x8016d844        0x5 /opt/devkitpro/libogc/lib/wii/libfat.a(fat_wrappers.o)
+                0x8016d854        0x5 /opt/devkitpro/libogc/lib/wii/libfat.a(fat_wrappers.o)
  .rodata.fr_to_errno.0
-                0x8016d844       0x14 /opt/devkitpro/libogc/lib/wii/libfat.a(fat_driver.o)
+                0x8016d854       0x14 /opt/devkitpro/libogc/lib/wii/libfat.a(fat_driver.o)
  .rodata.str1.4
-                0x8016d858        0x5 /opt/devkitpro/libogc/lib/wii/libfat.a(fat_driver.o)
+                0x8016d868        0x5 /opt/devkitpro/libogc/lib/wii/libfat.a(fat_driver.o)
  .rodata.g_vfatFsDriver
-                0x8016d858       0x14 /opt/devkitpro/libogc/lib/wii/libfat.a(fat_driver.o)
-                0x8016d858                g_vfatFsDriver
+                0x8016d868       0x14 /opt/devkitpro/libogc/lib/wii/libfat.a(fat_driver.o)
+                0x8016d868                g_vfatFsDriver
  .rodata._FAT_devoptab
-                0x8016d86c       0x80 /opt/devkitpro/libogc/lib/wii/libfat.a(fat_driver.o)
+                0x8016d87c       0x80 /opt/devkitpro/libogc/lib/wii/libfat.a(fat_driver.o)
  .rodata.dvmInit.str1.4
-                0x8016d8ec       0x16 /opt/devkitpro/libogc/lib/wii/libfat.a(dvm_libogc.o)
+                0x8016d8fc       0x16 /opt/devkitpro/libogc/lib/wii/libfat.a(dvm_libogc.o)
  .rodata.follow_path.str1.4
-                0x8016d8ec       0x13 /opt/devkitpro/libogc/lib/wii/libfat.a(ff.o)
- .rodata.ExCvt  0x8016d8ec       0x80 /opt/devkitpro/libogc/lib/wii/libfat.a(ff.o)
+                0x8016d8fc       0x13 /opt/devkitpro/libogc/lib/wii/libfat.a(ff.o)
+ .rodata.ExCvt  0x8016d8fc       0x80 /opt/devkitpro/libogc/lib/wii/libfat.a(ff.o)
  .rodata.LfnOfs
-                0x8016d96c        0xd /opt/devkitpro/libogc/lib/wii/libfat.a(ff.o)
- *fill*         0x8016d979        0x3 
+                0x8016d97c        0xd /opt/devkitpro/libogc/lib/wii/libfat.a(ff.o)
+ *fill*         0x8016d989        0x3 
  .rodata.ff_wtoupper
-                0x8016d97c       0x24 /opt/devkitpro/libogc/lib/wii/libfat.a(ffunicode.o)
+                0x8016d98c       0x24 /opt/devkitpro/libogc/lib/wii/libfat.a(ffunicode.o)
  .rodata.cvt2.0
-                0x8016d9a0       0xbc /opt/devkitpro/libogc/lib/wii/libfat.a(ffunicode.o)
+                0x8016d9b0       0xbc /opt/devkitpro/libogc/lib/wii/libfat.a(ffunicode.o)
  .rodata.cvt1.1
-                0x8016da5c      0x1f2 /opt/devkitpro/libogc/lib/wii/libfat.a(ffunicode.o)
- *fill*         0x8016dc4e        0x2 
- .rodata.uc437  0x8016dc50      0x100 /opt/devkitpro/libogc/lib/wii/libfat.a(ffunicode.o)
+                0x8016da6c      0x1f2 /opt/devkitpro/libogc/lib/wii/libfat.a(ffunicode.o)
+ *fill*         0x8016dc5e        0x2 
+ .rodata.uc437  0x8016dc60      0x100 /opt/devkitpro/libogc/lib/wii/libfat.a(ffunicode.o)
  .rodata.s_dvmDiscWrapIface
-                0x8016dd50       0x10 /opt/devkitpro/libogc/lib/wii/libfat.a(dvm_disc.o)
+                0x8016dd60       0x10 /opt/devkitpro/libogc/lib/wii/libfat.a(dvm_disc.o)
  .rodata.s_dvmDiscCacheIface
-                0x8016dd60       0x10 /opt/devkitpro/libogc/lib/wii/libfat.a(dvm_cache.o)
+                0x8016dd70       0x10 /opt/devkitpro/libogc/lib/wii/libfat.a(dvm_cache.o)
  .rodata._dvmIdentMbrVbr.str1.4
-                0x8016dd70       0x3d /opt/devkitpro/libogc/lib/wii/libfat.a(dvm_prober.o)
- *fill*         0x8016dd70       0x10 
+                0x8016dd80       0x3d /opt/devkitpro/libogc/lib/wii/libfat.a(dvm_prober.o)
  .rodata.asnd_dsp_mixer_bin
                 0x8016dd80      0x606 /opt/devkitpro/libogc/lib/wii/libasnd.a(asnd_dsp_mixer.bin.o)
                 0x8016dd80                asnd_dsp_mixer_bin
