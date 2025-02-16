@@ -103,14 +103,14 @@ void* make_model(ModelImpl& impl) {
     return NULL;
   }
 
-  LOG_DEBUG("Final size: %d\n", impl.size);
+  LOG_DEBUG("Final Size: %d\n", impl.size);
   return display;
 }
 
 Model::Model(const char* filename) {
   char path[PATH_MAX];
   snprintf(path, PATH_MAX, "%s%s", ASSET_PATH, filename);
-  LOG_DEBUG("Loading model %s\n", path);
+  LOG_DEBUG("Loading Model %s\n", path);
 
   ModelImpl impl;
   std::ifstream file(path, std::ios::binary);
