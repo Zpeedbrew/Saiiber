@@ -73,7 +73,7 @@ void MenuSceneImpl::DifficultySelect(int i, Mode mode) {
   auto& song = beatmaps[i];
 
   int width = FNT_GetStringWidth("Difficulty Select", 2.0f);
-  s16 middle = (SCREEN_WIDTH / 2) - (width / 2);
+  s16 middle = (SCREEN_WIDTH /  1.5)- (width / 2);
   auto title =
       std::make_unique<GuiText>("Difficulty Select", middle, 100, 1.5);
   title->setPosition(middle, 100);
