@@ -54,7 +54,7 @@ glm::vec3 lastRot;
 char turningString[15] = "Turning: False";
 char posString[39] = "Position: 0.000, 0.000, 0.000";
 char rotString[39] = "Rotation: 0.000, 0.000, 0.000";
-char versionString[4] = "1.2";
+char versionString[4] = "1.3";
 
 void Camera::render() {
   FNT_SetColor(0xFFFFFFFF);
