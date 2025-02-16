@@ -31,7 +31,7 @@
 #define BLACK \
   { 0x00, 0x00, 0x00, 0xFF }
 
-static GXColor background = CORNBLUE;
+static GXColor background = BLACK;
 static uint8_t colors[256 * 3] ATTRIBUTE_ALIGN(32);
 static void* frameBuffer[3];
 static u32 bufferIndex = 0;
