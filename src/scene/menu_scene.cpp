@@ -79,7 +79,7 @@ void MenuSceneImpl::DifficultySelect(int i, Mode mode) {
   auto title =
       std::make_unique<GuiText>("Difficulty Select", middle, 100, 1.5);
   title->setPosition(middle, 100);
-  title->setColor(0xFF0000FF);
+  title->setColor(GREEN);
 
   int diffFlags = song.second.getDifficulties(mode);
   int yIdx = 0;
