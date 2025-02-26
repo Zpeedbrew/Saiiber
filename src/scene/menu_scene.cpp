@@ -293,3 +293,5 @@ void MenuScene::update(f32 deltatime) {
 void MenuScene::render() {
   for (auto& element : guiElements) element->render();
 }
+void Debug::MainMenu()( {
+}
