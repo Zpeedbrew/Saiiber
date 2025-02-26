@@ -293,5 +293,9 @@ void MenuScene::update(f32 deltatime) {
 void MenuScene::render() {
   for (auto& element : guiElements) element->render();
 }
-void Debug::MainMenu()( {
+void MainMenu::Debug()( {
+ if (button == WIIMOTE_BUTTON_1) {
+      SongSelect();
+      return;
+    }
 }
