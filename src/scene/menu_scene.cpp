@@ -221,7 +221,7 @@ void MenuSceneImpl::MainMenu() {
 
   int width = FNT_GetStringWidth("Saiiber", 2.0f);
   s16 middle = (SCREEN_WIDTH / 2) - (width / 2);
-  auto title = std::make_unique<GuiText>("Saiiber", middle, 100, 2.0f);
+  auto title = std::make_unique<GuiText>("Saiiber", middle, 100, 3.0f);
   title->setPosition(middle, 100);
   title->setColor(0xFF0000FF);
 
