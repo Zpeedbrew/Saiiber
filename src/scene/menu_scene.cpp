@@ -295,7 +295,9 @@ void MenuScene::render() {
 }
 void MainMenu::Debug()( {
  if (button == WIIMOTE_BUTTON_1) {
-      SongSelect();
-      return;
+   Scene::ChangeScene<MenuScene>()
+    }
+if (button == WIIMOTE_BUTTON_2) {
+   Scene::ChangeScene<MenuScene>()
     }
 }
