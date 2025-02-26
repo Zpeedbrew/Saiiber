@@ -57,7 +57,7 @@ char rotString[39] = "Rotation: 0.000, 0.000, 0.000";
 char versionString[4] = "1.3";
 
 void Camera::render() {
-  FNT_SetColor(0xFFFFFFFF);
+  FNT_SetColor(0xFF0000FF);
   FNT_SetScale(0.5f);
 
   u16 height = FNT_GetStringHeight();
