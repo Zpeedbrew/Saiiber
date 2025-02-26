@@ -20,9 +20,7 @@
 #define SONGPATH "sd:/Songs"
 
 const int GREEN = 0x00FF00FF;
-const int WHITE = 0xFFFFFFFF;
-const int BLUE =  0xFF0000FF;
-const int RED = 0xFF0000FF; //this is really a placeholder as this is not the red color
+const int WHITE = 0xFFFFFFFF; //the text on this is by piture so the color dose not actully matter
 
 struct MenuSceneImpl {
   // Don't need to worry about cleaning up this pointer, It's managed elsewhere
