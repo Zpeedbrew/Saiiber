@@ -6,7 +6,7 @@
 extern const uint8_t beon_png[];
 extern const uint8_t beon_png_end[];
 #if __cplusplus >= 201103L
-static constexpr size_t beon_png_size=11095;
+static constexpr size_t beon_png_size=25556;
 #else
-static const size_t beon_png_size=11095;
+static const size_t beon_png_size=25556;
 #endif

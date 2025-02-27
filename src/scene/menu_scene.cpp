@@ -217,7 +217,7 @@ void MenuSceneImpl::SongSelect() {
 void MenuSceneImpl::MainMenu() {
   needReload = true;
 
-  int width = FNT_GetStringWidth("Saiiber", 2.0f);
+  int width = FNT_GetStringWidth("Saiiber", 3.0f);
   s16 middle = (SCREEN_WIDTH / 2) - (width / 2);
   auto title = std::make_unique<GuiText>("Saiiber", middle, 100, 3.0f);
   title->setPosition(middle, 100);
@@ -291,7 +291,8 @@ void MenuScene::update(f32 deltatime) {
 void MenuScene::render() {
   for (auto& element : guiElements) element->render();
 }
-void MainMenu::Debug()( {
+/*
+void MainMenu::Debug(){
  if (button == WIIMOTE_BUTTON_1) {
    Scene::ChangeScene<DebugScene>()
     }
@@ -299,3 +300,4 @@ if (button == WIIMOTE_BUTTON_2) {
    Scene::ChangeScene<LoadingScene>()
     }
 }
+*/
