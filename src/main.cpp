@@ -137,6 +137,7 @@ int main(int argc, char** argv) {
   BeatmapInfo info;
   if (GetInfoFromDir(path.c_str(), info) != 0) {
     LOG_DEBUG("Failed to load beatmap in %s\n", path.c_str());
+    return -1;
   }
 
   // std::string dir, BeatmapInfo info, Mode mode, Rank rank
