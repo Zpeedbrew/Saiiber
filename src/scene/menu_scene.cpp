@@ -291,13 +291,13 @@ void MenuScene::update(f32 deltatime) {
 void MenuScene::render() {
   for (auto& element : guiElements) element->render();
 }
-
+/*
 void MainMenu::quit(){
   if (button == WIIMOTE_BUTTON_HOME) {
     return -1;
      }
   }
-
+*/
 /*
 void MainMenu::Debug(){
  if (button == WIIMOTE_BUTTON_1) {
