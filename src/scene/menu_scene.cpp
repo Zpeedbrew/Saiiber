@@ -154,8 +154,22 @@ void MenuSceneImpl::ModeSelect(int i) {
   buttons->onButtonPressed([=](int button, u32 choice, GuiButton& element) {
     if (button == WIIMOTE_BUTTON_B) {
       SongSelect();
+    return;
+    }
+    if (button == WIIMOTE_BUTTON_1) {
+       Scene::ChangeScene<DebugScene>()
+      return;   
+    }    
+    
+    if (button == WIIMOTE_BUTTON_2) {
+    Scene::ChangeScene<LoadingScene>()
       return;
     }
+
+    if (button == WIIMOTE_BUTTON_2) {
+    return -1;
+    }
+    
 
     if (button == WIIMOTE_BUTTON_A) {
       Mode mode = ModeFromString(element.getText());
