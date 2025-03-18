@@ -1,1 +1,0 @@
-$DEVKITPPC/bin/powerpc-eabi-gdb Saiiber.elf
