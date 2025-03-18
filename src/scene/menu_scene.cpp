@@ -156,6 +156,7 @@ void MenuSceneImpl::ModeSelect(int i) {
       SongSelect();
     return;
     }
+    /*
     if (button == WIIMOTE_BUTTON_1) {
        Scene::ChangeScene<DebugScene>()
       return;   
@@ -165,9 +166,9 @@ void MenuSceneImpl::ModeSelect(int i) {
     Scene::ChangeScene<LoadingScene>()
       return;
     }
-
-    if (button == WIIMOTE_BUTTON_2) {
-    return -1;
+*/
+    if (button == WIIMOTE_BUTTON_HOME) {
+    exit(0);
     }
     
 
