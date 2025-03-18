@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <app version="$APPVERSION">
   <name>Saiiber</name>
-  <coder>Beemer, Flamix</coder>
-  <version>0.1alpha0</version>
+  <coder>guinea7pig, Beemer, Flamix</coder>
+  <version>beta 1.3 </version>
   <release_date>201002280140</release_date>
   <short_description>A Beat Saber clone for Wii</short_description>
 </app>
