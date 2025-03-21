@@ -156,17 +156,17 @@ void MenuSceneImpl::ModeSelect(int i) {
       SongSelect();
     return;
     }
-    /*
-    if (button == WIIMOTE_BUTTON_1) {
-       Scene::ChangeScene<DebugScene>()
+    
+    if (button == WPAD_BUTTON_1) {
+    Scene::ChangeScene<DebugScene>(song.first, song.second, mode, rank);
       return;   
     }    
     
-    if (button == WIIMOTE_BUTTON_2) {
-    Scene::ChangeScene<LoadingScene>()
+    if (button == WPAD_BUTTON_2) {
+    Scene::ChangeScene<LoadingScene>(song.first, song.second, mode, rank);
       return;
     }
-*/
+    
     if (button == WIIMOTE_BUTTON_HOME) {
     exit(0);
     }
@@ -306,20 +306,3 @@ void MenuScene::update(f32 deltatime) {
 void MenuScene::render() {
   for (auto& element : guiElements) element->render();
 }
-/*
-void MainMenu::quit(){
-  if (button == WIIMOTE_BUTTON_HOME) {
-    return -1;
-     }
-  }
-*/
-/*
-void MainMenu::Debug(){
- if (button == WIIMOTE_BUTTON_1) {
-   Scene::ChangeScene<DebugScene>()
-    }
-if (button == WIIMOTE_BUTTON_2) {
-   Scene::ChangeScene<LoadingScene>()
-    }
-}
-*/
