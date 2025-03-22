@@ -108,6 +108,14 @@ void MenuSceneImpl::DifficultySelect(int i, Mode mode) {
       Rank rank = RankFromString(element.getText());
       Scene::ChangeScene<GameScene>(song.first, song.second, mode, rank);
     }
+    if (button == WPAD_BUTTON_1) {
+      Rank rank = RankFromString(element.getText());
+      Scene::ChangeScene<DebugScene>(song.first, song.second, mode, rank);
+      }    
+      
+      if (button == WPAD_BUTTON_2) {
+        Rank rank = RankFromString(element.getText());
+      Scene::ChangeScene<LoadingScene>(song.first, song.second, mode, rank);
   });
 
   menu->reset();
@@ -153,18 +161,8 @@ void MenuSceneImpl::ModeSelect(int i) {
 
   buttons->onButtonPressed([=](int button, u32 choice, GuiButton& element) {
     if (button == WIIMOTE_BUTTON_B) {
-      SongSelect();
+    SongSelect();
     return;
-    }
-    
-    if (button == WPAD_BUTTON_1) {
-    Scene::ChangeScene<DebugScene>(song.first, song.second, mode, rank);
-      return;   
-    }    
-    
-    if (button == WPAD_BUTTON_2) {
-    Scene::ChangeScene<LoadingScene>(song.first, song.second, mode, rank);
-      return;
     }
     
     if (button == WIIMOTE_BUTTON_HOME) {
@@ -306,3 +304,4 @@ void MenuScene::update(f32 deltatime) {
 void MenuScene::render() {
   for (auto& element : guiElements) element->render();
 }
+
