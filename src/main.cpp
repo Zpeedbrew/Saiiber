@@ -133,7 +133,7 @@ int main(int argc, char** argv) {
   redMote.assignChannel(0);
 
 #ifdef _DEBUG
-  std::string path = "sd:/apps/Saiiber/Songs/Tuxedo - Do It";
+  std::string path = "sd:/Songs/Tuxedo - Do It";
   BeatmapInfo info;
   if (GetInfoFromDir(path.c_str(), info) != 0) {
     LOG_DEBUG("Failed to load beatmap in %s\n", path.c_str());
