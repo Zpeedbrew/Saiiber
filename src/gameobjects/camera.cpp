@@ -50,12 +50,13 @@ void Camera::render() {
 #include "../input.h"
 glm::vec3 lastPos;
 glm::vec3 lastRot;
-
+/*
 char turningString[15] = "Turning: False";
 char posString[39] = "Position: 0.000, 0.000, 0.000";
 char rotString[39] = "Rotation: 0.000, 0.000, 0.000";
 char versionString[4] = "1.3";
-
+*/
+//want to add this as a debug feature
 void Camera::render() {
   FNT_SetColor(0xFF0000FF);
   FNT_SetScale(0.5f);
