@@ -99,7 +99,8 @@ int main(int argc, char** argv) {
   err = WPAD_Init();
   if (err != 0) {
     LOG_DEBUG("Failed to initialize WPAD with error: %s.\n",
-              WPAD_GetError(err));
+    WPAD_GetError(err));
+    return -1;
   } else
     LOG_DEBUG("WPAD initialized successfully.\n");
 
