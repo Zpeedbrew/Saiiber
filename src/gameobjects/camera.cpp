@@ -5,7 +5,7 @@
 
 Camera::Camera() {
   transform->position = glm::vec3(0.0F, 2.0F, 2.0f);
-  transform->rotate(0.0f, -90.0f, 0.0f);
+  // transform->rotate(0.0f, -90.0f, 0.0f);
 
   // This took actually forever to figure out...
   // Creates the desired matrix (like how guPerspective works)
@@ -51,12 +51,11 @@ void Camera::render() {
 glm::vec3 lastPos;
 glm::vec3 lastRot;
 
-char turningString[15] = "";
-char posString[39] = "";
-char rotString[39] = "";
-char versionString[4] = "";
+char turningString[15] = "Turning: False";
+char posString[39] = "Position: 0.000, 0.000, 0.000";
+char rotString[39] = "Rotation: 0.000, 0.000, 0.000";
+char versionString[4] = "1.3";
 
-//want to add this as a debug feature
 void Camera::render() {
   FNT_SetColor(0xFF0000FF);
   FNT_SetScale(0.5f);
