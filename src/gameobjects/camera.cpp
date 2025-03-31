@@ -51,10 +51,11 @@ void Camera::render() {
 glm::vec3 lastPos;
 glm::vec3 lastRot;
 
-char turningString[15] = "Turning: False";
-char posString[39] = "Position: 0.000, 0.000, 0.000";
-char rotString[39] = "Rotation: 0.000, 0.000, 0.000";
-char versionString[4] = "1.3";
+//possibly should make thoes there own string 
+char turningString[15] = "Welcome to the saiiber beta";
+char posString[39] = "here are some controls";
+char rotString[39] = "Home=quit 1=debug scene 2=loading scene +=meun scene";
+char versionString[4] = " current version is beta 1.3 1.3";
 
 void Camera::render() {
   FNT_SetColor(0xFF0000FF);
