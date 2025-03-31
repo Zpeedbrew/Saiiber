@@ -52,7 +52,7 @@ glm::vec3 lastPos;
 glm::vec3 lastRot;
 
 //possibly should make thoes there own string 
-char turningString[15] = "Welcome to the saiiber beta";
+char turningString[26] = "Welcome to the saiiber beta";
 char posString[39] = "here are some controls";
 char rotString[39] = "Home=quit 1=debug scene 2=loading scene +=meun scene";
 char versionString[4] = " current version is beta 1.3 1.3";
