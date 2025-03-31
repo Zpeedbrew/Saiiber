@@ -56,7 +56,7 @@ char turningString[15] = "Welcome to the saiiber beta";
 char posString[39] = "here are some controls";
 char rotString[39] = "Home=quit 1=debug scene 2=loading scene +=meun scene";
 char versionString[4] = " current version is beta 1.3 1.3";
-char charecter_test[4] = "!@#$%^&*()_+{}|:"<>?,./;'\][=-1234567890qwertyuiopasdfghjklzxcvbnm";
+char charecter_test[4] = "1234567890qwertyuiopasdfghjklzxcvbnm"; //to test the font
 
 
 void Camera::render() {
