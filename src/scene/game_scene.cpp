@@ -178,7 +178,10 @@ void GameScene::update(f32 deltatime) {
  if (redMote.isButtonDown(WPAD_BUTTON_HOME)) {
 //need to deintalise gx and wiipad
 exit(0);
- }      
+LOG_DEBUG("exiting")
+}      
+ if (redMote.isButtonDown(WPAD_BUTTON_1) {
+}      
         
   if (block != NULL) block->transform->rotate(0.0f, 0.0f, deltatime);
 
