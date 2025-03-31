@@ -56,6 +56,8 @@ char turningString[15] = "Welcome to the saiiber beta";
 char posString[39] = "here are some controls";
 char rotString[39] = "Home=quit 1=debug scene 2=loading scene +=meun scene";
 char versionString[4] = " current version is beta 1.3 1.3";
+char charecter_test[4] = "!@#$%^&*()_+{}|:"<>?,./;'\][=-1234567890qwertyuiopasdfghjklzxcvbnm";
+
 
 void Camera::render() {
   FNT_SetColor(0xFF0000FF);
@@ -67,6 +69,7 @@ void Camera::render() {
   FNT_DrawString(posString, 0, height + 2);
   FNT_DrawString(rotString, 0, height + 2 + height + 2);
   FNT_DrawString(versionString, 0, height + 12 + height + 12);
+  FNT_DrawString(charecter_test, 0, height + 14 + height + 14);
 
   
 
