@@ -175,6 +175,11 @@ void GameScene::update(f32 deltatime) {
     LOG_DEBUG("Recalibrated Bluemote\n");
   }
 
+ if (redMote.isButtonDown(WPAD_BUTTON_HOME)) {
+//need to deintalise gx and wiipad
+exit(0);
+ }      
+        
   if (block != NULL) block->transform->rotate(0.0f, 0.0f, deltatime);
 
   // TODO: Check intersection between sabers and blocks
