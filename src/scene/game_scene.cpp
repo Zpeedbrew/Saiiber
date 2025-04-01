@@ -182,9 +182,21 @@ LOG_DEBUG("exiting");
 }  
 
 if (redMote.isButtonDown(WPAD_BUTTON_1)); {
-  //need to deintalise gx and wiipad
+//changes to meu scene
+Scene::ChangeScene<MenuScene>();
+} 
 
-  } 
+
+if (redMote.isButtonDown(WPAD_BUTTON_2)); {
+//changes to meu scene
+Scene::ChangeScene<DebugScene>();
+}
+
+if (redMote.isButtonDown(WPAD_BUTTON_+)); {
+//changes to meu scene
+Scene::ChangeScene<LoadingScene>();
+} 
+    
 
 
   if (block != NULL) block->transform->rotate(0.0f, 0.0f, deltatime);
