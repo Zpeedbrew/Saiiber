@@ -52,12 +52,10 @@ glm::vec3 lastPos;
 glm::vec3 lastRot;
 
 //possibly should make thoes there own string 
-char turningString[26] = "Welcome to the saiiber beta";
-char posString[39] = "here are some controls";
-char rotString[39] = "Home=quit 1=debug scene 2=loading scene +=meun scene";
-char versionString[4] = " current version is beta 1.3 1.3";
-char charecter_test[4] = "1234567890qwertyuiopasdfghjklzxcvbnm"; //to test the font
-
+char turningString[15] = "Turning: False";
+char posString[39] = "Position: 0.000, 0.000, 0.000";
+char rotString[39] = "Rotation: 0.000, 0.000, 0.000";
+char versionString[4] = "1.3";
 
 void Camera::render() {
   FNT_SetColor(0xFF0000FF);
@@ -69,7 +67,6 @@ void Camera::render() {
   FNT_DrawString(posString, 0, height + 2);
   FNT_DrawString(rotString, 0, height + 2 + height + 2);
   FNT_DrawString(versionString, 0, height + 12 + height + 12);
-  FNT_DrawString(charecter_test, 0, height + 14 + height + 14);
 
   
 
