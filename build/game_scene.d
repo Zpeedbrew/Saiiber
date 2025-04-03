@@ -263,6 +263,8 @@ game_scene.o: /home/kai/Saiiber/src/scene/game_scene.cpp \
  /home/kai/Saiiber/src/scene/../logger.h \
  /home/kai/Saiiber/src/scene/../resource/model.h \
  /home/kai/Saiiber/src/scene/../sfx.h \
+ /home/kai/Saiiber/src/scene/debug_scene.h \
+ /home/kai/Saiiber/src/scene/loading_scene.h \
  /home/kai/Saiiber/src/scene/menu_scene.h \
  /home/kai/Saiiber/src/scene/../ui/gui_element.h
 /home/kai/Saiiber/src/scene/game_scene.h:
@@ -530,5 +532,7 @@ game_scene.o: /home/kai/Saiiber/src/scene/game_scene.cpp \
 /home/kai/Saiiber/src/scene/../logger.h:
 /home/kai/Saiiber/src/scene/../resource/model.h:
 /home/kai/Saiiber/src/scene/../sfx.h:
+/home/kai/Saiiber/src/scene/debug_scene.h:
+/home/kai/Saiiber/src/scene/loading_scene.h:
 /home/kai/Saiiber/src/scene/menu_scene.h:
 /home/kai/Saiiber/src/scene/../ui/gui_element.h:

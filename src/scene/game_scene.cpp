@@ -20,7 +20,11 @@
 #include "../resource/beatmap.h"
 #include "../resource/model.h"
 #include "../sfx.h"
+#include "scene.h"
+#include "debug_scene.h"
+#include "loading_scene.h"            
 #include "menu_scene.h"
+
 
 // TODO: Lighting
 static GXColor LightColors[] = {
@@ -192,9 +196,9 @@ if (redMote.isButtonDown(WPAD_BUTTON_2)); {
 Scene::ChangeScene<DebugScene>();
 }
 
-if (redMote.isButtonDown(WPAD_BUTTON_+)); {
+if (redMote.isButtonDown(WPAD_BUTTON_PLUS)); {
 //changes to meu scene
-Scene::ChangeScene<LoadingScene>();
+//Scene::ChangeScene<LoadingScene>();
 } 
     
 
