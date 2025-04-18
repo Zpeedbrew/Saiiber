@@ -11,7 +11,7 @@
 *.o
 *.dol
 *.elf
-/build/*
+build/*
 
 # Precompiled Headers
 *.gch
