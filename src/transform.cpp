@@ -1,3 +1,5 @@
+/* General quaternion rotation code */
+
 #include "transform.h"
 
 #include "gfx.h"
