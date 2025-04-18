@@ -9,7 +9,9 @@
 *.slo
 *.lo
 *.o
-
+*.dol
+*.elf
+build/*
 
 # Precompiled Headers
 *.gch
