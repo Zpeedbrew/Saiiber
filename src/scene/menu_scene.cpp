@@ -169,6 +169,7 @@ void MenuSceneImpl::ModeSelect(int i) {
     }
     
     if (button == WIIMOTE_BUTTON_HOME) {
+    LOG_DEBUG("No songs found!\n");
     exit(0);
     }
     
@@ -245,6 +246,7 @@ void MenuSceneImpl::MainMenu() {
   buttons->add("Practice", 100, 300);
   buttons->add("Settings", 100, 350);
   buttons->add("Quit", 100, 400  );
+  buttons->add("debug", 100, 350);
 
 
   buttons->onButtonPressed([=](int button, u32 choice, GuiButton& element) {
