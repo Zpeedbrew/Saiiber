@@ -68,7 +68,7 @@ void Saber::render() {
   GFX_SetBlendMode(MODE_OFF);
   GFX_EnableColor(true);
   GFX_EnableAlpha(true);
-  GFX_ModelMatrix(transform->matrix)
+  GFX_ModelMatrix(transform->matrix);
   GFX_EnableAlphaTest(true);
   GFX_SetWriteBuffers(true,true,true);
   model->render();
