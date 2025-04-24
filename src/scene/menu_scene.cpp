@@ -270,22 +270,22 @@ void MenuSceneImpl::MainMenu() {
 
 MenuScene::MenuScene() : impl(new MenuSceneImpl()) {
   LOG_DEBUG("MenuScene constructor\n");
-  impl->menu = this;
+  impl->menu=this;
   impl->MainMenu();
 
   GFX_Texture(TEX_NONE);
   GFX_SetBlendMode(MODE_BLEND);
   GFX_EnableAlphaTest(false);
-  GFX_SetWriteBuffers(true, false, false);
+  GFX_SetWriteBuffers(true,false,false);
 
   glm::mat4 ortho = glm::transpose(
       glm::ortho(0.0f, (f32)SCREEN_WIDTH, (f32)SCREEN_HEIGHT, 0.0f));
   GFX_Projection(ortho, GX_ORTHOGRAPHIC);
 
-  glm::vec3 camPos(0.0f, 0.0f, 0.0f);
-  glm::vec3 camUp(0.0f, 1.0f, 0.0f);
-  glm::vec3 camAt(0.0f, 0.0f, -1.0f);
-  view = glm::lookAt(camPos, camAt, camUp);
+  glm::vec3 camPos(0.0f,0.0f,0.0f);
+  glm::vec3 camUp(0.0f,1.0f,0.0f);
+  glm::vec3 camAt(0.0f,0.0f,-1.0f);
+  view = glm::lookAt(camPos,camAt,camUp);
 
   glm::mat4 origin(1.0f);
   GFX_ModelMatrix(origin);
