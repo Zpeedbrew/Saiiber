@@ -8,18 +8,16 @@
 
 class GameObject {
  public:
-  std::shared_ptr<Transform> transform;
+  std::shared_ptr<Transform>transform;
 
-  GameObject() : transform(new Transform()) {}
-  GameObject(Transform* transform) : transform(transform) {}
-  GameObject(std::shared_ptr<Transform> transform) {
-    this->transform = transform;
+  GameObject():transform(new Transform()){}
+  GameObject(Transform*transform):transform(transform){}
+  GameObject(std::shared_ptr<Transform>transform){
+    this->transform=transform;
   }
 
-  virtual void update(f32 deltatime) { transform->update(); }
-  virtual void render() {}
-
-  virtual ~GameObject() {}
+  virtual void update(f32 deltatime){transform->update();}
+  virtual void render(){}
+  virtual ~GameObject(){}
 };
-
 #endif  // GAME_OBJECT_H
