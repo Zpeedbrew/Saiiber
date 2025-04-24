@@ -71,13 +71,13 @@ BeatmapList MenuSceneImpl::loadSongs() {
 
 void MenuSceneImpl::DifficultySelect(int i, Mode mode) {
   auto& song = beatmaps[i];
-
-  int width = FNT_GetStringWidth("Difficulty Select", 2.0f);
+                                                                     
+  int width = FNT_GetStringWidth("Difficulty Select",3.0f);
   s16 middle = (SCREEN_WIDTH /  1.5)- (width / 2);
   auto title =
       std::make_unique<GuiText>("Difficulty Select", middle, 100, 1.5);
   title->setPosition(middle, 100);
-  title->setColor(GREEN);
+  title->setColor(0x00FF00FF);
 
   int diffFlags = song.second.getDifficulties(mode);
   int yIdx = 0;
@@ -105,18 +105,16 @@ void MenuSceneImpl::DifficultySelect(int i, Mode mode) {
     }
 
     if (button == WIIMOTE_BUTTON_A) {
-      Rank rank = RankFromString(element.getText());
+    Rank rank = RankFromString(element.getText());
     Scene::ChangeScene<GameScene>(song.first, song.second, mode, rank);
     }
     if (button == WPAD_BUTTON_1) {
-      Rank rank = RankFromString(element.getText());
-    //Scene::ChangeScene<DebugScene>(song.first, song.second, mode, rank);
+    //Scene::ChangeScene<DebugScene>();
     printf("1 button pressed should change to debug scene");  
     }    
       
       if (button == WPAD_BUTTON_2) {
-      Rank rank = RankFromString(element.getText());
-      //Scene::ChangeScene<LoadingScene>(song.first, song.second, mode, rank);
+      //Scene::ChangeScene<LoadingScene>();
       printf("1 button pressed should change to loading  scene"); 
       }
   });
@@ -169,6 +167,7 @@ void MenuSceneImpl::ModeSelect(int i) {
     }
     
     if (button == WIIMOTE_BUTTON_HOME) {
+    LOG_DEBUG("No songs found!\n");
     exit(0);
     }
     
@@ -240,11 +239,12 @@ void MenuSceneImpl::MainMenu() {
   title->setColor(0xFF0000FF);
 
   auto buttons = std::make_unique<GuiList>();
-  buttons->add("Quickplay", 100, 200, 1.0f);
-  buttons->add("Versus", 100, 250);
-  buttons->add("Practice", 100, 300);
-  buttons->add("Settings", 100, 350);
-  buttons->add("Quit", 100, 400  );
+  buttons->add("Quickplay",100,200,1.0f);
+  buttons->add("Versus",100,250);
+  buttons->add("Practice",100,300);
+  buttons->add("Settings",100,350);
+  buttons->add("debug",100,400);
+  buttons->add("Quit",100,450);
 
 
   buttons->onButtonPressed([=](int button, u32 choice, GuiButton& element) {
@@ -270,22 +270,22 @@ void MenuSceneImpl::MainMenu() {
 
 MenuScene::MenuScene() : impl(new MenuSceneImpl()) {
   LOG_DEBUG("MenuScene constructor\n");
-  impl->menu = this;
+  impl->menu=this;
   impl->MainMenu();
 
   GFX_Texture(TEX_NONE);
   GFX_SetBlendMode(MODE_BLEND);
   GFX_EnableAlphaTest(false);
-  GFX_SetWriteBuffers(true, false, false);
+  GFX_SetWriteBuffers(true,false,false);
 
   glm::mat4 ortho = glm::transpose(
       glm::ortho(0.0f, (f32)SCREEN_WIDTH, (f32)SCREEN_HEIGHT, 0.0f));
   GFX_Projection(ortho, GX_ORTHOGRAPHIC);
 
-  glm::vec3 camPos(0.0f, 0.0f, 0.0f);
-  glm::vec3 camUp(0.0f, 1.0f, 0.0f);
-  glm::vec3 camAt(0.0f, 0.0f, -1.0f);
-  view = glm::lookAt(camPos, camAt, camUp);
+  glm::vec3 camPos(0.0f,0.0f,0.0f);
+  glm::vec3 camUp(0.0f,1.0f,0.0f);
+  glm::vec3 camAt(0.0f,0.0f,-1.0f);
+  view = glm::lookAt(camPos,camAt,camUp);
 
   glm::mat4 origin(1.0f);
   GFX_ModelMatrix(origin);

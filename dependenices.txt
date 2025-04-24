@@ -1,5 +1,0 @@
-ppc-libvorbisidec
-ppc-libpng
-ppc-giflib
-ppc-freetype
-ppc-mpg123
