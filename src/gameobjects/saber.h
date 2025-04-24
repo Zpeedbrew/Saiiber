@@ -5,9 +5,9 @@
 
 class Model;
 
-class Saber : public GameObject {
+class Saber:public GameObject {
  private:
-  static std::unique_ptr<Model> model;
+  static std::unique_ptr<Model>model;
   glm::mat4 texMtx;
   GXColor color;
 
@@ -15,11 +15,10 @@ class Saber : public GameObject {
   glm::u16vec4 ppSource;
 
  public:
-  Saber(std::shared_ptr<Transform> transform);
-  void update(f32 deltatime) override;
-  void render() override;
-  void setColor(u8 r, u8 g, u8 b, u8 a);
-  void postProcess(void* buf);
+  Saber(std::shared_ptr<Transform>transform);
+  void update(f32 deltatime)override;
+  void render()override;
+  void setColor(u8 r,u8 g,u8 b,u8 a);
+  void postProcess(void*buf);
 };
-
 #endif  // SABER_H

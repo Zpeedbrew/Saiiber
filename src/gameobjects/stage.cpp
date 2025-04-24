@@ -6,14 +6,14 @@
 #include "fx_obj.h"
 #include "stage_obj.h"
 
-std::unique_ptr<Model> Stage::stagemodel = nullptr;
-std::unique_ptr<Model> Stage::fxmodel = nullptr;
+std::unique_ptr<Model>Stage::stagemodel=nullptr;
+std::unique_ptr<Model>Stage::fxmodel=nullptr;
 
 Stage::Stage() {
-  if (stagemodel == nullptr)
-    stagemodel = std::make_unique<Model>(stage_obj, stage_obj_size);
+  if(stagemodel==nullptr)
+    stagemodel=std::make_unique<Model>(stage_obj,stage_obj_size);
 
-  texMtx = glm::scale(glm::vec3(0.5f, 0.5f, 0.5f));
+  texMtx=glm::scale(glm::vec3(0.5f,0.5f,0.5f));
 
   // if (fxmodel == nullptr)
   // fxmodel = std::make_unique<Model>(fx_obj, fx_obj_size);
@@ -37,17 +37,14 @@ void Stage::update(f32 deltatime) {
 }
 
 void Stage::render() {
-  GFX_Texture(TEX_MODEL, texMtx);
+  GFX_Texture(TEX_MODEL,texMtx);
   GFX_EnableLighting(true);
   GFX_EnableColor(true);
-
   GFX_EnableAlphaTest(true);
-  GFX_SetWriteBuffers(true, true, true);
-
+  GFX_SetWriteBuffers(true,true,true);
   GFX_ModelMatrix(transform->matrix);
   GFX_SetBlendMode(MODE_OFF);
   stagemodel->render();
-
   // GFX_ModelViewMatrix(fxtransform.matrix);
   // GFX_SetBlendMode(MODE_BLEND);
   // fxmodel->render();
