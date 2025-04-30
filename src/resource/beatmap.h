@@ -1,7 +1,7 @@
 /**
- * Beatmap.h
- * Author: Beemer
- * Reflects the structure of the JSON inside of each ".dat" file
+* Beatmap.h
+* Author: Beemer
+* Reflects the structure of the JSON inside of each ".dat" file
 */
 #ifndef BEATMAP_H
 #define BEATMAP_H
@@ -10,65 +10,54 @@
 #include <memory>
 #include <string>
 #include "../json_struct.h"
-
 JS_ENUM(Mode,
-  Standard,
-  OneSaber,
-  ThreeSixty,
-  Ninety,
-  NoArrows,
-  Lightshow,
-  Lawless,
-  Unknown
+Standard,
+OneSaber,
+ThreeSixty,
+Ninety,
+NoArrows,
+Lightshow,//should make the S in show captial
+Lawless,
+Unknown
 )
-
 JS_ENUM(Modifier,
-  ThreeSixty,
-  Ninety,
-  Unknown,
-  NoArrows,
-  Lightshow,
-  Lawless,
-  NoFail
+ThreeSixty,
+Ninety,
+Unknown,
+NoArrows,
+Lightshow,
+Lawless,
+NoFail
 )
-
 JS_ENUM(Rank,
-  Easy,
-  Normal,
-  Hard,
-  Expert,
-  ExpertPlus
+Easy,
+Normal,
+Hard,
+Expert,
+ExpertPlus
 )
-
-struct BeatmapObject {
-  float b;
-  int x;
-  int y;
+struct BeatmapObject{
+float b;
+int x;
+int y;
 };
-
 JS_OBJ_EXT(BeatmapObject, b, x, y);
-
-
 struct CustomDifficultyColor {
-  float r, g, b;
+float r, g, b;
 };
-
 JS_OBJ_EXT(CustomDifficultyColor, r, g, b);
-
-
 struct CustomDifficultyData {
-  std::string _difficultyLabel;
-  std::vector<std::string> _requirements;
-
-  CustomDifficultyColor _colorLeft;
-  CustomDifficultyColor _colorRight;
-  CustomDifficultyColor _envColorLeft;
-  CustomDifficultyColor _envColorRight;
-  CustomDifficultyColor _envColorWhite;
-  CustomDifficultyColor _envColorLeftBoost;
-  CustomDifficultyColor _envColorRightBoost;
-  CustomDifficultyColor _envColorWhiteBoost;
-  CustomDifficultyColor _obstacleColor;
+std::string _difficultyLabel;
+std::vector<std::string> _requirements;
+CustomDifficultyColor _colorLeft;
+CustomDifficultyColor _colorRight;
+CustomDifficultyColor _envColorLeft;
+CustomDifficultyColor _envColorRight;
+CustomDifficultyColor _envColorWhite;
+CustomDifficultyColor _envColorLeftBoost;
+CustomDifficultyColor _envColorRightBoost;
+CustomDifficultyColor _envColorWhiteBoost;
+CustomDifficultyColor _obstacleColor;
 };
 
 JS_OBJ_EXT(CustomDifficultyData, _difficultyLabel, _requirements, _colorLeft,
