@@ -59,84 +59,61 @@ CustomDifficultyColor _envColorRightBoost;
 CustomDifficultyColor _envColorWhiteBoost;
 CustomDifficultyColor _obstacleColor;
 };
-
-JS_OBJ_EXT(CustomDifficultyData, _difficultyLabel, _requirements, _colorLeft,
-  _colorRight, _envColorLeft, _envColorRight, _envColorWhite, _envColorLeftBoost,
-  _envColorRightBoost, _envColorWhiteBoost, _obstacleColor);
-
-
+JS_OBJ_EXT(CustomDifficultyData,_difficultyLabel,_requirements,_colorLeft,_colorRight,_envColorLeft,_envColorRight,_envColorWhite,_envColorLeftBoost,_envColorRightBoost,_envColorWhiteBoost, _obstacleColor);
 struct DifficultyBeatmap {
-   std::string _difficulty;
-   int _difficultyRank;
-   std::string _beatmapFilename;
-   float _noteJumpMovementSpeed;
-   float _noteJumpStartBeatOffset;
-
-   CustomDifficultyData _customData;
+std::string _difficulty;
+int _difficultyRank;
+std::string _beatmapFilename;
+float _noteJumpMovementSpeed;
+float _noteJumpStartBeatOffset;
+CustomDifficultyData _customData;
 };
-
-JS_OBJ_EXT(DifficultyBeatmap, _difficulty, _difficultyRank, _beatmapFilename,
-  _noteJumpMovementSpeed, _noteJumpStartBeatOffset, _customData);
-
-
-struct DifficultyBeatmapSet {
-  std::string _beatmapCharacteristicName;
-  std::vector<DifficultyBeatmap> _difficultyBeatmaps;
+JS_OBJ_EXT(DifficultyBeatmap,_difficulty,_difficultyRank,_beatmapFilename,_noteJumpMovementSpeed,_noteJumpStartBeatOffset,_customData);
+struct DifficultyBeatmapSet{
+std::string _beatmapCharacteristicName;
+std::vector<DifficultyBeatmap> _difficultyBeatmaps;
 };
-
-JS_OBJ_EXT(DifficultyBeatmapSet, _beatmapCharacteristicName, _difficultyBeatmaps);
-
-struct BeatmapInfo {
-  //Version doesn't need to be internally stored.
-  std::string _songName;
-  std::string _songSubName;
-  std::string _songAuthorName;
-  std::string _levelAuthorName;
-  float _beatsPerMinute;
-
-  //Shuffle is depreciated and will be ignored.
-  float _shuffle;
-  float _shufflePeriod;
-
-  //Preview times aren't needed either
-  float _previewStartTime;
-  float _previewDuration;
-
-  std::string _songFilename;
-  std::string _coverImageFilename;
-  std::string _environmentName;
-  std::string _allDirectionsEnvironmentName;
-  float _songTimeOffset;
-
-  std::vector<DifficultyBeatmapSet> _difficultyBeatmapSets;
-
-  int getModes();
-  int getDifficulties(Mode mode);
-
-  inline void reset() {
-    _songName = "";
-    _songSubName = "";
-    _songAuthorName = "";
-    _levelAuthorName = "";
-    _beatsPerMinute = 0.0f;
-    _shuffle = 0.0f;
-    _shufflePeriod = 0.0f;
-    _previewStartTime = 0.0f;
-    _previewDuration = 0.0f;
-    _songFilename = "";
-    _coverImageFilename = "";
-    _environmentName = "";
-    _allDirectionsEnvironmentName = "";
-    _songTimeOffset = 0.0f;
-    _difficultyBeatmapSets.clear();
-  }
+JS_OBJ_EXT(DifficultyBeatmapSet,_beatmapCharacteristicName,_difficultyBeatmaps);
+struct BeatmapInfo{
+//Version doesn't need to be internally stored.
+std::string _songName;
+std::string _songSubName;
+std::string _songAuthorName;
+std::string _levelAuthorName;
+float _beatsPerMinute;
+//Shuffle is depreciated and will be ignored.
+float _shuffle;
+float _shufflePeriod;
+//Preview times aren't needed either
+float _previewStartTime;
+float _previewDuration;
+std::string _songFilename;
+std::string _coverImageFilename;
+std::string _environmentName;
+std::string _allDirectionsEnvironmentName;
+float _songTimeOffset;
+std::vector<DifficultyBeatmapSet> _difficultyBeatmapSets;
+int getModes();
+int getDifficulties(Mode mode);
+inline void reset() {
+songName="";
+_songSubName="";
+_songAuthorName="";
+_levelAuthorName="";
+_beatsPerMinute=0.0f;
+_shuffle=0.0f;
+_shufflePeriod=0.0f;
+_previewStartTime=0.0f;
+_previewDuration=0.0f;
+_songFilename="";
+_coverImageFilename="";
+_environmentName="";
+_allDirectionsEnvironmentName="";
+_songTimeOffset=0.0f;
+_difficultyBeatmapSets.clear();
+}
 };
-
-JS_OBJ_EXT(BeatmapInfo, _songName, _songSubName, _songAuthorName,
-  _levelAuthorName, _beatsPerMinute, _shuffle, _shufflePeriod,
-  _previewStartTime, _previewDuration, _songFilename, _coverImageFilename,
-  _environmentName, _allDirectionsEnvironmentName, _songTimeOffset,
-  _difficultyBeatmapSets);
+JS_OBJ_EXT(BeatmapInfo,_0songName,_songSubName,_songAuthorName,_levelAuthorName, _beatsPerMinute, _shuffle, _shufflePeriod,_previewStartTime, _previewDuration, _songFilename,_coverImageFilename,_environmentName,_allDirectionsEnvironmentName,_songTimeOffset,_difficultyBeatmapSets);
 
 struct BeatmapBpmEvent {
   float b;
