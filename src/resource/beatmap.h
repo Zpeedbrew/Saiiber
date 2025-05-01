@@ -113,138 +113,102 @@ _songTimeOffset=0.0f;
 _difficultyBeatmapSets.clear();
 }
 };
-JS_OBJ_EXT(BeatmapInfo,_0songName,_songSubName,_songAuthorName,_levelAuthorName, _beatsPerMinute, _shuffle, _shufflePeriod,_previewStartTime, _previewDuration, _songFilename,_coverImageFilename,_environmentName,_allDirectionsEnvironmentName,_songTimeOffset,_difficultyBeatmapSets);
-
-struct BeatmapBpmEvent {
-  float b;
-  float m;
+JS_OBJ_EXT(BeatmapInfo,_0songName,_songSubName,_songAuthorName,_levelAuthorName,_beatsPerMinute,_shuffle,_shufflePeriod,_previewStartTime,_previewDuration,_songFilename,_coverImageFilename,_environmentName,_allDirectionsEnvironmentName,_songTimeOffset,_difficultyBeatmapSets);
+struct BeatmapBpmEvent{
+float b;
+float m;
 };
-
-JS_OBJ_EXT(BeatmapBpmEvent, b, m);
-
-
-struct BeatmapRotationEvent {
-  float b;
-  int e;
-  float r;
+JS_OBJ_EXT(BeatmapBpmEvent,b,m);
+struct BeatmapRotationEvent{
+float b;
+int e;
+float r;
 };
-
-JS_OBJ_EXT(BeatmapRotationEvent, b, e, r);
-
-struct BeatmapCustomNoteData {
-  float angle;
+JS_OBJ_EXT(BeatmapRotationEvent,b,e,r);
+struct BeatmapCustomNoteData{
+float angle;
 };
-
-JS_OBJ_EXT(BeatmapCustomNoteData, angle);
-
-
+JS_OBJ_EXT(BeatmapCustomNoteData,angle);
 struct BeatmapColorNote {
-  int c;
-  int d;
-  int a;
-
-  BeatmapCustomNoteData customData;
+int c;
+int d;
+int a;
+BeatmapCustomNoteData customData;
 };
-
-JS_OBJ_EXT(BeatmapColorNote, c, d, a, customData);
-
-
-struct BeatmapCustomObjectData {
-  std::vector<float> coordinates; // array
+JS_OBJ_EXT(BeatmapColorNote,c,d,a,customData);
+struct BeatmapCustomObjectData{
+std::vector<float>coordinates;//Array
 };
-
-JS_OBJ_EXT(BeatmapCustomObjectData, coordinates);
-
-
-struct BeatmapBombNote {
-  BeatmapCustomObjectData customData;
+JS_OBJ_EXT(BeatmapCustomObjectData,coordinates);
+struct BeatmapBombNote{
+BeatmapCustomObjectData customData;
 };
-
-JS_OBJ_EXT(BeatmapBombNote, customData);
-
-struct CustomObstacleData {
-  std::vector<float> size; // Array
+JS_OBJ_EXT(BeatmapBombNote,customData);
+struct CustomObstacleData{
+std::vector<float>size;//Array
 };
-
-JS_OBJ_EXT(CustomObstacleData, size);
-
-struct BeatmapObstacle {
-  float d;
-  int w;
-  int h;
-
-  CustomObstacleData customData;
+JS_OBJ_EXT(CustomObstacleData,size);
+struct BeatmapObstacle{
+float d;
+int w;
+int h;
+CustomObstacleData customData;
 };
-
-JS_OBJ_EXT(BeatmapObstacle, d, w, h, customData);
-
-struct BeatmapCustomSliderData {
-  std::vector<float> tailCoordinates; // Array
+JS_OBJ_EXT(BeatmapObstacle,d,w,h,customData);
+struct BeatmapCustomSliderData{
+std::vector<float>tailCoordinates;//Array
 };
-
-JS_OBJ_EXT(BeatmapCustomSliderData, tailCoordinates);
-
-struct BeatmapSlider : BeatmapObject {
-  int c;
-  int d;
-  float mu;
-  float tb;
-  int tx;
-  int ty;
-  int tc;
-  float tmu;
-  int m;
-
-  BeatmapCustomSliderData customData;
+JS_OBJ_EXT(BeatmapCustomSliderData,tailCoordinates);
+struct BeatmapSlider:BeatmapObject{
+int c;
+int d;
+float mu;
+float tb;
+int tx;
+int ty;
+int tc;
+float tmu;
+int m;
+BeatmapCustomSliderData customData;
 };
-
-JS_OBJ_EXT(BeatmapSlider, c, d, mu, tb, tx, ty, tc, tmu, m, customData);
-
-struct BeatmapBurstSlider : BeatmapObject {
-  int c;
-  int d;
-  float tb;
-  int tx;
-  int ty;
-  int sc;
-  float s;
-
-  BeatmapCustomObjectData customData;
+JS_OBJ_EXT(BeatmapSlider,c,d,mu,tb,tx,ty,tc,tmu,m,customData);
+struct BeatmapBurstSlider:BeatmapObject {
+int c;
+int d;
+float tb;
+int tx;
+int ty;
+int sc;
+float s;
+BeatmapCustomObjectData customData;
 };
-
-JS_OBJ_EXT(BeatmapBurstSlider, c, d, tb, tx, ty, sc, s, customData);
-
+JS_OBJ_EXT(BeatmapBurstSlider,c,d,tb,tx,ty,sc,s,customData);
 struct BeatmapBasicBeatmapEvent {
-  float b;
-  int et;
-  int i;
-  float f;
+float b;
+int et;
+int i;
+float f;
 };
-
-JS_OBJ_EXT(BeatmapBasicBeatmapEvent, b, et, i, f);
-
-struct BeatmapColorBoostBeatmapEvent {
-  float b;
-  bool o;
+JS_OBJ_EXT(BeatmapBasicBeatmapEvent,b,et,i,f);
+struct BeatmapColorBoostBeatmapEvent{
+float b;
+bool o;
 };
-
-JS_OBJ_EXT(BeatmapColorBoostBeatmapEvent, b, o);
-
-struct BeatmapDifficulty {
-  std::string version;
-  std::vector<BeatmapBpmEvent> bpmEvents;
-  std::vector<BeatmapRotationEvent> rotationEvents;
-  std::vector<BeatmapColorNote> colorNotes;
-  std::vector<BeatmapBombNote> bombNotes;
-  std::vector<BeatmapObstacle> obstacles;
-  std::vector<BeatmapSlider> sliders;
-  std::vector<BeatmapBurstSlider> burstSliders;
-  //Waypoints ommitted
-  std::vector<BeatmapBasicBeatmapEvent> basicBeatMapEvents;
-  std::vector<BeatmapColorBoostBeatmapEvent> colorBoostBeatMapEvents;
-  bool useNormalEventsAsCompatibleEvents;
+JS_OBJ_EXT(BeatmapColorBoostBeatmapEvent,b,o);
+struct BeatmapDifficulty{
+std::string version;
+std::vector<BeatmapBpmEvent>bpmEvents;
+std::vector<BeatmapRotationEvent>rotationEvents;
+std::vector<BeatmapColorNote>colorNotes;
+std::vector<BeatmapBombNote>bombNotes;
+std::vector<BeatmapObstacle> obstacles;
+std::vector<BeatmapSlider>sliders;
+std::vector<BeatmapBurstSlider>burstSliders;
+//Waypoints ommitted
+std::vector<BeatmapBasicBeatmapEvent>basicBeatMapEvents;
+std::vector<BeatmapColorBoostBeatmapEvent>colorBoostBeatMapEvents;
+bool useNormalEventsAsCompatibleEvents;
 };
-
 JS_OBJ_EXT(BeatmapDifficulty, version, bpmEvents, rotationEvents, colorNotes,
   bombNotes, obstacles, sliders, burstSliders, basicBeatMapEvents,
   colorBoostBeatMapEvents, useNormalEventsAsCompatibleEvents);
