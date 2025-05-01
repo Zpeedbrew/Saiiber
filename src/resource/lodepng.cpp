@@ -1,51 +1,37 @@
 /*
 LodePNG version 20230410
-
 Copyright (c) 2005-2023 Lode Vandevenne
-
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages
 arising from the use of this software.
-
 Permission is granted to anyone to use this software for any purpose,
 including commercial applications, and to alter it and redistribute it
 freely, subject to the following restrictions:
-
-    1. The origin of this software must not be misrepresented; you must not
-    claim that you wrote the original software. If you use this software
-    in a product, an acknowledgment in the product documentation would be
-    appreciated but is not required.
-
-    2. Altered source versions must be plainly marked as such, and must not be
-    misrepresented as being the original software.
-
-    3. This notice may not be removed or altered from any source
-    distribution.
+1. The origin of this software must not be misrepresented; you must not
+claim that you wrote the original software. If you use this software
+in a product, an acknowledgment in the product documentation would be
+appreciated but is not required.
+2. Altered source versions must be plainly marked as such, and must not be
+misrepresented as being the original software.
+3. This notice may not be removed or altered from any source distribution.
 */
-
 /*
 The manual and changelog are in the header file "lodepng.h"
 Rename this file to lodepng.cpp to use it for C++, or to lodepng.c to use it for C.
 */
-
 #include "lodepng.h"
-
 #ifdef LODEPNG_COMPILE_DISK
 #include <limits.h> /* LONG_MAX */
 #include <stdio.h> /* file handling */
 #endif /* LODEPNG_COMPILE_DISK */
-
 #ifdef LODEPNG_COMPILE_ALLOCATORS
 #include <stdlib.h> /* allocations */
 #endif /* LODEPNG_COMPILE_ALLOCATORS */
-
 #if defined(_MSC_VER) && (_MSC_VER >= 1310) /*Visual Studio: A few warning types are not desired here.*/
 #pragma warning( disable : 4244 ) /*implicit conversions: not warned by gcc -Wall -Wextra and requires too much casts*/
 #pragma warning( disable : 4996 ) /*VS does not like fopen, but fopen_s is not standard C so unusable here*/
 #endif /*_MSC_VER */
-
 const char* LODEPNG_VERSION_STRING = "20230410";
-
 /*
 This source file is divided into the following large parts. The code sections
 with the "LODEPNG_COMPILE_" #defines divide this up further in an intermixed way.
@@ -54,13 +40,11 @@ with the "LODEPNG_COMPILE_" #defines divide this up further in an intermixed way
 -C Code for PNG (file format chunks, adam7, PNG filters, color conversions, ...)
 -The C++ wrapper around all of the above
 */
-
 /* ////////////////////////////////////////////////////////////////////////// */
 /* ////////////////////////////////////////////////////////////////////////// */
 /* // Tools for C, and common code for PNG and Zlib.                       // */
 /* ////////////////////////////////////////////////////////////////////////// */
 /* ////////////////////////////////////////////////////////////////////////// */
-
 /*The malloc, realloc and free functions defined here with "lodepng_" in front
 of the name, so that you can easily change them to others related to your
 platform if needed. Everything else in the code calls these. Pass
@@ -69,33 +53,29 @@ platform if needed. Everything else in the code calls these. Pass
 define them in your own project's source files without needing to change
 lodepng source code. Don't forget to remove "static" if you copypaste them
 from here.*/
-
 #ifdef LODEPNG_COMPILE_ALLOCATORS
-static void* lodepng_malloc(size_t size) {
+static void* lodepng_malloc(size_t size){
 #ifdef LODEPNG_MAX_ALLOC
-  if(size > LODEPNG_MAX_ALLOC) return 0;
+if(size > LODEPNG_MAX_ALLOC) return 0;
 #endif
-  return malloc(size);
+return malloc(size);
 }
-
 /* NOTE: when realloc returns NULL, it leaves the original memory untouched */
 static void* lodepng_realloc(void* ptr, size_t new_size) {
 #ifdef LODEPNG_MAX_ALLOC
-  if(new_size > LODEPNG_MAX_ALLOC) return 0;
+if(new_size > LODEPNG_MAX_ALLOC) return 0;
 #endif
-  return realloc(ptr, new_size);
+return realloc(ptr,new_size);
 }
-
-static void lodepng_free(void* ptr) {
-  free(ptr);
+static void lodepng_free(void* ptr){
+free(ptr);
 }
 #else /*LODEPNG_COMPILE_ALLOCATORS*/
 /* TODO: support giving additional void* payload to the custom allocators */
 void* lodepng_malloc(size_t size);
-void* lodepng_realloc(void* ptr, size_t new_size);
+void* lodepng_realloc(void* ptr,size_t new_size);
 void lodepng_free(void* ptr);
 #endif /*LODEPNG_COMPILE_ALLOCATORS*/
-
 /* convince the compiler to inline a function, for use when this measurably improves performance */
 /* inline is not available in C90, but use it when supported by the compiler */
 #if (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)) || (defined(__cplusplus) && (__cplusplus >= 199711L))
@@ -103,7 +83,6 @@ void lodepng_free(void* ptr);
 #else
 #define LODEPNG_INLINE /* not available */
 #endif
-
 /* restrict is not available in C90, but use it when supported by the compiler */
 #if (defined(__GNUC__) && (__GNUC__ > 3 || (__GNUC__ == 3 && __GNUC_MINOR__ >= 1))) ||\
     (defined(_MSC_VER) && (_MSC_VER >= 1400)) || \
@@ -112,11 +91,9 @@ void lodepng_free(void* ptr);
 #else
 #define LODEPNG_RESTRICT /* not available */
 #endif
-
 /* Replacements for C library functions such as memcpy and strlen, to support platforms
 where a full C library is not available. The compiler can recognize them and compile
 to something as fast. */
-
 static void lodepng_memcpy(void* LODEPNG_RESTRICT dst,
                            const void* LODEPNG_RESTRICT src, size_t size) {
   size_t i;
