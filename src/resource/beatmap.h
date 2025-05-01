@@ -209,80 +209,59 @@ std::vector<BeatmapBasicBeatmapEvent>basicBeatMapEvents;
 std::vector<BeatmapColorBoostBeatmapEvent>colorBoostBeatMapEvents;
 bool useNormalEventsAsCompatibleEvents;
 };
-JS_OBJ_EXT(BeatmapDifficulty, version, bpmEvents, rotationEvents, colorNotes,
-  bombNotes, obstacles, sliders, burstSliders, basicBeatMapEvents,
-  colorBoostBeatMapEvents, useNormalEventsAsCompatibleEvents);
-
+JS_OBJ_EXT(BeatmapDifficulty,version,bpmEvents,rotationEvents,colorNotes,bombNotes,obstacles,sliders,burstSliders,basicBeatMapEvents,colorBoostBeatMapEvents,useNormalEventsAsCompatibleEvents);
 struct Color {
-  float r, g, b, a;
-  
-  float& operator[] (int index) {
-    switch (index) {
-      case 0: return r;
-      case 1: return g;
-      case 2: return b;
-      case 3: return a;
-    }
-  }
+float r,g,b,a;
+float&operator[](int index){
+switch(index){
+case 0:return r;
+case 1:return g;
+case 2:return b;
+case 3:return a;
+}
+}
 };
-
-JS_OBJ_EXT(Color, r, g, b, a);
-
-struct NullableColorPalette {
-  Color LeftNoteColor;
-  Color RightNoteColor;
-  Color LightColor1;
-  Color LightColor2;
-  Color WhiteLightColor;
-  Color BoostLightColor1;
-  Color BoostLightColor2;
-  Color BoostWhiteLightColor;
-  Color WallColor;
+JS_OBJ_EXT(Color,r,g,b,a);
+struct NullableColorPalette{
+Color LeftNoteColor;
+Color RightNoteColor;
+Color LightColor1;
+Color LightColor2;
+Color WhiteLightColor;
+Color BoostLightColor1;
+Color BoostLightColor2;
+Color BoostWhiteLightColor;
+Color WallColor;
 };
-
-JS_OBJ_EXT(NullableColorPalette, LeftNoteColor, RightNoteColor, LightColor1,
-  LightColor2, WhiteLightColor, BoostLightColor1, BoostLightColor2,
-  BoostWhiteLightColor, WallColor);
-
+JS_OBJ_EXT(NullableColorPalette,LeftNoteColor,RightNoteColor,LightColor1,LightColor2,WhiteLightColor,BoostLightColor1,BoostLightColor2,BoostWhiteLightColor,WallColor);
 struct Difficulty {
-  Mode mode;
-  Rank difficultyRank;
-  BeatmapDifficulty beatmapDifficulty;
-  float NoteJumpSpeed;
-  float SpawnOffset;
-  std::string Label;
-  std::vector<std::string> requirements;
-  NullableColorPalette colors;
+Mode mode;
+Rank difficultyRank;
+BeatmapDifficulty beatmapDifficulty;
+float NoteJumpSpeed;
+float SpawnOffset;
+std::string Label;
+std::vector<std::string>requirements;
+NullableColorPalette colors;
 };
-
-JS_OBJ_EXT(Difficulty, mode, difficultyRank, beatmapDifficulty, NoteJumpSpeed,
-  SpawnOffset, Label, requirements, colors);
+JS_OBJ_EXT(Difficulty,mode,difficultyRank,beatmapDifficulty,NoteJumpSpeed,SpawnOffset,Label,requirements,colors);
 JS_ENUM_DECLARE_STRING_PARSER(Mode);
 JS_ENUM_DECLARE_STRING_PARSER(Rank);
-
-typedef std::vector<Difficulty> DifficultyList;
-
-extern int GetInfoFromDir(const char* dir, BeatmapInfo& info);
-
-class Beatmap {
+typedef std::vector<Difficulty>DifficultyList;
+extern int GetInfoFromDir(const char*dir,BeatmapInfo&info);
+class Beatmap{
 public:
-  s32 voice;
-  std::string directory;
-  BeatmapInfo info;
-  Difficulty map;
-
-  Beatmap(std::string directory, BeatmapInfo info);
-  int loadMap(Mode mode, Rank rank);
-
+s32 voice;
+std::string directory;
+BeatmapInfo info;
+Difficulty map;
+Beatmap(std::string directory,BeatmapInfo info);
+int loadMap(Mode mode,Rank rank);
 private:
-  DifficultyBeatmapSet* getDifficultySet(Mode mode);
-
+DifficultyBeatmapSet* getDifficultySet(Mode mode);
 };
-
-extern Mode ModeFromString(const char* name);
-extern Rank RankFromString(const char* name);
-
-typedef std::pair<std::string, BeatmapInfo> BeatmapPair;
-typedef std::vector<BeatmapPair> BeatmapList;
-
-#endif // BEATMAP_H
+extern Mode ModeFromString(const char*name);
+extern Rank RankFromString(const char*name);
+typedef std::pair<std::string,BeatmapInfo> BeatmapPair;
+typedef std::vector<BeatmapPair>BeatmapList;
+#endif//BEATMAP_H
