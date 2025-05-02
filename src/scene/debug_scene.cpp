@@ -5,11 +5,11 @@
 #include "../gfx.h"
 #include "../logger.h"
 #include "../transform.h"
-#define CUBEVERTEX(x, y, z)        \
-GX_Position3s16(x, y, z);        \
-GX_Normal3s16(0, 0, 0);          \
-GX_Color4u8(255, 127, 127, 255); \
-GX_TexCoord2s16(0, 0)
+#define CUBEVERTEX(x,y,z)        \
+GX_Position3s16(x,y,z);        \
+GX_Normal3s16(0,0,0);          \
+GX_Color4u8(255,127,127,255); \
+GX_TexCoord2s16(0,0)
 void GFX_OutputMatrix(Mtx44&matrix){
 LOG_DEBUG("%f %f %f %f\n",matrix[0][0],matrix[0][1],matrix[0][2],matrix[0][3]);
 LOG_DEBUG("%f %f %f %f\n",matrix[1][0],matrix[1][1],matrix[1][2],matrix[1][3]);
@@ -36,7 +36,6 @@ v.y*=scalar;
 v.z*=scalar;
 return v;
 }
-
 guVector operator+(const guVector& left, const guVector& right) {
   return {left.x + right.x, left.y + right.y, left.z + right.z};
 }
