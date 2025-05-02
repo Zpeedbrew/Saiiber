@@ -36,73 +36,55 @@ v.y*=scalar;
 v.z*=scalar;
 return v;
 }
-guVector operator+(const guVector& left, const guVector& right) {
-  return {left.x + right.x, left.y + right.y, left.z + right.z};
+guVector operator+(const guVector&left, const guVector&right){
+return{left.x+right.x,left.y+right.y,left.z+right.z};
 }
-
-guVector operator*(const guQuaternion& left, const guVector& right) {
-  guVector xyz = {left.x, left.y, left.z};
-
-  guVector t;
-  guVecCross(&xyz, &right, &t);
-  t *= 2.0f;
-
-  guVector ct;
-  guVecCross(&xyz, &t, &ct);
-
-  return right + (left.w * t) + ct;
+guVector operator*(const guQuaternion&left,const guVector&right){
+guVector xyz={left.x,left.y,left.z};
+guVector t;
+guVecCross(&xyz,&right,&t);
+t*=2.0f;
+guVector ct;
+guVecCross(&xyz,&t,&ct);
+return right+(left.w*t)+ct;
 }
-
 void outputVector(guVector vec) {
-  LOG_DEBUG("%f %f %f\n", vec.x, vec.y, vec.z);
+LOG_DEBUG("%f %f %f\n",vec.x,vec.y,vec.z);
 }
-
 Mtx44 guProjection;
 Mtx guModelView;
-
-DebugScene::DebugScene() {}
-
-void DebugScene::init() {
-  GFX_SetBlendMode(MODE_BLEND);
-  GFX_SetWriteBuffers(true, true, true);
-  GFX_Texture(TEX_NONE);
-
-  camera = std::make_shared<Camera>();
-  modelTransform = std::make_shared<Transform>();
-
-  // This is verifiably the correct perspective matrix.
-  u64 start = SYS_Time();
-  guPerspective(guProjection, 60.0f, (f32)SCREEN_WIDTH / (f32)SCREEN_HEIGHT,
-                0.1f, 300.0f);
-  LOG_DEBUG("guPerspective Matrix\n");
-  GFX_OutputMatrix(guProjection);
-  u64 end = SYS_Time();
-  LOG_DEBUG("guPerspective took %llu ticks\n", end - start);
-
-  start = SYS_Time();
-  glm::mat4 transpose = glm::transpose(projection);
-  LOG_DEBUG("glmPerspective matrix (transposed)\n");
-  GFX_OutputMatrix(transpose);
-  end = SYS_Time();
-  LOG_DEBUG("glmPerspective took %llu ticks\n", end - start);
-
-  // This is verifiably the correct view matrix (-Z forward)
-  Mtx guView;
-  guVector cam = {0.0F, 0.0F, 2.0F}, up = {0.0F, 1.0F, 0.0F},
-           look = {0.0F, 0.0F, -1.0F};
-  guLookAt(guView, &cam, &up, &look);
-
-  LOG_DEBUG("guLookAt Matrix\n");
-  GFX_OutputMatrix(guView);
-
-  LOG_DEBUG("glmLookAt Matrix (Transposed)\n");
-  transpose = glm::transpose(view);
-  GFX_OutputMatrix(transpose);
-
-  // This is verifiably the correct modelview matrix
-  Mtx guModel;
-  guVector axis = {1.0f, 0.0f, 0.0f};
-
+DebugScene::DebugScene(){}
+void DebugScene::init(){
+GFX_SetBlendMode(MODE_BLEND);
+GFX_SetWriteBuffers(true,true,true);
+GFX_Texture(TEX_NONE);
+camera=std::make_shared<Camera>();
+modelTransform=std::make_shared<Transform>();
+// This is verifiably the correct perspective matrix.
+u64 start=SYS_Time();
+guPerspective(guProjection,60.0f,(f32)SCREEN_WIDTH/(f32)SCREEN_HEIGHT,0.1f,300.0f);
+LOG_DEBUG("guPerspective Matrix\n");
+GFX_OutputMatrix(guProjection);
+u64 end=SYS_Time();
+LOG_DEBUG("guPerspective took %llu ticks\n",end-start);
+start=SYS_Time();
+glm::mat4 transpose=glm::transpose(projection);
+LOG_DEBUG("glmPerspective matrix (transposed)\n");
+GFX_OutputMatrix(transpose);
+end=SYS_Time();
+LOG_DEBUG("glmPerspective took %llu ticks\n",end-start);
+// This is verifiably the correct view matrix (-Z forward)
+Mtx guView;
+guVector cam={0.0F,0.0F,2.0F},up={0.0F,1.0F,0.0F},look={0.0F,0.0F,-1.0F};
+guLookAt(guView,&cam,&up,&look);
+LOG_DEBUG("guLookAt Matrix\n");
+GFX_OutputMatrix(guView);
+LOG_DEBUG("glmLookAt Matrix (Transposed)\n");
+transpose=glm::transpose(view);
+GFX_OutputMatrix(transpose);
+// This is verifiably the correct modelview matrix
+Mtx guModel;  
+guVector axis={1.0f,0.0f,0.0f};
   Mtx guTrans;
   guMtxIdentity(guTrans);
   guMtxTransApply(guTrans, guTrans, -1.5f, 0.0f, -6.0f);
