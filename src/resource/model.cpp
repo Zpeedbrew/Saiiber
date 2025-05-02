@@ -58,73 +58,55 @@ y+=yfrac;
 z+=zfrac;
 GX_Position3s16(x,y,z);
 #ifdef SHADERS
-GX_Normal3s16(impl.attrib.normals[3*index.normal_index+0]*0x7FFF,impl.attrib.normals[3 * index.normal_index + 1] * 0x7FFF,
-                      impl.attrib.normals[3 * index.normal_index + 2] * 0x7FFF);
+GX_Normal3s16(impl.attrib.normals[3*index.normal_index+0]*0x7FFF,impl.attrib.normals[3*index.normal_index+1]*0x7FFF,impl.attrib.normals[3*index.normal_index+2]*0x7FFF);
 #endif
-
-        GX_Color4u8(0xFF, 0xFF, 0xFF, 0xFF);
-
-        GX_TexCoord2u16(
-            impl.attrib.texcoords[2 * index.texcoord_index + 0] * 0xFFFF,
-            impl.attrib.texcoords[2 * index.texcoord_index + 1] * 0xFFFF);
-      }
-      GX_End();
-    }
-  }
-
-  impl.size = GX_EndDispList();
-  if (impl.size == 0) {
-    LOG_ERROR("Failed to create display list for model\n");
-    free(display);
-    return NULL;
-  }
-
-  LOG_DEBUG("Final Size: %d\n", impl.size);
-  return display;
+GX_Color4u8(0xFF,0xFF,0xFF,0xFF);
+GX_TexCoord2u16(impl.attrib.texcoords[2*index.texcoord_index+0]*0xFFFF,impl.attrib.texcoords[2*index.texcoord_index+1]*0xFFFF);
 }
-
-Model::Model(const char* filename) {
-  char path[PATH_MAX];
-  snprintf(path, PATH_MAX, "%s%s", ASSET_PATH, filename);
-  LOG_DEBUG("Loading Model %s\n", path);
-
-  ModelImpl impl;
-  std::ifstream file(path, std::ios::binary);
-  if (!tinyobj::LoadObj(&impl.attrib, &impl.shapes, &impl.materials, &err,
-                        &file)) {
-    display = make_model(impl);
-    loaded = display != NULL;
-    this->size = impl.size;
-  }
-
-  file.close();
+GX_End();
 }
-
+}
+impl.size=GX_EndDispList();
+if(impl.size==0){
+LOG_ERROR("Failed to create display list for model\n");
+free(display);
+return NULL;
+}
+LOG_DEBUG("Final Size: %d\n",impl.size);
+return display;
+}
+Model::Model(const char*filename) {
+char path[PATH_MAX];
+snprintf(path,PATH_MAX,"%s%s",ASSET_PATH,filename);
+LOG_DEBUG("Loading Model %s\n",path);
+ModelImpl impl;
+std::ifstream file(path,std::ios::binary);
+if (!tinyobj::LoadObj(&impl.attrib,&impl.shapes,&impl.materials,&err,&file)){
+display=make_model(impl);
+loaded=display!=NULL;
+this->size=impl.size;
+}
+file.close();
+}
 /*
-  Trivial stream buffer
-  For a small area of memory the difference may not matter.
-  Although the saved allocation can be noticable there, too.
-  For large chunks of memory, it makes a major difference.
+Trivial stream buffer
+For a small area of memory the difference may not matter.
+Although the saved allocation can be noticable there, too. 
+For large chunks of memory, it makes a major difference.
 */
 struct membuf : std::streambuf {
-  membuf(char* base, std::ptrdiff_t n) { this->setg(base, base, base + n); }
+membuf(char* base, std::ptrdiff_t n) { this->setg(base, base, base + n); }
 };
-
-Model::Model(const uint8_t* data, u32 size) {
-  membuf buf((char*)data, size);
-  std::istream stream(&buf);
-
-  ModelImpl impl;
-  impl.size = size;
-
-  if (!tinyobj::LoadObj(&impl.attrib, &impl.shapes, &impl.materials, &err,
-                        &stream))
-    return;
-  display = make_model(impl);
-  loaded = display != NULL;
-  this->size = impl.size;
+Model::Model(const uint8_tdata,u32 size) {
+membufbuf((char*)data,size);
+std::istream stream(&buf);
+ModelImpl impl;
+impl.size=size;
+if (!tinyobj::LoadObj(&impl.attrib,&impl.shapes,&impl.materials,&err,&stream))
+return;
+display=make_model(impl);
+loaded=display != NULL;
+this->size=impl.size;
 }
-
-Model::~Model() { free(display); }
-
-void Model::render() { GX_CallDispList(display, size); }
+Model::~Model(){free(display);}
+void Model::render(){GX_CallDispList(display,size);}
