@@ -85,117 +85,89 @@ GFX_OutputMatrix(transpose);
 // This is verifiably the correct modelview matrix
 Mtx guModel;  
 guVector axis={1.0f,0.0f,0.0f};
-  Mtx guTrans;
-  guMtxIdentity(guTrans);
-  guMtxTransApply(guTrans, guTrans, -1.5f, 0.0f, -6.0f);
-
-  Mtx guRot;
-  guMtxIdentity(guRot);
-  guMtxRotDeg(guRot, 'x', 45.0f);
-
-  Mtx guScale;
-  guMtxScaleApply(guScale, guScale, 2.0f, 2.0f, 2.0f);
-
-  // Trans Apply, Rotate Apply, Scale Apply!
-  guMtxIdentity(guModel);
-  guMtxConcat(guView, guModel, guModelView);
-
-  LOG_DEBUG("guModel Matrix\n");
-  GFX_OutputMatrix(guModel);
-  LOG_DEBUG("guModelView Matrix\n");
-  GFX_OutputMatrix(guModelView);
-
-  modelTransform->position = glm::vec3(-1.5f, 0.0f, -6.0f);
-  modelTransform->scale = glm::vec3(2.0f, 2.0f, 2.0f);
-  modelTransform->rotate(45.0f, 0.0f, 0.0f);
-  modelTransform->update();
-
-  LOG_DEBUG("glmModel Matrix (Transposed)\n");
-  transpose = glm::transpose(modelTransform->matrix);
-  GFX_OutputMatrix(transpose);
-
-  LOG_DEBUG("glmModelView Matrix (Transposed)\n");
-  glm::mat4 modelview = glm::transpose(view * modelTransform->matrix);
-  GFX_OutputMatrix(modelview);
-
-
-  LOG_DEBUG("guRotation Matrix\n");
-  GFX_OutputMatrix(guRot);
-
-  LOG_DEBUG("glmRotation Matrix (Transposed)\n");
-  transpose = glm::transpose(glm::toMat4(modelTransform->rotation));
-  GFX_OutputMatrix(transpose);
-
-  LOG_DEBUG("Loaded DebugScene\n");
+Mtx guTrans;
+guMtxIdentity(guTrans);
+guMtxTransApply(guTrans,guTrans,-1.5f,0.0f,-6.0f);
+Mtx guRot;
+guMtxIdentity(guRot);
+guMtxRotDeg(guRot,'x',45.0f);
+Mtx guScale;
+guMtxScaleApply(guScale,guScale,2.0f,2.0f,2.0f);
+//Trans Apply,Rotate Apply,Scale Apply!
+guMtxIdentity(guModel);
+guMtxConcat(guView,guModel,guModelView);
+LOG_DEBUG("guModel Matrix\n");
+GFX_OutputMatrix(guModel);
+LOG_DEBUG("guModelView Matrix\n");
+GFX_OutputMatrix(guModelView);
+modelTransform->position=glm::vec3(-1.5f,0.0f,-6.0f);
+modelTransform->scale=glm::vec3(2.0f,2.0f,2.0f);
+modelTransform->rotate(45.0f,0.0f,0.0f);
+modelTransform->update();
+LOG_DEBUG("glmModel Matrix(Transposed)\n");
+transpose=glm::transpose(modelTransform->matrix);
+GFX_OutputMatrix(transpose);
+LOG_DEBUG("glmModelView Matrix(Transposed)\n");
+glm::mat4 modelview=glm::transpose(view*modelTransform->matrix);
+GFX_OutputMatrix(modelview);
+LOG_DEBUG("guRotation Matrix\n");
+GFX_OutputMatrix(guRot);
+LOG_DEBUG("glmRotation Matrix(Transposed)\n");
+transpose=glm::transpose(glm::toMat4(modelTransform->rotation));
+GFX_OutputMatrix(transpose);
+LOG_DEBUG("Loaded DebugScene\n");
 }
-
-void DebugScene::update(f32 deltatime) {
+void DebugScene::update(f32 deltatime){
 #ifdef _DEBUG
-  camera->freecam(deltatime);
+camera->freecam(deltatime);
 #endif
 }
-
 void renderCube() {
-  GX_Begin(GX_TRIANGLES, GX_VTXFMT0, 36);
-  CUBEVERTEX(-0x100, -0x100, -0x100);
-  CUBEVERTEX(-0x100, -0x100, 0x100);
-  CUBEVERTEX(-0x100, 0x100, 0x100);
-
-  CUBEVERTEX(0x100, 0x100, -0x100);
-  CUBEVERTEX(-0x100, -0x100, -0x100);
-  CUBEVERTEX(-0x100, 0x100, -0x100);
-
-  CUBEVERTEX(0x100, -0x100, 0x100);
-  CUBEVERTEX(-0x100, -0x100, -0x100);
-  CUBEVERTEX(0x100, -0x100, -0x100);
-
-  CUBEVERTEX(0x100, 0x100, -0x100);
-  CUBEVERTEX(0x100, -0x100, -0x100);
-  CUBEVERTEX(-0x100, -0x100, -0x100);
-
-  CUBEVERTEX(-0x100, -0x100, -0x100);
-  CUBEVERTEX(-0x100, 0x100, 0x100);
-  CUBEVERTEX(-0x100, 0x100, -0x100);
-
-  CUBEVERTEX(0x100, -0x100, 0x100);
-  CUBEVERTEX(-0x100, -0x100, 0x100);
-  CUBEVERTEX(-0x100, -0x100, -0x100);
-
-  CUBEVERTEX(-0x100, 0x100, 0x100);
-  CUBEVERTEX(-0x100, -0x100, 0x100);
-  CUBEVERTEX(0x100, -0x100, 0x100);
-
-  CUBEVERTEX(0x100, 0x100, 0x100);
-  CUBEVERTEX(0x100, -0x100, -0x100);
-  CUBEVERTEX(0x100, 0x100, -0x100);
-
-  CUBEVERTEX(0x100, -0x100, -0x100);
-  CUBEVERTEX(0x100, 0x100, 0x100);
-  CUBEVERTEX(0x100, -0x100, 0x100);
-
-  CUBEVERTEX(0x100, 0x100, 0x100);
-  CUBEVERTEX(0x100, 0x100, -0x100);
-  CUBEVERTEX(-0x100, 0x100, -0x100);
-
-  CUBEVERTEX(0x100, 0x100, 0x100);
-  CUBEVERTEX(-0x100, 0x100, -0x100);
-  CUBEVERTEX(-0x100, 0x100, 0x100);
-
-  CUBEVERTEX(0x100, 0x100, 0x100);
-  CUBEVERTEX(-0x100, 0x100, 0x100);
-  CUBEVERTEX(0x100, -0x100, 0x100);
-  GX_End();
+GX_Begin(GX_TRIANGLES,GX_VTXFMT0,36);
+CUBEVERTEX(-0x100, -0x100,-0x100);
+CUBEVERTEX(-0x100, -0x100, 0x100);
+CUBEVERTEX(-0x100, 0x100, 0x100);
+CUBEVERTEX(0x100, 0x100, -0x100);
+CUBEVERTEX(-0x100, -0x100, -0x100);
+CUBEVERTEX(-0x100, 0x100, -0x100);
+CUBEVERTEX(0x100, -0x100, 0x100);
+CUBEVERTEX(-0x100, -0x100, -0x100);
+CUBEVERTEX(0x100, -0x100, -0x100);
+CUBEVERTEX(0x100, 0x100, -0x100);
+CUBEVERTEX(0x100, -0x100, -0x100);
+CUBEVERTEX(-0x100, -0x100, -0x100);
+CUBEVERTEX(-0x100, -0x100, -0x100);
+CUBEVERTEX(-0x100, 0x100, 0x100);
+CUBEVERTEX(-0x100, 0x100, -0x100);
+CUBEVERTEX(0x100, -0x100, 0x100);
+CUBEVERTEX(-0x100, -0x100, 0x100);
+CUBEVERTEX(-0x100, -0x100, -0x100);
+CUBEVERTEX(-0x100, 0x100, 0x100);
+CUBEVERTEX(-0x100, -0x100, 0x100);
+CUBEVERTEX(0x100, -0x100, 0x100);
+CUBEVERTEX(0x100, 0x100, 0x100);
+CUBEVERTEX(0x100, -0x100, -0x100);
+CUBEVERTEX(0x100, 0x100, -0x100);
+CUBEVERTEX(0x100, -0x100, -0x100);
+CUBEVERTEX(0x100, 0x100, 0x100);
+CUBEVERTEX(0x100, -0x100, 0x100);
+CUBEVERTEX(0x100, 0x100, 0x100);
+CUBEVERTEX(0x100, 0x100, -0x100);
+CUBEVERTEX(-0x100, 0x100, -0x100);
+CUBEVERTEX(0x100, 0x100, 0x100);
+CUBEVERTEX(-0x100, 0x100, -0x100);
+CUBEVERTEX(-0x100, 0x100, 0x100);
+CUBEVERTEX(0x100, 0x100, 0x100);
+CUBEVERTEX(-0x100, 0x100, 0x100);
+CUBEVERTEX(0x100, -0x100, 0x100);
+GX_End();
 }
-
 void DebugScene::render() {
-  camera->render();
-
-  GFX_Texture(TEX_NONE);
-  GFX_SetBlendMode(MODE_OFF);
-
-  // GFX_ModelMatrix(modelTransform->matrix);
-  // renderCube();
-
-  GFX_ModelMatrix(modelTransform->matrix);
-  renderCube();
+camera->render();
+GFX_Texture(TEX_NONE);
+GFX_SetBlendMode(MODE_OFF);
+//GFX_ModelMatrix(modelTransform->matrix);
+//renderCube();
+GFX_ModelMatrix(modelTransform->matrix);
+renderCube();
 }

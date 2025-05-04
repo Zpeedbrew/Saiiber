@@ -1,122 +1,242 @@
-#include "model.h"
-#include <gccore.h>
-#include <limits.h>
-#include <malloc.h>
-#include <cstring>
-#define ASSET_PATH "sd:/apps/saiiber/assets"
-#define TINYOBJLOADER_IMPLEMENTATION
-#include "../gfx.h"
-#include "../logger.h"
-#include "tiny_obj_loader.h"
-struct ModelImpl {
-tinyobj::attrib_t attrib;
-std::vector<tinyobj::shape_t>shapes;
-std::vector<tinyobj::material_t>materials;
-u32 size;
-};
-void* make_model(ModelImpl& impl){
-size_t indices=0;
-for(const auto&shape:impl.shapes){
-LOG_DEBUG("Shape %s has %d indices and %d vertices\n",hape.name.c_str(),shape.mesh.indices.size(), shape.mesh.num_face_vertices.size());
-indices+=shape.mesh.indices.size();
-}
-LOG_DEBUG(
-"Initially loaded model with:\n\tIndices: %d\n\tVertices: "
-"%d\n\tTexCoords: %d\n",indices,impl.attrib.vertices.size(),impl.attrib.texcoords.size());
-size_t szVertices=indices*3*sizeof(s16);
-size_t szTexCoords=indices*2*sizeof(u16);
-size_t szColor=indices*4*sizeof(u8);
-size_t total=3+szVertices+szTexCoords+szColor+63;
-#ifdef SHADERS
-size_t szNormals=indices*3*sizeof(s16);
-total+=szNormals;
-#endif
-if(total%64>0)total+=64-(total%64);
-LOG_DEBUG("Initial size: %d\n",total);
-void* display=memalign(32,total);
-memset(display, 0, total);
-DCInvalidateRange(display,total);
-GX_BeginDispList(display,total);
-// Models in obj format must be normalized and triangulated
-// Normalized so the vertices will be between -1 and 1
-// That way they can be converted to s16
-{
-for (const auto&shape:impl.shapes) {
-GX_Begin(GX_TRIANGLES,MODELFMT,shape.mesh.indices.size());
-for (const auto&index:shape.mesh.indices){
-int x=(int)impl.attrib.vertices[3*index.vertex_index+0];
-int y=(int)impl.attrib.vertices[3*index.vertex_index+1];
-int z=(int)impl.attrib.vertices[3*index.vertex_index+2];
-int xfrac=(impl.attrib.vertices[3*index.vertex_index+0]-x)*256.0f;
-int yfrac=(impl.attrib.vertices[3*index.vertex_index+1]-y)*256.0f;
-int zfrac=(impl.attrib.vertices[3*index.vertex_index+2]-z)*256.0f;
-x=x<<8;
-y=y<<8;
-z=z<<8;
-x+=xfrac;
-y+=yfrac;
-z+=zfrac;
-GX_Position3s16(x,y,z);
-#ifdef SHADERS
-GX_Normal3s16(impl.attrib.normals[3*index.normal_index+0]*0x7FFF,impl.attrib.normals[3*index.normal_index+1]*0x7FFF,impl.attrib.normals[3*index.normal_index+2]*0x7FFF);
-#endif
+/** 
+ * Texture
+ * Author: Beemer
+ * Implementation for PNG loading
+ */
 
-        GX_Color4u8(0xFF, 0xFF, 0xFF, 0xFF);
-
-        GX_TexCoord2u16(
-            impl.attrib.texcoords[2 * index.texcoord_index + 0] * 0xFFFF,
-            impl.attrib.texcoords[2 * index.texcoord_index + 1] * 0xFFFF);
-      }
-      GX_End();
-    }
-  }
-
-  impl.size = GX_EndDispList();
-  if (impl.size == 0) {
-    LOG_ERROR("Failed to create display list for model\n");
-    free(display);
-    return NULL;
-  }
-
-  LOG_DEBUG("Final Size: %d\n", impl.size);
-  return display;
-}
-
-Model::Model(const char* filename) {
-  char path[PATH_MAX];
-  snprintf(path, PATH_MAX, "%s%s", ASSET_PATH, filename);
-  LOG_DEBUG("Loading Model %s\n", path);
-
-  ModelImpl impl;
-  std::ifstream file(path, std::ios::binary);
-  if (!tinyobj::LoadObj(&impl.attrib, &impl.shapes, &impl.materials, &err,
-                        &file)) {
-    display = make_model(impl);
-    loaded = display != NULL;
-    this->size = impl.size;
-  }
-
-  file.close();
-}
-/*
-Trivial stream buffer
-For a small area of memory the difference may not matter.
-Although the saved allocation can be noticable there, too. 
-For large chunks of memory, it makes a major difference.
-*/
-struct membuf : std::streambuf {
-  membuf(char* base, std::ptrdiff_t n) { this->setg(base, base, base + n); }
-};
-Model::Model(const uint8_tdata,u32 size) {
-membufbuf((char*)data,size);
-std::istream stream(&buf);
-ModelImpl impl;
-impl.size=size;
-if (!tinyobj::LoadObj(&impl.attrib,&impl.shapes,&impl.materials,&err,&stream))
-return;
-display=make_model(impl);
-loaded=display != NULL;
-this->size=impl.size;
-}
-Model::~Model(){free(display);}
-void Model::render(){GX_CallDispList(display,size);}
+ #include "texture.h"
+ #include <stddef.h>
+ #include <limits.h>
+ #include <assert.h>
+ #include <gccore.h>
+ #include <malloc.h>
+ 
+ #include "lodepng.h"
+ #include "../gfx.h"
+ #include "../logger.h"
+ 
+ #define ASSET_PATH "sd:/apps/saiiber/assets"
+ 
+ #define rgba16(r, g, b, a)                                                     \
+     (((int)(a) << 12) | ((int)(r) << 8) | ((int)(g) << 4) | (int)(b))
+ #define rgb16(r, g, b) (0x8000 | ((int)(r) << 10) | ((int)(g) << 5) | (int)(b))
+ #define xy16(x, y) (((int)(x) << 8) | (int)(y))
+ #define ia8(i, a) (((int)(a) << 4) | (int)(i))
+ 
+ int alphacmp(uint8_t* col, uint8_t* alpha) {
+     return	(col[0] - alpha[0])
+                 + (col[1] - alpha[1])
+                 + (col[2] - alpha[2]);
+ }
+ 
+ 
+ void* tex_conv_rgb32(uint8_t* image, size_t width, size_t height, int alpha) {
+     assert(image && (width % 4) == 0 && (height % 4) == 0);
+     uint16_t* output = (uint16_t*)memalign(32, width * height * sizeof(uint16_t) * 2);
+ 
+     if(!output)
+         return NULL;
+ 
+     size_t output_idx = 0;
+ 
+     for(size_t y = 0; y < height; y += 4) {
+         for(size_t x = 0; x < width; x += 4) {
+             for(size_t by = 0; by < 4; by++) {
+                 for(size_t bx = 0; bx < 4; bx++) {
+                     uint8_t* col = image + (x + bx + (y + by) * width) * 4;
+                     if (alphacmp(col, (uint8_t*)&alpha) == 0)
+                         col[3] = 0;
+ 
+                     output[output_idx++] = xy16(col[3], col[0]);
+                 }
+             }
+ 
+             for(size_t by = 0; by < 4; by++) {
+                 for(size_t bx = 0; bx < 4; bx++) {
+                     uint8_t* col = image + (x + bx + (y + by) * width) * 4;
+                     output[output_idx++] = xy16(col[1], col[2]);
+                 }
+             }
+         }
+     }
+ 
+     DCFlushRange(output, width * height * sizeof(uint16_t) * 2);
+ 
+     return output;
+ }
+ 
+ void* tex_conv_rgb16(uint8_t* image, size_t width, size_t height, int alpha) {
+     assert(image && (width % 4) == 0 && (height % 4) == 0);
+     uint16_t* output = (uint16_t*)memalign(32, width * height * sizeof(uint16_t));
+ 
+     if(!output)
+         return NULL;
+ 
+     size_t output_idx = 0;
+ 
+     for(size_t y = 0; y < height; y += 4) {
+         for(size_t x = 0; x < width; x += 4) {
+             for(size_t by = 0; by < 4; by++) {
+                 for(size_t bx = 0; bx < 4; bx++) {
+                     uint8_t* col = image + (x + bx + (y + by) * width) * 4;
+                     int alpha = col[3] >> 5;
+ 
+                     if (alphacmp(col, (uint8_t*)&alpha) == 0)
+                         alpha = 0;
+ 
+                     if(alpha < 7) {
+                         output[output_idx++] = rgba16(col[0] >> 4, col[1] >> 4,
+                                                       col[2] >> 4, alpha);
+                     } else {
+                         output[output_idx++]
+                             = rgb16(col[0] >> 3, col[1] >> 3, col[2] >> 3);
+                     }
+                 }
+             }
+         }
+     }
+ 
+     DCFlushRange(output, width * height * sizeof(uint16_t));
+ 
+     return output;
+ }
+ 
+ void* tex_conv_i8(uint8_t* image, size_t width, size_t height) {
+     assert(image && (width % 8) == 0 && (height % 4) == 0);
+     uint8_t* output = (uint8_t*)memalign(32, width * height * sizeof(uint8_t));
+ 
+     if(!output)
+         return NULL;
+ 
+     size_t output_idx = 0;
+ 
+     for(size_t y = 0; y < height; y += 4) {
+         for(size_t x = 0; x < width; x += 8) {
+             for(size_t by = 0; by < 4; by++) {
+                 for(size_t bx = 0; bx < 8; bx++) {
+                     uint8_t* column = image + (x + bx + (y + by) * width) * 4;
+                     output[output_idx++]
+                         = ((int)column[0] + (int)column[1] + (int)column[2]) / 3;
+                 }
+             }
+         }
+     }
+ 
+     DCFlushRange(output, width * height * sizeof(uint8_t));
+ 
+     return output;
+ }
+ 
+ void* tex_conv_ia4(uint8_t* image, size_t width, size_t height) {
+     assert(image && (width % 8) == 0 && (height % 4) == 0);
+     uint8_t* output = (uint8_t*)memalign(32, width * height * sizeof(uint8_t));
+ 
+     if(!output)
+         return NULL;
+ 
+     size_t output_idx = 0;
+ 
+     for(size_t y = 0; y < height; y += 4) {
+         for(size_t x = 0; x < width; x += 8) {
+             for(size_t by = 0; by < 4; by++) {
+                 for(size_t bx = 0; bx < 8; bx++) {
+                     uint8_t* col = image + (x + bx + (y + by) * width) * 4;
+                     output[output_idx++] = ia8(
+                         (((int)col[0] + (int)col[1] + (int)col[2]) / 3) >> 4,
+                         col[3] >> 4);
+                 }
+             }
+         }
+     }
+ 
+     DCFlushRange(output, width * height * sizeof(uint8_t));
+ 
+     return output;
+ }
+ 
+ // loads a PNG texture
+ bool load_png(uint8_t* img, size_t width, size_t height, TextureFormat type,
+ int slot, int alpha, bool linear) {
+   void* output = NULL;
+   uint8_t fmt;
+ 
+   switch (type) {
+     case TEX_FMT_RGBA32:
+       output = tex_conv_rgb32(img, width, height, alpha);
+       fmt = GX_TF_RGBA8;
+       break;
+     case TEX_FMT_RGBA16:
+       output = tex_conv_rgb16(img, width, height, alpha);
+       fmt = GX_TF_RGB5A3;
+       break;
+     case TEX_FMT_I8:
+       output = tex_conv_i8(img, width, height);
+       fmt = GX_TF_I8;
+       break;
+     case TEX_FMT_IA4:
+       output = tex_conv_ia4(img, width, height);
+       fmt = GX_TF_IA4;
+       break;
+     default:
+       LOG_ERROR("Invalid texture format %d\n", type);
+       return NULL;
+   }
+ 
+   if (!output)
+     return NULL;
+ 
+   GXTexObj tex;
+   uint8_t filter = linear ? GX_LINEAR : GX_NEAR;
+     uint8_t wrap = GX_REPEAT; // S and T
+   GX_InitTexObj(&tex, output, width, height, fmt, wrap, wrap, GX_FALSE);
+   GX_InitTexObjMaxAniso(&tex, GX_ANISO_1); // how many passes to increase detail (increases processing power)
+   GX_InitTexObjFilterMode(&tex, filter, filter);
+   GX_LoadTexObj(&tex, slot);
+ 
+   return true;
+ }
+ 
+ // loads a PNG texture
+ void LoadTextureFromFile(const char* filename, TextureFormat type, int slot, int alpha, bool linear) {
+   char path[PATH_MAX];
+   snprintf(path, PATH_MAX, "%s/%s", ASSET_PATH, filename);
+   LOG_DEBUG("Loading texture %s\n", path);
+ 
+   size_t width, height;
+   uint8_t* img;
+   if (lodepng_decode32_file(&img, &width, &height, path) > 0) {
+     LOG_ERROR("Failed to load png from %s\n", path);
+         return;
+   }
+ 
+   if (!load_png(img, width, height, type, slot, alpha, linear)) {
+     LOG_ERROR("Failed to convert texture %s\n", filename);
+     free(img);
+   }
+ }
+ 
+ void LoadPNGFromMemory(const uint8_t* pngdata, u32 size, TextureFormat type,
+ int slot, int alpha, bool linear) {
+     size_t width, height;
+     uint8_t* img;
+ 
+     // NOTE: Don't need to add the ELF header offset to pngdata
+     if (lodepng_decode32(&img, &width, &height, pngdata, size) > 0) {
+         LOG_ERROR("Failed to load png from memory\n");
+         return;
+     }
+ 
+     if (!load_png(img, width, height, type, slot, alpha, linear)) {
+         LOG_ERROR("Failed to convert texture from memory\n");
+         free(img);
+     }
+ }
+ 
+ void LoadTextureFromMemory(s32 id, void* data, u32 size, int slot) {
+     GXTexObj tex;
+     TPLFile file;
+ 
+     TPL_OpenTPLFromMemory(&file, data, size);
+     TPL_GetTexture(&file, id, &tex);
+   GX_LoadTexObj(&tex, slot);
+ }
