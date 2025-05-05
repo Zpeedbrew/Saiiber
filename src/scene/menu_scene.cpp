@@ -243,7 +243,7 @@ void MenuSceneImpl::MainMenu() {
   buttons->add("Versus",100,250);
   buttons->add("Practice",100,300);
   buttons->add("Settings",100,350);
-  buttons->add("debug",100,400);
+  buttons->add("Debug",100,400);
   buttons->add("Quit",100,450);
 
 
