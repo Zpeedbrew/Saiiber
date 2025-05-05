@@ -17,7 +17,7 @@ u32 size;
 void* make_model(ModelImpl& impl){
 size_t indices=0;
 for(const auto&shape:impl.shapes){
-LOG_DEBUG("Shape %s has %d indices and %d vertices\n",hape.name.c_str(),shape.mesh.indices.size(), shape.mesh.num_face_vertices.size());
+LOG_DEBUG("Shape %s has %d indices and %d vertices\n",shape.name.c_str(),shape.mesh.indices.size(), shape.mesh.num_face_vertices.size());
 indices+=shape.mesh.indices.size();
 }
 LOG_DEBUG(
