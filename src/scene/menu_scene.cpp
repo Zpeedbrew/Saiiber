@@ -17,6 +17,9 @@
 #include "../transform.h"
 #include "../ui.h"
 #include "game_scene.h"
+#include <asndlib.h>
+#include <mp3player.h>
+//#include "menu_mp3.h"
 #define SONGPATH "sd:/Songs"
 
 const int GREEN = 0x00FF00FF;
