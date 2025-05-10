@@ -239,12 +239,12 @@ void MenuSceneImpl::MainMenu() {
   title->setColor(0xFF0000FF);
 
   auto buttons = std::make_unique<GuiList>();
-  buttons->add("Quickplay",100,200,1.0f);
-  buttons->add("Versus",100,250);
-  buttons->add("Practice",100,300);
-  buttons->add("Settings",100,350);
-  buttons->add("Debug",100,400);
-  buttons->add("Quit",100,450);
+  buttons->add("Quickplay",100,150,1.0f);
+  buttons->add("Versus",100,200);
+  buttons->add("Practice",100,250);
+  buttons->add("Settings",100,300);
+  buttons->add("Debug",100,350);
+  buttons->add("Quit",100,400);
 
 
   buttons->onButtonPressed([=](int button, u32 choice, GuiButton& element) {
