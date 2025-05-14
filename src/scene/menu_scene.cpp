@@ -32,6 +32,7 @@ struct MenuSceneImpl {
   bool needReload = true;
 
   BeatmapList loadSongs();
+  
   void MainMenu();
   void SongSelect();
   void ModeSelect(int i);
@@ -71,12 +72,11 @@ BeatmapList MenuSceneImpl::loadSongs() {
 
   return beatmaps;
 }
-
 void MenuSceneImpl::DifficultySelect(int i, Mode mode) {
   auto& song = beatmaps[i];
                                                                      
-  int width = FNT_GetStringWidth("Difficulty Select",3.0f);
-  s16 middle = (SCREEN_WIDTH /  1.5)- (width / 2);
+  int width = FNT_GetStringWidth("Difficulty Select",1.3f);
+  s16 middle = (SCREEN_WIDTH /  2)- (width / 2);
   auto title =
       std::make_unique<GuiText>("Difficulty Select", middle, 100, 1.5);
   title->setPosition(middle, 100);
