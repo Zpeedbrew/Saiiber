@@ -116,10 +116,10 @@ void MenuSceneImpl::DifficultySelect(int i, Mode mode) {
     printf("1 button pressed should change to debug scene");  
     }    
       
-      if (button == WPAD_BUTTON_2) {
-      //Scene::ChangeScene<LoadingScene>();
-      printf("1 button pressed should change to loading  scene"); 
-      }
+    if (button == WPAD_BUTTON_2) {
+    //Scene::ChangeScene<LoadingScene>();
+    printf("1 button pressed should change to loading  scene"); 
+    }
   });
 
   menu->reset();
