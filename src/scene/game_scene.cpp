@@ -20,11 +20,7 @@
 #include "../resource/beatmap.h"
 #include "../resource/model.h"
 #include "../sfx.h"
-#include "scene.h"
-#include "debug_scene.h"
-#include "loading_scene.h"            
 #include "menu_scene.h"
-
 
 // TODO: Lighting
 static GXColor LightColors[] = {
@@ -35,7 +31,7 @@ static GXColor LightColors[] = {
 
 GameScene::GameScene(std::string dir, BeatmapInfo info, Mode mode, Rank rank)
     : beatmap(dir, info) {
-  LOG_DEBUG("GameScene Constructor\n");
+  LOG_DEBUG("GameScene constructor\n");
   this->mode = mode;
 
   if (beatmap.loadMap(mode, rank) != 0) {
@@ -76,7 +72,7 @@ void GameScene::init() {
   // So THIS is C++
   auto& refblock = gameObjects.emplace_back(std::make_shared<Block>());
   refblock->transform->position = {-2.0f, 1.0f, -10.0f};
-  refblock->transform->scale = {0.9f, 0.9f, 0.9f};
+  refblock->transform->scale = {0.5f, 0.5f, 0.5f};
   block = std::dynamic_pointer_cast<Block>(refblock);
 
   redSaber = std::make_shared<Saber>(redMote.transform);
@@ -179,30 +175,6 @@ void GameScene::update(f32 deltatime) {
     LOG_DEBUG("Recalibrated Bluemote\n");
   }
 
- if (redMote.isButtonDown(WPAD_BUTTON_HOME)); {
-//need to deintalise gx and wiipad
-exit(0);
-LOG_DEBUG("exiting");
-}  
-
-if (redMote.isButtonDown(WPAD_BUTTON_1)); {
-//changes to meu scene
-Scene::ChangeScene<MenuScene>();
-} 
-
-
-if (redMote.isButtonDown(WPAD_BUTTON_2)); {
-//changes to meu scene
-Scene::ChangeScene<DebugScene>();
-}
-
-if (redMote.isButtonDown(WPAD_BUTTON_PLUS)); {
-//changes to meu scene
-//Scene::ChangeScene<LoadingScene>();
-} 
-    
-
-
   if (block != NULL) block->transform->rotate(0.0f, 0.0f, deltatime);
 
   // TODO: Check intersection between sabers and blocks
@@ -238,4 +210,5 @@ void GameScene::render() {
 void GameScene::postProcess(void* buf) {
   // redSaber->postProcess();
   // blueSaber->postProcess(buf);
+}
 }
