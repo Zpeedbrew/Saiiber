@@ -211,4 +211,3 @@ void GameScene::postProcess(void* buf) {
   // redSaber->postProcess();
   // blueSaber->postProcess(buf);
 }
-}
