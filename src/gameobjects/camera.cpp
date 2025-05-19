@@ -36,9 +36,10 @@ GFX_Projection(projection,PERSPECTIVE);
 glm::vec3 lastPos;
 glm::vec3 lastRot;
 //possibly should make thoes there own string 
-char turningString[15] = "Turning: False";
-char posString[39]="Position:0.000,0.000,0.000";
+char titleString[15] = "Saiiber";
+char controlstring[39]="Position:0.000,0.000,0.000";
 char rotString[39]="Rotation:0.000,0.000,0.000";
+char fps 
 char versionString[4]="1.4";
 void Camera::render() {
   FNT_SetColor(0xFF0000FF);
