@@ -39,7 +39,7 @@ glm::vec3 lastRot;
 char titleString[15] = "Saiiber";
 char controlstring[39]="Position:0.000,0.000,0.000";
 char rotString[39]="Rotation:0.000,0.000,0.000";
-char fps 
+char fpstring[39]="";
 char versionString[4]="1.4";
 void Camera::render() {
   FNT_SetColor(0xFF0000FF);
