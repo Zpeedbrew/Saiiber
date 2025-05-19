@@ -36,11 +36,16 @@ GFX_Projection(projection,PERSPECTIVE);
 glm::vec3 lastPos;
 glm::vec3 lastRot;
 //possibly should make thoes there own string 
-char titleString[15] = "Saiiber";
+//char titleString[15] = "Saiiber";
+//char controlstring[39]="Position:0.000,0.000,0.000";
+//char controlsting2[39]="Rotation:0.000,0.000,0.000";
+//char fpstring[39]="n/a fps";
+char versionString[4]="1.4";
+//stuff under here is debug
+char turnshting[15] = "false"; // forgoet what this is
 char controlstring[39]="Position:0.000,0.000,0.000";
 char rotString[39]="Rotation:0.000,0.000,0.000";
-char fpstring[39]="";
-char versionString[4]="1.4";
+
 void Camera::render() {
   FNT_SetColor(0xFF0000FF);
   FNT_SetScale(1.0f);
@@ -52,6 +57,7 @@ void Camera::render() {
   GFX_Projection(projection,PERSPECTIVE);
 }
 // TODO: Fix drift...
+// also want to make movespeed a full number
 void Camera::freecam(f32 deltatime){
   static float movespeed=6.5f;
   bool turning=Input::isButtonHeld(WIIMOTE_BUTTON_B);
