@@ -43,7 +43,7 @@ char fps
 char versionString[4]="1.4";
 void Camera::render() {
   FNT_SetColor(0xFF0000FF);
-  FNT_SetScale(0.2f);
+  FNT_SetScale(1.0f);
   u16 height = FNT_GetStringHeight();
   FNT_DrawString(turningString,0,0);
   FNT_DrawString(posString,0,height+2);
