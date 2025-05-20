@@ -79,6 +79,7 @@ void GameScene::init() {
   blueSaber = std::make_shared<Saber>(blueMote.transform);
   redSaber->setColor(255, 0, 0, 127);
   blueSaber->setColor(0, 0, 255, 127);
+  //want to add a way to make saber custom coulor
 
   // place the saber in front of the view
   glm::vec3 front = camera->transform->position + camera->transform->forward();
@@ -208,6 +209,6 @@ void GameScene::render() {
 }
 
 void GameScene::postProcess(void* buf) {
-  // redSaber->postProcess();
-  // blueSaber->postProcess(buf);
+  //redSaber->postProcess();
+  //blueSaber->postProcess(buf);
 }
