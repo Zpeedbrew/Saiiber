@@ -43,7 +43,7 @@ glm::vec3 lastRot;
 char versionString[4]="1.4";
 //stuff under here is debug
 char turningString[15] = "false"; // forgoet what this is
-char controlstring[39]="Position:0.000,0.000,0.000";
+char posString[39]="Position:0.000,0.000,0.000";
 char rotString[39]="Rotation:0.000,0.000,0.000";
 
 void Camera::render() {
