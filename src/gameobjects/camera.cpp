@@ -42,7 +42,7 @@ glm::vec3 lastRot;
 //char fpstring[39]="n/a fps";
 char versionString[4]="1.4";
 //stuff under here is debug
-char turnshting[15] = "false"; // forgoet what this is
+char turningString[15] = "false"; // forgoet what this is
 char controlstring[39]="Position:0.000,0.000,0.000";
 char rotString[39]="Rotation:0.000,0.000,0.000";
 
@@ -64,7 +64,7 @@ void Camera::freecam(f32 deltatime){
   glm::vec3 front = transform->forward();
   if(Input::isButtonDown(WIIMOTE_BUTTON_A) ||
     Input::isButtonHeld(WIIMOTE_BUTTON_A))
-    movespeed=5.9f;
+    movespeed=9.0f;
 
   if (Input::isButtonUp(WIIMOTE_BUTTON_A))movespeed=5.9f;
 
