@@ -48,12 +48,12 @@ char rotString[39]="Rotation:0.000,0.000,0.000";
 
 void Camera::render() {
   FNT_SetColor(0xFF0000FF);
-  FNT_SetScale(1.0f);
+  FNT_SetScale(0.7f);
   u16 height = FNT_GetStringHeight();
   FNT_DrawString(turningString,0,0);
   FNT_DrawString(posString,0,height+2);
   FNT_DrawString(rotString,0,height+2+height+2);
-  FNT_DrawString(versionString,0,height+12+height+12);
+  FNT_DrawString(versionString,0,height+16+height+16);
   GFX_Projection(projection,PERSPECTIVE);
 }
 // TODO: Fix drift...
