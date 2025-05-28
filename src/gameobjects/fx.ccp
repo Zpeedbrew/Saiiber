@@ -8,7 +8,7 @@ Block::Block() {
   if(model == nullptr)
   model=std::make_unique<Model>(cube_obj, cube_obj_size);
   texMtx=glm::translate(glm::vec3(0.0f,0.5f,0.0f))*glm::scale(glm::vec3(0.5f,0.5f,0.5f));
-  LOG_DEBUG("Block Matrix\n");
+  LOG_DEBUG("FX Matrix\n");
   GFX_OutputMatrix(texMtx);
 }
 void Block::update(f32 deltatime) { GameObject::update(deltatime); }
