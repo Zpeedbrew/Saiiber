@@ -10,6 +10,8 @@
 #include <cstdio>
 #include <cstdlib>
 
+//include grrlib.h
+
 #include "fnt.h"
 #include "gfx.h"
 #include "input.h"
@@ -26,6 +28,7 @@
 #include <debug.h>
 #include <network.h>
 #endif
+/
 
 static bool running = true;
 
