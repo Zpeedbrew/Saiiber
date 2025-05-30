@@ -23,6 +23,7 @@ $\color{blue}{\textsf{Is this available?}}$
 $\color{red}{\textsf{yes as beta tests, it's currently being developed.}}$
 
 $\color{red}{\textsf{How can I get updates about the project?}}$
+
 $\color{blue}{\textsf{Join the Discord server, go to #opt-in-for-announcement-pings and select the 🛠️ emoji to get the Dev-Opt role.}}$
 
 # Compiling:
