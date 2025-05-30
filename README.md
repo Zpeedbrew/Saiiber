@@ -1,12 +1,6 @@
-```diff
-- text in red
-+ text in green
-! text in orange
-# text in gray
-@@ text in purple (and bold)@@
 
 # Saiiber
-Wii homebrew clone of Beat Saber (IN PROGRESS CURRENTLY)
+$\color{red}{\textsf{Wii homebrew clone of Beat Saber (IN PROGRESS CURRENTLY) ipsum}}$	
 
 Discord Server: https://dsc.gg/saiiber
 Wiibrew Page: http://wiibrew.org/wiki/User:Zpeedbrew/Saiiber
