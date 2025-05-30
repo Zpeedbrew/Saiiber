@@ -34,7 +34,7 @@ $\color{blue}{\textsf{Join the Discord server, go to #opt-in-for-announcement-pi
 - launch the .elf file dolphin
 
 # Developer Notes
-$\color{blue}{\Uses clang-format with Google formatting. All pull requests must comply with these formatting requirements.}$	
+$\color{red}{\Uses clang-format with Google formatting. All pull requests must comply with these formatting requirements.}}$	
 
 
 Uses clang-format with Google formatting. All pull requests must comply with these formatting requirements. 
