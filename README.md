@@ -1,6 +1,6 @@
 
 # Saiiber
-$\color{red}{\textsf{Wii homebrew clone of Beat Saber (IN PROGRESS CURRENTLY) ipsum}}$	
+$\color{red}{\textsf{Wii homebrew clone of Beat Saber (IN PROGRESS CURRENTLY)}}$	
 
 Discord Server: https://dsc.gg/saiiber
 Wiibrew Page: http://wiibrew.org/wiki/User:Zpeedbrew/Saiiber
@@ -8,7 +8,9 @@ Wiibrew Page: http://wiibrew.org/wiki/User:Zpeedbrew/Saiiber
 # FAQ:
 
 Is this project alive?<br>
-Yes, it will be developed by Guinea7pig.
+$\color{blue}{\textsf{Yes, it will be developed by Guinea7pig.
+}}$	
+
 
 Is this real?<br>
 It is. We're not trolling around. This is an actual project that's going to be developed.
