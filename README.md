@@ -18,7 +18,8 @@ $\color{blue}{\textsf{Is this real?}}$
 
 $\color{red}{\textsf{It is. We're not trolling around. This is an actual project that's going to be developed.}}$	
 
-Is this available?<br>
+$\color{blue}{\textsf{Is this available?}}$	
+
 yes as beta tests, it's currently being developed.
 
 How can I get updates about the project?<br>
