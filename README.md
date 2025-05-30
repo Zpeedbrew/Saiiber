@@ -34,6 +34,9 @@ $\color{blue}{\textsf{Join the Discord server, go to #opt-in-for-announcement-pi
 - launch the .elf file dolphin
 
 # Developer Notes
+$\color{blue}{\Uses clang-format with Google formatting. All pull requests must comply with these formatting requirements.}$	
+
+
 Uses clang-format with Google formatting. All pull requests must comply with these formatting requirements. 
 
 - Logger should log to the Dolphin console if you turn off "Enable MMU" in the advanced settings.
