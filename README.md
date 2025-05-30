@@ -7,8 +7,8 @@ Wiibrew Page: http://wiibrew.org/wiki/User:Zpeedbrew/Saiiber
 
 # FAQ:
 
-Is this project alive?<br>
-$\color{blue}{\textsf{Yes, it will be developed by Guinea7pig.
+$\color{blue}{\textsf{Is this project alive?<br>}}$	
+$\color{red}{\textsf{Yes, it will be developed by Guinea7pig.
 }}$	
 
 
