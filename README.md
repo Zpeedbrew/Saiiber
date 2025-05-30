@@ -20,10 +20,10 @@ $\color{red}{\textsf{It is. We're not trolling around. This is an actual project
 
 $\color{blue}{\textsf{Is this available?}}$	
 
-yes as beta tests, it's currently being developed.
+$\color{red}{\textsf{yes as beta tests, it's currently being developed.}}$
 
-How can I get updates about the project?<br>
-Join the Discord server, go to #opt-in-for-announcement-pings and select the 🛠️ emoji to get the Dev-Opt role.
+$\color{red}{\textsf{How can I get updates about the project?}}$
+$\color{blue}{\textsf{Join the Discord server, go to #opt-in-for-announcement-pings and select the 🛠️ emoji to get the Dev-Opt role.}}$
 
 # Compiling:
 
