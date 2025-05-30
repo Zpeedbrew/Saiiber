@@ -13,7 +13,8 @@ $\color{red}{\textsf{Yes, it will be developed by Guinea7pig.
 }}$	
 
 
-$\color{blue}{\textsf{Is this real?}}$	
+$\color{blue}{\textsf{Is this real?}}$
+
 It is. We're not trolling around. This is an actual project that's going to be developed.
 
 Is this available?<br>
