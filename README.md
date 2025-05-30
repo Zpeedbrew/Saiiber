@@ -1,6 +1,5 @@
-`#00000`	
 # Saiiber
-Wii homebrew clone of Beat Saber (IN PROGRESS CURRENTLY)
+Wii homebrew clone of Beat Saber (IN PROGRESS CURRENTLY)`#000000` 
 
 Discord Server: https://dsc.gg/saiiber
 Wiibrew Page: http://wiibrew.org/wiki/User:Zpeedbrew/Saiiber
