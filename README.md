@@ -1,6 +1,6 @@
 
 # Saiiber
-$/color{red}{\textsf{Wii homebrew clone of Beat Saber (IN PROGRESS CURRENTLY)}}$	
+$\color{red}{\textsf{Wii homebrew clone of Beat Saber (IN PROGRESS CURRENTLY)}}$	
 
 Discord Server: https://dsc.gg/saiiber
 Wiibrew Page: http://wiibrew.org/wiki/User:Zpeedbrew/Saiiber
