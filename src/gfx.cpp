@@ -33,6 +33,7 @@
   { 0x00, 0x00, 0x00, 0xFF }
 
 static GXColor background = BLACK;
+//GRRLIB_SetBackgroundColour(0,0,0,0); //should be rgb         
 static uint8_t colors[256 * 3] ATTRIBUTE_ALIGN(32);
 static void* frameBuffer[3];
 static u32 bufferIndex = 0;
