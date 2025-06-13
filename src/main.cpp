@@ -6,6 +6,7 @@
 #include <sdcard/wiisd_io.h>
 #include <string.h>
 #include <wiiuse/wpad.h>
+#include <stdlib.h>
 
 #include <cstdio>
 #include <cstdlib>
@@ -28,7 +29,7 @@
 #include <debug.h>
 #include <network.h>
 #endif
-/
+
 
 static bool running = true;
 

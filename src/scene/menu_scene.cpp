@@ -250,6 +250,10 @@ void MenuSceneImpl::MainMenu() {
 
 
   buttons->onButtonPressed([=](int button, u32 choice, GuiButton& element) {
+    if (button == WIIMOTE_BUTTON_HOME)
+    {
+    //exit(0); 
+    }
     if (button == WIIMOTE_BUTTON_A) {
       switch (choice) {
         case 0:

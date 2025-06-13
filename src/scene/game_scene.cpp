@@ -114,6 +114,10 @@ float xRot = 0.0f;
 float yRot = 0.0f;
 
 void GameScene::update(f32 deltatime) {
+if(redMote.isButtonDown(WPAD_BUTTON_HOME))
+{
+exit(0);
+}
 #ifdef _DEBUG
   camera->freecam(deltatime);
 
