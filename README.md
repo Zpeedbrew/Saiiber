@@ -41,5 +41,4 @@ $\color{blue}{Uses clang-format with Google formatting. All pull requests must c
 - Libraries required are all installed with pacman and listed in the Makefile
 - Makefile output was changed to output a "boot.dol/elf" in the sd/apps/saiiber directory
 
-$\color{blue}{
-The virtual sd card on Dolphin can convert the folder into a file for use in the emulator. I wanted the sd directory to reflect the final product as it would be installed by any user.}$
+$\color{blue}{The virtual sd card on Dolphin can convert the folder into a file for use in the emulator. I wanted the sd directory to reflect the final product as it would be installed by any user.}$
