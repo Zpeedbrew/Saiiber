@@ -22,9 +22,9 @@ $\color{blue}{\textsf{Is this available?}}$
 
 $\color{red}{\textsf{yes as beta tests, it's currently being developed.}}$
 
-$\color{red}{\textsf{How can I get updates about the project?}}$
+$\color{blue}{\textsf{How can I get updates about the project?}}$
 
-$\color{blue}{\textsf{Join the Discord server, go to #opt-in-for-announcement-pings and select the 🛠️ emoji to get the Dev-Opt role.}}$
+$\color{red}{\textsf{Join the Discord server, go to #opt-in-for-announcement-pings and select the 🛠️ emoji to get the Dev-Opt role.}}$
 
 # Compiling:
 
@@ -34,10 +34,7 @@ $\color{blue}{\textsf{Join the Discord server, go to #opt-in-for-announcement-pi
 - launch the .elf file dolphin
 
 # Developer Notes
-$\color{red}{\Uses clang-format with Google formatting. All pull requests must comply with these formatting requirements.}$	
-
-
-Uses clang-format with Google formatting. All pull requests must comply with these formatting requirements. 
+$\color{red}{Uses clang-format with Google formatting. All pull requests must comply with these formatting requirements.}$	
 
 - Logger should log to the Dolphin console if you turn off "Enable MMU" in the advanced settings.
 - sd directory contains the virtual SD card data.
