@@ -28,17 +28,18 @@ $\color{red}{\textsf{Join the Discord server, go to #opt-in-for-announcement-pin
 
 # Compiling:
 
-- Install devkitPPC (if you are on linux install wii-dev with dkp-pacman)
-- Install the dependenices in the dependencies.txt file
-- Compile it using make
-- launch the .elf file dolphin
+- Install devkitPPC (if you are on linux install wii-dev with dkp-pacman)<!--blue-->
+- Install the dependenices in the dependencies.txt file  <!--red-->
+- Compile it using make  <!--blue-->
+- launch the .elf file dolphin  <!--red-->
 
 # Developer Notes
-$\color{red}{Uses clang-format with Google formatting. All pull requests must comply with these formatting requirements.}$	
+$\color{blue}{Uses clang-format with Google formatting. All pull requests must comply with these formatting requirements.}$	
 
 - Logger should log to the Dolphin console if you turn off "Enable MMU" in the advanced settings.
 - sd directory contains the virtual SD card data.
 - Libraries required are all installed with pacman and listed in the Makefile
 - Makefile output was changed to output a "boot.dol/elf" in the sd/apps/saiiber directory
 
-The virtual sd card on Dolphin can convert the folder into a file for use in the emulator. I wanted the sd directory to reflect the final product as it would be installed by any user.
+$\color{blue}{
+The virtual sd card on Dolphin can convert the folder into a file for use in the emulator. I wanted the sd directory to reflect the final product as it would be installed by any user.}$
