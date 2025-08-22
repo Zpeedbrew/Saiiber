@@ -40,7 +40,7 @@ glm::vec3 lastRot;
 //char controlstring[39]="Position:0.000,0.000,0.000";
 //char controlsting2[39]="Rotation:0.000,0.000,0.000";
 //char fpstring[39]="n/a fps";
-char versionString[4]="1.4";
+char versionString[4]="1.5";
 //stuff under here is debug
 char turningString[15] = "false"; // forgoet what this is
 char posString[39]="Position:0.000,0.000,0.000";
