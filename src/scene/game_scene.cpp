@@ -58,9 +58,18 @@ GameScene::GameScene(std::string dir, BeatmapInfo info, Mode mode, Rank rank)
 GameScene::~GameScene() {}
 
 void GameScene::init() {
+
+  //ASND_Init();
   GFX_SetBlendMode(MODE_BLEND);
   GFX_SetWriteBuffers(true, true, true);
   GFX_Texture(TEX_NONE);
+
+  FILE *ogg_file = fopen("sd:/music.ogg", "rb");
+    if (ogg_file == NULL) {
+    printf("Failed to open music.ogg!\n");
+    return;
+    }
+
 
   GFX_SetPostProcessCallback(
       std::bind(&GameScene::postProcess, this, std::placeholders::_1));
