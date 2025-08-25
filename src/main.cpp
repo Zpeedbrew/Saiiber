@@ -148,10 +148,12 @@ int main(int argc, char** argv) {
 
   // std::string dir, BeatmapInfo info, Mode mode, Rank rank
   //want to change to MenuScene
+  //Scene::ChangeScene<GameScene>(path, info, Mode::Standard, Rank::Hard);
+  Scene::ChangeScene<MenuScene>();
+#else
+  //Scene::ChangeScene<MenuScene>();
   Scene::ChangeScene<GameScene>(path, info, Mode::Standard, Rank::Hard);
 
-#else
-  Scene::ChangeScene<MenuScene>();
 #endif
 
   u64 lastTime = SYS_Time();
