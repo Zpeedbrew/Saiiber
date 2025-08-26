@@ -22,6 +22,9 @@
 #include "../sfx.h"
 #include "menu_scene.h"
 
+static void *ogg_buffer = NULL;
+static u32 ogg_len = 0
+
 // TODO: Lighting
 static GXColor LightColors[] = {
     {0xFF, 0xFF, 0xFF, 0xFF},  // Light color 1
@@ -64,6 +67,11 @@ void music()
     //printf("Failed to open music.ogg!\n");
     //return;
     }
+
+    oggvorbis_play(ogg_buffer, ogg_len, 0, 0);
+
+
+
 
 }
 
