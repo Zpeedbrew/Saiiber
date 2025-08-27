@@ -23,11 +23,11 @@
 #include "menu_scene.h"
 
 static void *ogg_buffer = NULL;
-static u32 ogg_len = 0
+static u32 ogg_len = 0;
 
 // TODO: Lighting
 static GXColor LightColors[] = {
-    {0xFF, 0xFF, 0xFF, 0xFF},  // Light color 1
+    {0x00, 0x00, 0xff, 0xFF},  // Light color 1
     {0x80, 0x80, 0x80, 0xFF},  // Ambient 1
     {0x80, 0x80, 0x80, 0xFF}   // Material 1
 };
@@ -60,7 +60,7 @@ GameScene::GameScene(std::string dir, BeatmapInfo info, Mode mode, Rank rank)
 
 GameScene::~GameScene() {}
 
-void music()
+void GameScene::music()
 {
   FILE *ogg_file = fopen("sd:/music.ogg", "rb");
     if (ogg_file == NULL) {
