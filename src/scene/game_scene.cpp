@@ -25,9 +25,9 @@
 static void *ogg_buffer = NULL;
 static u32 ogg_len = 0;
 
-// TODO: Lighting
+// TODO: better Lighting
 static GXColor LightColors[] = {
-    {0x00, 0x00, 0x80, 0xFF},  // Light color 1
+    {0x80, 0x00, 0x80, 0xFF},  // Light color 1
     {0x00, 0x00, 0x70, 0xFF},  // Ambient 1
     {0x00, 0x00, 0x60, 0xFF}   // Material 1
 };
