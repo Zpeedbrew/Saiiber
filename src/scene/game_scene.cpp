@@ -28,8 +28,8 @@ static u32 ogg_len = 0;
 // TODO: better Lighting
 static GXColor LightColors[] = {
     {0x80, 0x00, 0x80, 0xFF},  // Light color 1
-    {0x00, 0x00, 0x70, 0xFF},  // Ambient 1
-    {0x00, 0x00, 0x60, 0xFF}   // Material 1
+    {0x00, 0x20, 0x60, 0xFF}  // Ambient 1
+    {0x00, 0x00, 0x80, 0xFF}   // Material 1
 };
 
 GameScene::GameScene(std::string dir, BeatmapInfo info, Mode mode, Rank rank)
