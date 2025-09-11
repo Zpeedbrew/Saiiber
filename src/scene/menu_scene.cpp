@@ -125,15 +125,7 @@ void MenuSceneImpl::DifficultySelect(int i, Mode mode) {
   menu->addElement(std::move(title));
   menu->addElement(std::move(buttons));
 }
-/*
- void Muisc()
- {
-   FILE *ogg_file = fopen("sd:/Songs/Tuxedo-Do It/DO IT TUXEDO 3.egg", "rb");
-    if (ogg_file == NULL) {
-        printf("Failed to open music.ogg!\n");
-        return 0;
- }
-*/
+
 void MenuSceneImpl::ModeSelect(int i) {
   auto& song = beatmaps[i];
 

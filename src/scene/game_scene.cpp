@@ -22,13 +22,10 @@
 #include "../sfx.h"
 #include "menu_scene.h"
 
-static void *ogg_buffer = NULL;
-static u32 ogg_len = 0;
-
-// TODO: better Lighting
+// TODO: Lighting
 static GXColor LightColors[] = {
     {0x80, 0x00, 0x80, 0xFF},  // Light color 1
-    {0x00, 0x20, 0x60, 0xFF}  // Ambient 1
+    {0x00, 0x20, 0x60, 0xFF},  // Ambient 1
     {0x00, 0x00, 0x80, 0xFF}   // Material 1
 };
 
@@ -60,30 +57,11 @@ GameScene::GameScene(std::string dir, BeatmapInfo info, Mode mode, Rank rank)
 
 GameScene::~GameScene() {}
 
-/*
-void GameScene::music()
-{
-  FILE *ogg_file = fopen("sd:/music.ogg", "rb");
-    if (ogg_file == NULL) {
-    //printf("Failed to open music.ogg!\n");
-    //return;
-    }
-
-    oggvorbis_play(ogg_buffer, ogg_len, 0, 0);
-
-
-
-
-}
-*/
 void GameScene::init() {
-
-  //ASND_Init();
   GFX_SetBlendMode(MODE_BLEND);
   GFX_SetWriteBuffers(true, true, true);
   GFX_Texture(TEX_NONE);
 
-  
   GFX_SetPostProcessCallback(
       std::bind(&GameScene::postProcess, this, std::placeholders::_1));
 
