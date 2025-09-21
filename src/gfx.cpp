@@ -91,7 +91,7 @@ void loadAllTextures() {
   memset(postProcessBuffer, 0, postProcessBufferSize);
 
   // GX_InitTexObj(&postProcessTexture, postProcessBuffer, SCREEN_WIDTH,
-     //           SCREEN_HEIGHT, texfmt, GX_CLAMP, GX_CLAMP, GX_FALSE);
+     //SCREEN_HEIGHT, texfmt, GX_CLAMP, GX_CLAMP, GX_FALSE);
   // GX_InitTexObjMaxAniso(&postProcessTexture, GX_ANISO_1);
   //GX_InitTexObjFilterMode(&postProcessTexture, GX_NEAR, GX_NEAR);
   //GX_LoadTexObj(&postProcessTexture, GX_TEXMAP4);  

@@ -5,6 +5,7 @@
 #include "cube_obj.h"
 std::unique_ptr<Model> Block::model = nullptr;
 Block::Block() {
+//:GameObject(transform),color{255,0,0,127} {
   if(model == nullptr)
   model=std::make_unique<Model>(cube_obj, cube_obj_size);
   texMtx=glm::translate(glm::vec3(0.0f,0.5f,0.0f))*glm::scale(glm::vec3(0.5f,0.5f,0.5f));

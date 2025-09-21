@@ -23,8 +23,8 @@ GFX_OutputMatrix(texMtx);
 }
 void Stage::update(f32 deltatime) {
 GameObject::update(deltatime);
-//fxtransform.rotate(0.0f,0.0f,22.5f*deltatime);
-//fxtransform.update();
+fxtransform.rotate(0.0f,0.0f,22.5f*deltatime);
+fxtransform.update();
 }
 void Stage::render() {
 GFX_Texture(TEX_MODEL,texMtx);
@@ -35,7 +35,7 @@ GFX_SetWriteBuffers(true,true,true);
 GFX_ModelMatrix(transform->matrix);
 GFX_SetBlendMode(MODE_OFF);
 stagemodel->render();
-//GFX_ModelViewMatrix(fxtransform.matrix);
-//GFX_SetBlendMode(MODE_BLEND);
-//fxmodel->render();
+GFX_ModelViewMatrix(fxtransform.matrix,fxtransform.matrix);
+GFX_SetBlendMode(MODE_BLEND);
+fxmodel->render();
 }

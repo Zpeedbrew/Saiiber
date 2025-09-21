@@ -133,7 +133,7 @@ void MenuSceneImpl::ModeSelect(int i) {
   s16 middle = (SCREEN_WIDTH / 2) - (width / 2);
   auto title = std::make_unique<GuiText>("Mode Select", middle, 100, 2.0f);
   title->setPosition(middle, 100);
-  title->setColor(0x80,0x00,0x00,0x00);
+  title->setColor(0x00FF00FF);
 
   int yIdx = 0;
   int modeFlags = song.second.getModes();

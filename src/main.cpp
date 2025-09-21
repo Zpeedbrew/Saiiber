@@ -12,7 +12,6 @@
 #include <cstdlib>
 
 //include grrlib.h
-
 #include "fnt.h"
 #include "gfx.h"
 #include "input.h"
