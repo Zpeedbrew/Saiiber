@@ -2,7 +2,7 @@
 <app version="$APPVERSION">
   <name>Saiiber</name>
   <coder>guinea7pig, Beemer, Flamix</coder>
-  <version>beta 1.5 </version>
+  <version>beta 1.4 </version>
   <release_date>201002280140</release_date>
   <short_description>A Beat Saber clone for Wii</short_description>
 </app>
