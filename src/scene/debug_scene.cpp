@@ -51,6 +51,7 @@ guVector& operator*=(guVector& v, const float scalar) {
   v.z *= scalar;
   return v;
 }
+
 guVector operator+(const guVector& left, const guVector& right) {
   return {left.x + right.x, left.y + right.y, left.z + right.z};
 }
