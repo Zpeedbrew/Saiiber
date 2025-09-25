@@ -60,7 +60,7 @@ GameScene::GameScene(std::string dir, BeatmapInfo info, Mode mode, Rank rank)
 
 GameScene::~GameScene() {}
 
-void GameScene::music()
+/*void GameScene::music()
 {
   FILE *ogg_file = fopen("sd:/music.ogg", "rb");
     if (ogg_file == NULL) {
@@ -74,7 +74,7 @@ void GameScene::music()
 
 
 }
-
+*/
 void GameScene::init() {
 
   //ASND_Init();
