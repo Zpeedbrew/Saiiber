@@ -50,10 +50,10 @@ void Camera::render() {
   FNT_SetColor(0xFF0000FF);
   FNT_SetScale(0.7f);
   u16 height = FNT_GetStringHeight();
-  FNT_DrawString(turningString,0,0);
-  FNT_DrawString(posString,0,height+2);
-  FNT_DrawString(rotString,0,height+2+height+2);
-  FNT_DrawString(versionString,0,height+16+height+16);
+  //FNT_DrawString(turningString,0,0);
+  //FNT_DrawString(posString,0,height+2);
+  //FNT_DrawString(rotString,0,height+2+height+2);
+  //FNT_DrawString(versionString,0,height+16+height+16);
   GFX_Projection(projection,PERSPECTIVE);
 }
 // TODO: Fix drift...

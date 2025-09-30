@@ -24,6 +24,8 @@
 
 static void *ogg_buffer = NULL;
 static u32 ogg_len = 0;
+int blocky = 2.0f;
+int block =-2.0f
 
 // TODO: better Lighting
 static GXColor LightColors[] = {
@@ -92,7 +94,7 @@ void GameScene::init() {
 
   // So THIS is C++
   auto& refblock = gameObjects.emplace_back(std::make_shared<Block>());
-  refblock->transform->position = {-2.0f, 1.0f, -10.0f};
+  refblock->transform->position = {-2.0f, 2.0f, -10.0f};
   refblock->transform->scale = {0.5f, 0.5f, 0.5f};
   block = std::dynamic_pointer_cast<Block>(refblock);
 
