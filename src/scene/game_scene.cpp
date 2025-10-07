@@ -25,7 +25,12 @@
 static void *ogg_buffer = NULL;
 static u32 ogg_len = 0;
 int blocky = 2.0f;
-int block =-2.0f
+int blockx =-2.0f;
+int blockz =-10.0f;
+
+int saberx = -0.25f;
+int sabery = -0.25f;
+int saberz = -0.5;
 
 // TODO: better Lighting
 static GXColor LightColors[] = {
@@ -114,12 +119,12 @@ void GameScene::init() {
 #else
   switch (mode) {
     case Mode::OneSaber:
-      redSaber->transform->position = glm::vec3{0.0f, -0.25f, -0.5f} + front;
+      redSaber->transform->position = glm::vec3{-0.25f, -0.25f, -0.5f} + front;
       gameObjects.push_back(redSaber);
       break;
     case Mode::Standard:
     default:
-      redSaber->transform->position = glm::vec3{-0.25f, -0.25f, -0.5f} + front;
+      redSaber->transform->position = glm::vec3{saberx, -0.25f,saberz} + front;
       blueSaber->transform->position = glm::vec3{0.25f, -0.25f, -0.5f} + front;
       gameObjects.push_back(redSaber);
       gameObjects.push_back(blueSaber);
@@ -176,10 +181,10 @@ exit(0);
 
     switch (mode) {
       case Mode::Standard:
-        redMote.transform->position = glm::vec3{-0.25f, -0.25f, -0.5f} + front;
+        redMote.transform->position = glm::vec3{saberx, sabery, saberz} + front;
         break;
       case Mode::OneSaber:
-        redMote.transform->position = glm::vec3{0.0f, -0.25f, -0.5f} + front;
+        redMote.transform->position = glm::vec3{saberx, sabery, saberz} + front;
         break;
     }
 
