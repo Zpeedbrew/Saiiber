@@ -32,6 +32,10 @@ int saberx = -0.25f;
 int sabery = -0.25f;
 int saberz = -0.5;
 
+int saber2x =
+int saber2y =
+int saber2z =
+
 // TODO: better Lighting
 static GXColor LightColors[] = {
     {0x80, 0x00, 0x80, 0xFF},  // Light color 1
@@ -99,7 +103,7 @@ void GameScene::init() {
 
   // So THIS is C++
   auto& refblock = gameObjects.emplace_back(std::make_shared<Block>());
-  refblock->transform->position = {-2.0f, 2.0f, -10.0f};
+  refblock->transform->position = {blockx, blocky,blockz};
   refblock->transform->scale = {0.5f, 0.5f, 0.5f};
   block = std::dynamic_pointer_cast<Block>(refblock);
 
