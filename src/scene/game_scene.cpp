@@ -128,8 +128,8 @@ void GameScene::init() {
       break;
     case Mode::Standard:
     default:
-      redSaber->transform->position = glm::vec3{saberx, -0.25f,saberz} + front;
-      blueSaber->transform->position = glm::vec3{0.25f, -0.25f, -0.5f} + front;
+      redSaber->transform->position = glm::vec3{saberx, -sabery,saberz} + front;
+      blueSaber->transform->position = glm::vec3{saber2x, -0.25f, -0.5f} + front;
       gameObjects.push_back(redSaber);
       gameObjects.push_back(blueSaber);
       break;
