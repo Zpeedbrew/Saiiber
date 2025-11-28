@@ -117,7 +117,7 @@ void GameScene::init() {
   glm::vec3 front = camera->transform->position + camera->transform->forward();
 
 #ifdef _DEBUG
-  redSaber->transform->position = glm::vec3{0.0f, -0.25f, -0.5f} + front;
+  redSaber->transform->position = glm::vec3{saberx,sabery,saberz} + front;
   gameObjects.push_back(redSaber);
   mode = Mode::OneSaber; // This is safe because we already loaded beatmap
 #else
