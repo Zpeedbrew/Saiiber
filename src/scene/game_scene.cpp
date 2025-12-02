@@ -21,6 +21,7 @@
 #include "../resource/model.h"
 #include "../sfx.h"
 #include "menu_scene.h"
+#include "grlib.h"
 
 static void *ogg_buffer = NULL;
 static u32 ogg_len = 0;
