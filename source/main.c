@@ -71,11 +71,13 @@ int main() {
 
         // Switch to 2D Mode to display text
         GRRLIB_2dMode();
+        //title text 
         GRRLIB_Printf((640-(16*15))/2, 20, tex_font, 0xFF0000FF, 5, "Sai");
         GRRLIB_Printf((640-(16*19))/2, 20, tex_font, 0xFFFF0000, 2, "ber");
 
-        GRRLIB_Printf((640-(16*29))/2, 40, tex_font, 0xFFFFFFFF, 1, "HOLD A - RED / B - GREEN");
-        GRRLIB_Printf((640-(16*29))/2, 200, tex_font, 0xFF0000FF, 2, "settings");
+        GRRLIB_Printf((640-(16*14))/2, 400, tex_font, 0xFFFFFFFF, 2, "exit");
+        //need to button stuff eventuly.
+        GRRLIB_Printf((640-(16*14))/2, 200, tex_font, 0xFF0000FF, 2, "settings");
         GRRLIB_Render();
     }
     GRRLIB_FreeTexture(tex_font);
