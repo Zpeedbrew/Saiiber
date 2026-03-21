@@ -77,6 +77,10 @@ int main() {
 
         GRRLIB_Printf((640-(16*14))/2, 400, tex_font, 0xFFFFFFFF, 2, "exit");
         //need to button stuff eventuly.
+        /*
+        exit(0)
+        */
+             GRRLIB_Printf((640-(16*14))/2, 200, tex_font, 0xFF0000FF, 2, "play");
         GRRLIB_Printf((640-(16*14))/2, 200, tex_font, 0xFF0000FF, 2, "settings");
         GRRLIB_Render();
     }
