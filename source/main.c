@@ -80,8 +80,10 @@ int main() {
         /*
         exit(0)
         */
-             GRRLIB_Printf((640-(16*14))/2, 200, tex_font, 0xFF0000FF, 2, "play");
+        GRRLIB_Printf((640-(16*14))/2, 150, tex_font, 0xFF0000FF, 2, "play");
         GRRLIB_Printf((640-(16*14))/2, 200, tex_font, 0xFF0000FF, 2, "settings");
+        GRRLIB_Printf((640-(16*14))/2, 250, tex_font, 0xFF0000FF, 2, "quik play");
+
         GRRLIB_Render();
     }
     GRRLIB_FreeTexture(tex_font);
