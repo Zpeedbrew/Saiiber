@@ -72,10 +72,10 @@ int main() {
         // Switch to 2D Mode to display text
         GRRLIB_2dMode();
         //title text 
-        GRRLIB_Printf((640-(16*15))/2, 20, tex_font, 0xFF0000FF, 5, "Sai");
-        GRRLIB_Printf((640-(16*19))/2, 20, tex_font, 0xFFFF0000, 2, "ber");
+        GRRLIB_Printf((640-(22*22))/2, 20, tex_font, 0xFF0000FF, 5, "Saii");
+        GRRLIB_Printf((640-(2*2))/2, 20, tex_font, 0x0000FFFF, 5, "ber");
 
-        GRRLIB_Printf((640-(16*14))/2, 400, tex_font, 0xFFFFFFFF, 2, "exit");
+        GRRLIB_Printf((640-(16*14))/2, 400, tex_font, 0xFF0000FF, 2, "exit");
         //need to button stuff eventuly.
         /*
         exit(0)
