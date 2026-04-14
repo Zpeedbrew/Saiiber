@@ -72,8 +72,8 @@ int main() {
         // Switch to 2D Mode to display text
         GRRLIB_2dMode();
         //title text 
-        GRRLIB_Printf((640-(22*22))/2, 20, tex_font, 0xFF0000FF, 5, "Saii");
-        GRRLIB_Printf((640-(2*2))/2, 20, tex_font, 0x0000FFFF, 5, "ber");
+        GRRLIB_Printf((640-(21*21))/2, 20, tex_font, 0xFF0000FF, 5, "Saii");
+        GRRLIB_Printf((640-(3*3))/2, 20, tex_font, 0x0000FFFF, 5, "ber");
 
         GRRLIB_Printf((640-(16*14))/2, 400, tex_font, 0xFF0000FF, 2, "exit");
         //need to button stuff eventuly.
@@ -81,8 +81,10 @@ int main() {
         exit(0)
         */
         GRRLIB_Printf((640-(16*14))/2, 150, tex_font, 0xFF0000FF, 2, "play");
-        GRRLIB_Printf((640-(16*14))/2, 200, tex_font, 0xFF0000FF, 2, "settings");
-        GRRLIB_Printf((640-(16*14))/2, 250, tex_font, 0xFF0000FF, 2, "quik play");
+        GRRLIB_Printf((640-(16*14))/2, 250, tex_font, 0xFF0000FF, 2, "settings");
+        GRRLIB_Printf((640-(16*14))/2, 300, tex_font, 0xFF0000FF, 2, "debug");
+        GRRLIB_Printf((640-(16*14))/2, 350, tex_font, 0xFF0000FF, 2, "settings");
+        GRRLIB_Printf((640-(16*14))/2, 200, tex_font, 0xFF0000FF, 2, "quick play");
 
         GRRLIB_Render();
     }
