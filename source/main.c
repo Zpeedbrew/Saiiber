@@ -1,82 +1,61 @@
-//==============================================================================
-// Project:   saiiber
-//==============================================================================
-
-/**
- * @mainpage Wii-Tac-Toe Documentation
- * Wii-Tac-Toe is a Tic-Tac-Toe game for the Nintendo Wii.
- */
-//------------------------------------------------------------------------------
-// Headers
-//------------------------------------------------------------------------------
-#include <stdlib.h>
+#include <stdlib.h>       
 #include <wiiuse/wpad.h>
-#include "grrlib.h"
-#include "game.h"
+#include "grrlib.h"       
+#include "game.h"          
 
 #define SYS_NOTSET          -1
 #define SYS_RETURNTOHBMENU   7
 
-/**
- * Hardware button state.
- */
 s32 HWButton = SYS_NOTSET;
 
-/**
- * Callback for the reset button on the Wii.
- */
+// Removed [[maybe_unused]] as it is a C++ attribute; 
+// in C, just omit the name or use (void)var inside the function.
 void WiiResetPressed(u32 irq, void* ctx)
 {
+    (void)irq; (void)ctx;
     HWButton = SYS_RETURNTOMENU;
 }
 
-/**
- * Callback for the power button on the Wii.
- */
-void WiiPowerPressed()
+void WiiPowerPressed(void)
 {
     HWButton = SYS_POWEROFF_STANDBY;
 }
 
-/**
- * Callback for the power button on the Wiimote.
- * @param[in] chan The Wiimote that pressed the button.
- */
 void WiimotePowerPressed(s32 chan)
 {
+    (void)chan;
     HWButton = SYS_POWEROFF_STANDBY;
-    //SYS_POWEROFF
 }
 
-/**
- * Entry point.
- * @param[in] argc The number of arguments invoked with the program.
- * @param[in] argv The array containing the arguments.
- * @return 0 on clean exit, an error code otherwise.
- */
-int main( int argc, char **argv)
+int main(int argc, char **argv)
 {
-    // Video initialization
+    (void)argc; (void)argv;
+
     Initialize();
 
-    // Wiimote initialization
     WPAD_Init();
     WPAD_SetDataFormat(WPAD_CHAN_ALL, WPAD_FMT_BTNS_ACC_IR);
-    WPAD_SetVRes(WPAD_CHAN_ALL,640,480());
+    
+    // In C, you'd likely call a function rather than a Screen class
+    WPAD_SetVRes(WPAD_CHAN_ALL, 640, 480); 
 
-    // Game initialization
-    Game *MyGame = new Game(Screen::GetWidth(), Screen::GetHeight());
+    // Replace 'new Game' with a C initialization function
+    // Assuming your C game logic uses a struct
+    Game MyGame; 
+    Game_Init(&MyGame, 640, 480);
 
     SYS_SetResetCallback(WiiResetPressed);
     SYS_SetPowerCallback(WiiPowerPressed);
     WPAD_SetPowerButtonCallback(WiimotePowerPressed);
 
-    while(true)
+    while(1) // 'true' is C++, use 1 or <stdbool.h>
     {
-        MyGame->Paint();
+        Game_Paint(&MyGame);
 
         WPAD_ScanPads();
-        if(MyGame->ControllerManager() == true)
+        
+        // Replace method calls with function calls passing the struct pointer
+        if(Game_ControllerManager(&MyGame) == 1)
         {
             break;
         }
@@ -88,7 +67,8 @@ int main( int argc, char **argv)
         Render();
     }
 
-    delete MyGame;
+    // Clean up
+    Game_Cleanup(&MyGame);
     WPAD_Shutdown();
     Exit();
 
@@ -96,6 +76,9 @@ int main( int argc, char **argv)
     {
         SYS_ResetSystem(HWButton, 0, 0);
     }
+
+    return 0;
+}
 
     return 0;
 }
