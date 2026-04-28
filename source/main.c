@@ -1,5 +1,5 @@
 //==============================================================================
-// Project:   Wii-Tac-Toe
+// Project:   saiiber
 //==============================================================================
 
 /**
@@ -9,9 +9,9 @@
 //------------------------------------------------------------------------------
 // Headers
 //------------------------------------------------------------------------------
-#include <cstdlib>
+#include <stdlib.h>
 #include <wiiuse/wpad.h>
-#include "grrlib_class.h"
+#include "grrlib.h"
 #include "game.h"
 
 #define SYS_NOTSET          -1
@@ -25,7 +25,7 @@ s32 HWButton = SYS_NOTSET;
 /**
  * Callback for the reset button on the Wii.
  */
-void WiiResetPressed([[maybe_unused]] u32 irq, [[maybe_unused]] void* ctx)
+void WiiResetPressed(u32 irq, void* ctx)
 {
     HWButton = SYS_RETURNTOMENU;
 }
@@ -42,7 +42,7 @@ void WiiPowerPressed()
  * Callback for the power button on the Wiimote.
  * @param[in] chan The Wiimote that pressed the button.
  */
-void WiimotePowerPressed([[maybe_unused]] s32 chan)
+void WiimotePowerPressed(s32 chan)
 {
     HWButton = SYS_POWEROFF_STANDBY;
     //SYS_POWEROFF
@@ -54,7 +54,7 @@ void WiimotePowerPressed([[maybe_unused]] s32 chan)
  * @param[in] argv The array containing the arguments.
  * @return 0 on clean exit, an error code otherwise.
  */
-int main([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
+int main( int argc, char **argv)
 {
     // Video initialization
     Initialize();
