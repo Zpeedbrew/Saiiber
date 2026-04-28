@@ -41,7 +41,7 @@ int main(int argc, char **argv)
 
     // Replace 'new Game' with a C initialization function
     // Assuming your C game logic uses a struct
-    Game MyGame; 
+    Game MyMenu; 
     Game_Init(&MyGame, 640, 480);
 
     SYS_SetResetCallback(WiiResetPressed);
