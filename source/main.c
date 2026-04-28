@@ -1,6 +1,4 @@
 /*===========================================
-    NoNameNo
-    Simple Diffuse light sample code
 ============================================*/
 #include <grrlib.h>
 
