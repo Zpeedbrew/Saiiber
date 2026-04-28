@@ -26,7 +26,7 @@ int main() {
     while(1) {
         GRRLIB_2dMode();
         WPAD_ScanPads();
-        if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) break;
+        if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) exit(0);
         if(WPAD_ButtonsHeld(0) & WPAD_BUTTON_PLUS) camZ++;
         if(WPAD_ButtonsHeld(0) & WPAD_BUTTON_MINUS) camZ--;
 
@@ -69,18 +69,14 @@ int main() {
         //title text 
         GRRLIB_Printf((640-(21*21))/2, 20, tex_font, 0xFF0000FF, 5, "Saii");
         GRRLIB_Printf((640-(3*3))/2, 20, tex_font, 0x0000FFFF, 5, "ber");
-
-        GRRLIB_Printf((640-(16*14))/2, 400, tex_font, 0xFF0000FF, 2, "exit");
-        //need to button stuff eventuly.
-        /*
-        exit(0)
-        */
         GRRLIB_Printf((640-(16*14))/2, 100, tex_font, 0xFF0000FF, 2, "play");
         GRRLIB_Printf((640-(16*14))/2, 150, tex_font, 0xFF0000FF, 2, "settings");
         GRRLIB_Printf((640-(16*14))/2, 200, tex_font, 0xFF0000FF, 2, "debug");
         GRRLIB_Printf((640-(16*14))/2, 250, tex_font, 0xFF0000FF, 2, "settings");
         GRRLIB_Printf((640-(16*14))/2, 300, tex_font, 0xFF0000FF, 2, "quick play");
         GRRLIB_Printf((640-(16*14))/2, 350, tex_font, 0xFF0000FF, 2, "credits");
+        GRRLIB_Printf((640-(16*14))/2, 400, tex_font, 0xFF0000FF, 2, "exit");
+
         //debug text neeed to make togglable
         /*
         GRRLIB_Printf((640-(16*14))/2, 350, tex_font, 0xFF0000FF, 2, "current version:1.6");
