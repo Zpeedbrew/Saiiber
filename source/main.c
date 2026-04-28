@@ -78,11 +78,19 @@ int main() {
         /*
         exit(0)
         */
-        GRRLIB_Printf((640-(16*14))/2, 150, tex_font, 0xFF0000FF, 2, "play");
+        GRRLIB_Printf((640-(16*14))/2, 100, tex_font, 0xFF0000FF, 2, "play");
+        GRRLIB_Printf((640-(16*14))/2, 150, tex_font, 0xFF0000FF, 2, "settings");
+        GRRLIB_Printf((640-(16*14))/2, 200, tex_font, 0xFF0000FF, 2, "debug");
         GRRLIB_Printf((640-(16*14))/2, 250, tex_font, 0xFF0000FF, 2, "settings");
-        GRRLIB_Printf((640-(16*14))/2, 300, tex_font, 0xFF0000FF, 2, "debug");
-        GRRLIB_Printf((640-(16*14))/2, 350, tex_font, 0xFF0000FF, 2, "settings");
-        GRRLIB_Printf((640-(16*14))/2, 200, tex_font, 0xFF0000FF, 2, "quick play");
+        GRRLIB_Printf((640-(16*14))/2, 300, tex_font, 0xFF0000FF, 2, "quick play");
+        GRRLIB_Printf((640-(16*14))/2, 350, tex_font, 0xFF0000FF, 2, "credits");
+        //debug text neeed to make togglable
+        /*
+        GRRLIB_Printf((640-(16*14))/2, 350, tex_font, 0xFF0000FF, 2, "current version:1.6");
+        GRRLIB_Printf((640-(16*14))/2, 350, tex_font, 0xFF0000FF, 2, "rendering engine:GRRLIB");
+        */
+
+
 
         GRRLIB_Render();
     }
