@@ -30,7 +30,7 @@ int main() {
     while(1) {
         GRRLIB_2dMode();
         WPAD_ScanPads();
-        if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) break;
+        if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) break; //goes back to home i hope
         if(WPAD_ButtonsHeld(0) & WPAD_BUTTON_PLUS) camZ++;
         if(WPAD_ButtonsHeld(0) & WPAD_BUTTON_MINUS) camZ--;
 
