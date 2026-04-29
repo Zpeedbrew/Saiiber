@@ -9,8 +9,6 @@
 //#include "cursor.h"
 
 int main() {
-    float l1=0, l2=0;
-    float a=0;
     int camZ=13.0f;
 
     GRRLIB_Init();
