@@ -5,7 +5,7 @@
 
 
 #include "Letter_Gothic_Std_14_Bold_png.h"
-#include "cursor.h"
+//#include "cursor.h"
 
 int main() {
     float l1=0, l2=0;
@@ -17,7 +17,7 @@ int main() {
 
 
     GRRLIB_texImg *tex_font = GRRLIB_LoadTexture(Letter_Gothic_Std_14_Bold_png);
-    GRRLIB_texImg *tex_cur = GRRLIB_LoadTexture(cursor_png);
+    //GRRLIB_texImg *tex_cur = GRRLIB_LoadTexture(cursor_png);
 
     GRRLIB_InitTileSet(tex_font, 11, 24, 32);
 
@@ -97,7 +97,7 @@ int main() {
         GRRLIB_Render();
     }
     GRRLIB_FreeTexture(tex_font);
-    GRRLIB_FreeTexture(tex_cur)
+    //GRRLIB_FreeTexture(tex_cur)
     GRRLIB_Exit(); // Be a good boy, clear the memory allocated by GRRLIB
 
     exit(0);
