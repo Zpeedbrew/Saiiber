@@ -5,6 +5,7 @@
 
 
 #include "Letter_Gothic_Std_14_Bold_png.h"
+#include "cursor.h"
 
 int main() {
     float l1=0, l2=0;
