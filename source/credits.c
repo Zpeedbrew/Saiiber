@@ -9,8 +9,6 @@
 #include "back_png.h"
 
 int main() {
-    float l1=0, l2=0;
-    float a=0;
     int camZ=13.0f;
 
     GRRLIB_Init();
@@ -35,7 +33,7 @@ int main() {
         GRRLIB_Camera3dSettings(0.0f,0.0f,camZ, 0,1,0, 0,0,0);
         GRRLIB_SetLightAmbient(0x333333FF);
 
-        GRRLIB_3dMode(0.1, 1000, 45, 0, 1);
+        //GRRLIB_3dMode(0.1, 1000, 45, 0, 1); dont have anyhing 32 here
         // Switch to 2D Mode to display text
         GRRLIB_2dMode();
         //title text 
