@@ -16,6 +16,8 @@ int main() {
 
 
     GRRLIB_texImg *tex_font = GRRLIB_LoadTexture(Letter_Gothic_Std_14_Bold_png);
+    GRRLIB_texImg *tex_cur = GRRLIB_LoadTexture(cursor_png);
+
     GRRLIB_InitTileSet(tex_font, 11, 24, 32);
 
 
@@ -81,13 +83,20 @@ int main() {
         /*
         GRRLIB_Printf((640-(16*14))/2, 350, tex_font, 0xFF0000FF, 2, "current version:1.6");
         GRRLIB_Printf((640-(16*14))/2, 350, tex_font, 0xFF0000FF, 2, "rendering engine:GRRLIB");
+        GRRLIB_Printf((640-(16*14))/2, 400, tex_font, 0xFF0000FF, 1,"fps:");
+        GRRLIB_Printf((640-(16*14))/2, 400, tex_font, 0xFF0000FF, 1, "fps"x);
+        GRRLIB_Printf((640-(16*14))/2, 400, tex_font, 0xFF0000FF, 1,"cur x");
+        GRRLIB_Printf((640-(16*14))/2, 400, tex_font, 0xFF0000FF, 1, curx);
+        GRRLIB_Printf((640-(16*14))/2, 400, tex_font, 0xFF0000FF, 1,cury);
+        GRRLIB_Printf((640-(16*14))/2, 400, tex_font, 0xFF0000FF, 1,"cur y");
         */
 
-
+        //
 
         GRRLIB_Render();
     }
     GRRLIB_FreeTexture(tex_font);
+    GRRLIB_FreeTexture(tex_cur)
     GRRLIB_Exit(); // Be a good boy, clear the memory allocated by GRRLIB
 
     exit(0);
