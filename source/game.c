@@ -1,3 +1,5 @@
+// some of this code (mostly the inilation scpits) contain some code fromb a grrlib template exsample. https://github.com/GRRLIB/GRRLIB/tree/master/examples/template
+
 /*
 #include <grrlib.h>
 #include <stdlib.h>
@@ -27,44 +29,11 @@ int main() {
     while(1) {
         GRRLIB_2dMode();
         WPAD_ScanPads();
-        if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) break;
-        if(WPAD_ButtonsHeld(0) & WPAD_BUTTON_PLUS) camZ++;
-        if(WPAD_ButtonsHeld(0) & WPAD_BUTTON_MINUS) camZ--;
-
-        GRRLIB_Camera3dSettings(0.0f,0.0f,camZ, 0,1,0, 0,0,0);
+        if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) exit(0); 
+        GRRLIB_Camera3dSettings(0.0f,0.0f,camZ, 0,1,0, 0,0,0); //want this to go back to menu
         GRRLIB_SetLightAmbient(0x333333FF);
 
         GRRLIB_3dMode(0.1, 1000, 45, 0, 1);
-
-            // Set all light off to get the sphere no light sourced (only get the vertex color)
-            GRRLIB_SetLightOff();
-            GRRLIB_ObjectView(sin(l1)*4.0f,0.0f,cos(l1)*4.0f, 0,0,0,1,1,1);
-            GRRLIB_DrawSphere(0.2f, 20, 20, true, 0xFF0000FF);
-        
-
-        
-            // Set all light off to get the sphere no light sourced (only get the vertex color)
-            GRRLIB_SetLightOff();
-            GRRLIB_ObjectView(0.0f,sin(l2)*4.0f,cos(l2)*4.0f, 0,0,0,1,1,1);
-            GRRLIB_DrawSphere(0.2f, 20, 20, true, 0x00FF00FF);
-        
-
-        // Set a dummy black light to get the ambient one when no light is selected
-        GRRLIB_SetLightDiff(0,(guVector){0.0f,0.0f,0.0f},20.0f,1.0f,0x000000FF);
-
-        
-            GRRLIB_SetLightDiff(0,(guVector){sin(l1)*4.0f,0.0f,cos(l1)*4.0f},20.0f,1.0f,0xFF0000FF);
-            l1+=0.03f;
-        
-
-            GRRLIB_SetLightDiff(1,(guVector){0.0f,sin(l2)*4.0f,cos(l2)*4.0f},20.0f,1.0f,0x00FF00FF);
-            l2+=0.05f;
-
-        GRRLIB_ObjectView(0,0,0, a,a*2,a*3,1,1,1);
-        
-
-        a+=0.5f;
-
         // Switch to 2D Mode to display text
         GRRLIB_2dMode();
         //title text 
