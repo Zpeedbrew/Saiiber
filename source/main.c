@@ -9,8 +9,6 @@
 //#include "cursor.h"
 
 int main() {
-    int camZ=13.0f;
-
     GRRLIB_Init();
     WPAD_Init();
 
@@ -30,8 +28,6 @@ int main() {
         WPAD_ScanPads();
         if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) exit(0);
         GRRLIB_SetLightAmbient(0x333333FF);
-
-        GRRLIB_3dMode(0.1, 1000, 45, 0, 1);
         // Switch to 2D Mode to display text
         GRRLIB_2dMode();
         //title text 
