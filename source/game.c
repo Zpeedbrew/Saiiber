@@ -10,8 +10,6 @@
 #include "Letter_Gothic_Std_14_Bold_png.h"
 
 int main() {
-    float l1=0, l2=0;
-    float a=0;
     int camZ=13.0f;
 
     GRRLIB_Init();
