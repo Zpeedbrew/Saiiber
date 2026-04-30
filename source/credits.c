@@ -38,19 +38,18 @@ int main() {
         // Switch to 2D Mode to display text
         GRRLIB_2dMode();
         //title text 
-        GRRLIB_Printf((640-(21*21))/2, 20, tex_font, 0xFF0000FF, 5, "cred");
-        GRRLIB_Printf((640-(3*3))/2, 20, tex_font, 0x0000FFFF, 5, "its");
-        GRRLIB_Printf((640-(16*14))/2, 400, tex_font, 0xFF0000FF, 2, "return to home");
+        GRRLIB_Printf((640-(21*21))/2, 20, tex_font, RED, 5, "credits");
+        GRRLIB_Printf((640-(16*14))/2, 400, tex_font, RED, 2, "return to home");
         //need to button stuff eventuly.
         /*
         exit(0)
         */
-        GRRLIB_Printf((640-(16*14))/2, 100, tex_font, 0xFF0000FF, 3, "devolped by Guinea7pig, Beemer,");
-        GRRLIB_Printf((640-(16*14))/2, 150, tex_font, 0xFF0000FF, 3, "settings");
-        GRRLIB_Printf((640-(16*14))/2, 200, tex_font, 0xFF0000FF, 3, "thanks to Crayon2000 and theGRRlIB dev team + the exsample projects");
-        GRRLIB_Printf((640-(16*14))/2, 250, tex_font, 0xFF0000FF, 3, "thanks to the wii hombrewing community");
-        GRRLIB_Printf((640-(16*14))/2, 300, tex_font, 0xFF0000FF, 3, "check out GRRLIB at https://github.com/GRRLIB/GRRLIB");
-        GRRLIB_Printf((640-(16*14))/2, 350, tex_font, 0xFF0000FF, 3, "check out source code at https://github.com/Zpeedbrew/Saiiber/");
+        GRRLIB_Printf((640-(16*14))/2, 100, tex_font, RED, 3, "devolped by Guinea7pig, Beemer,");
+        GRRLIB_Printf((640-(16*14))/2, 150, tex_font, RED, 3, "settings");
+        GRRLIB_Printf((640-(16*14))/2, 200, tex_font, RED, 3, "thanks to Crayon2000 and theGRRlIB dev team + the exsample projects");
+        GRRLIB_Printf((640-(16*14))/2, 250, tex_font, RED, 3, "thanks to the wii hombrewing community");
+        GRRLIB_Printf((640-(16*14))/2, 300, tex_font, RED, 3, "check out GRRLIB at https://github.com/GRRLIB/GRRLIB");
+        GRRLIB_Printf((640-(16*14))/2, 350, tex_font, RED, 3, "check out source code at https://github.com/Zpeedbrew/Saiiber/");
         //debug text neeed to make togglable
         /*
         GRRLIB_Printf((640-(16*14))/2, 350, tex_font, 0xFF0000FF, 2, "current version:1.6");
