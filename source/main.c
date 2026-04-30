@@ -51,6 +51,22 @@ int main() {
         GRRLIB_Printf((640-(16*14))/2, 400, tex_font, 0xFF0000FF, 1, curx);
         GRRLIB_Printf((640-(16*14))/2, 400, tex_font, 0xFF0000FF, 1,cury);
         GRRLIB_Printf((640-(16*14))/2, 400, tex_font, 0xFF0000FF, 1,"cur y");
+
+//this code snippet is from https://github.com/GRRLIB/GRRLIB/blob/master/examples/basic_drawing/source/main.c
+        static u8 CalculateFrameRate(void) {
+    static u8 frameCount = 0;
+    static u32 lastTime;
+    static u8 FPS = 0;
+    const u32 currentTime = ticks_to_millisecs(gettime());
+
+    frameCount++;
+    if(currentTime - lastTime > 1000) {
+        lastTime = currentTime;
+        FPS = frameCount;
+        frameCount = 0;
+    }
+    return FPS;
+}
         */
 
         //
