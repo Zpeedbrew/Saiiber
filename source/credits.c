@@ -3,8 +3,9 @@
 #include <stdlib.h>
 #include <math.h>
 #include <wiiuse/wpad.h>
-
-
+//colors
+#define RED 0xFF0000FF
+#define BLUE 0x0000FFFF
 #include "Letter_Gothic_Std_14_Bold_png.h"
 #include "back_png.h"
 
