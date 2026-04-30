@@ -8,6 +8,8 @@
 
 
 #include "Letter_Gothic_Std_14_Bold_png.h"
+#define RED 0xFF0000FF
+#define BLUE 0x0000FFFF
 
 int main() {
     int camZ=13.0f;
