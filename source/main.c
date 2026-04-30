@@ -40,6 +40,10 @@ int main() {
         GRRLIB_Printf((640-(16*14))/2, 300, tex_font, 0xFF0000FF, 2, "quick play");
         GRRLIB_Printf((640-(16*14))/2, 350, tex_font, 0xFF0000FF, 2, "credits");
         GRRLIB_Printf((640-(16*14))/2, 400, tex_font, 0xFF0000FF, 2, "exit");
+        GRRLIB_Printf((640-(16*14))/2, 400, tex_font, 0xFF0000FF, 1, "made by guinea7pig");
+        GRRLIB_Printf((640-(16*14))/2, 400, tex_font, 0xFF0000FF, , "made with grrlib");
+        //grrlib logo
+        //display qr code to discord
 
         //debug text neeed to make togglable
         /*
