@@ -6,7 +6,11 @@
 
 
 #include "Letter_Gothic_Std_14_Bold_png.h"
-//#include "cursor.h"
+//#include "cursor_png.h"
+
+#define RED 0xFF0000FF
+#define BLUE 0x0000FFFF
+
 
 int main() {
     GRRLIB_Init();
