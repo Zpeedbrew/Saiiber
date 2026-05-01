@@ -49,6 +49,9 @@ int main() {
         GRRLIB_Printf((640-(16*14))/2, 400, tex_font, 0xFF0000FF, 2, "exit");
         GRRLIB_Printf((640-(16*14))/2, 400, tex_font, 0xFF0000FF, 1, "made by guinea7pig");
         GRRLIB_Printf((640-(16*14))/2, 400, tex_font, 0xFF0000FF, , "made with grrlib");
+        GRRLIB_Draw_img(640-(16*14, 450,tex_dis,1,1,0,0xFFFFFFFF)
+        //GRRLIB_Draw_img(xpos, ypos,img,scale,scale,rot,0xFFFFFFFF)
+
         //grrlib logo
         //display qr code to discord
 
