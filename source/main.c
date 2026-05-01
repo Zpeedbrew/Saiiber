@@ -2,6 +2,7 @@
 #include <grrlib.h>
 #include <stdlib.h>
 #include <math.h>
+#include <ogc/lwp_watchdog.h>  
 #include <wiiuse/wpad.h>
 
 
@@ -11,25 +12,19 @@
 
 #define RED 0xFF0000FF
 #define BLUE 0x0000FFFF
+#difine BLACK 0x000000FF
 
 
 int main() {
     GRRLIB_Init();
     WPAD_Init();
-
-
+    WPAD_SetDataFormat(WPAD_CHAN_0, WPAD_FMT_BTNS_ACC_IR); //needed to inatate ir
     GRRLIB_texImg *tex_font = GRRLIB_LoadTexture(Letter_Gothic_Std_14_Bold_png);
     //GRRLIB_texImg *tex_cur = GRRLIB_LoadTexture(cursor_png);
     GRRLIB_texImg *tex_dis = GRRLIB_LoadTexture(discord_png);
-
-
     GRRLIB_InitTileSet(tex_font, 11, 24, 32);
-
-
     GRRLIB_Settings.antialias = true;
-
     GRRLIB_SetBackgroundColour(0x00, 0x00, 0x00, 0xFF);
-
     while(1) {
         GRRLIB_2dMode();
         WPAD_ScanPads();
