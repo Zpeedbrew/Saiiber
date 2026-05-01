@@ -8,6 +8,7 @@
 #define BLUE 0x0000FFFF
 #include "Letter_Gothic_Std_14_Bold_png.h"
 #include "back_png.h"
+//grlib logo
 
 int main() {
     int camZ=13.0f;
@@ -50,6 +51,9 @@ int main() {
         GRRLIB_Printf((640-(16*14))/2, 250, tex_font, RED, 3, "thanks to the wii hombrewing community");
         GRRLIB_Printf((640-(16*14))/2, 300, tex_font, RED, 3, "check out GRRLIB at https://github.com/GRRLIB/GRRLIB");
         GRRLIB_Printf((640-(16*14))/2, 350, tex_font, RED, 3, "check out source code at https://github.com/Zpeedbrew/Saiiber/");
+        //image displaying 
+        //GRRLIB_Draw_img(xpos, ypos,img,scale,scale,rot,0xFFFFFFFF)
+
         //debug text neeed to make togglable
         /*
         GRRLIB_Printf((640-(16*14))/2, 350, tex_font, 0xFF0000FF, 2, "current version:1.6");
