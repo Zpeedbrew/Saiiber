@@ -12,7 +12,7 @@
 
 #define RED 0xFF0000FF
 #define BLUE 0x0000FFFF
-#difine BLACK 0x000000FF
+#define BLACK 0x000000FF
 
 
 int main() {
