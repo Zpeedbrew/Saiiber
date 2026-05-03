@@ -10,7 +10,7 @@
 #include "back_png.h"
 //grlib logo
 
-int main() {
+int o() {
     int camZ=13.0f;
 
     GRRLIB_Init();
@@ -42,9 +42,7 @@ int main() {
         GRRLIB_Printf((640-(21*21))/2, 20, tex_font, RED, 5, "credits");
         GRRLIB_Printf((640-(16*14))/2, 400, tex_font, RED, 2, "return to home");
         //need to button stuff eventuly.
-        /*
-        exit(0)
-        */
+        //exit(0)
         GRRLIB_Printf((640-(16*14))/2, 100, tex_font, RED, 3, "devolped by Guinea7pig, Beemer,");
         GRRLIB_Printf((640-(16*14))/2, 150, tex_font, RED, 3, "settings");
         GRRLIB_Printf((640-(16*14))/2, 200, tex_font, RED, 3, "thanks to Crayon2000 and theGRRlIB dev team + the exsample projects");

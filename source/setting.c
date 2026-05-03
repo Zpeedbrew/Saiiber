@@ -9,7 +9,7 @@
 #include "Letter_Gothic_Std_14_Bold_png.h"
 #include "back_png.h"
 
-int main() {
+int e() {
     int camZ=13.0f;
 
     GRRLIB_Init();
@@ -46,7 +46,7 @@ int main() {
         */
         GRRLIB_Printf((640-(16*14))/2, 70, tex_font, RED, 3, "volume,");
         GRRLIB_Printf((640-(16*14))/2, 150, tex_font, RED, 3, "settings");
-        GRRLIB_Printf((640-(16*14))/2, 200, tex_font, RED, 3, "rumble"):
+        GRRLIB_Printf((640-(16*14))/2, 200, tex_font, RED, 3, "rumble");
         GRRLIB_Printf((640-(16*14))/2, 200, tex_font, RED, 3, "rumble"); //will make text etherir say on  or off
 
         GRRLIB_Printf((640-(16*14))/2, 250, tex_font, RED, 3, "thanks to the wii hombrewing community");

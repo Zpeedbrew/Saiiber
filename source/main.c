@@ -31,8 +31,9 @@ int main() {
         if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) exit(0);
         GRRLIB_SetLightAmbient(0x333333FF);
         // Switch to 2D Mode to display text
-        GRRLIB_2dMode();
+    
         //title text 
+<<<<<<< Updated upstream
         GRRLIB_Printf((640-(21*21))/2, 20, tex_font, 0xFF0000FF, 5, "Saii");
         GRRLIB_Printf((640-(3*3))/2, 20, tex_font, 0x0000FFFF, 5, "ber");
         GRRLIB_Printf((640-(16*14))/2, 100, tex_font, 0xFF0000FF, 2, "play");
@@ -47,6 +48,17 @@ int main() {
         GRRLIB_Draw_img(640-(16*14, 450,tex_dis,1,1,0,0xFFFFFFFF)
         //GRRLIB_Draw_img(xpos, ypos,img,scale,scale,rot,0xFFFFFFFF)
 
+=======
+        GRRLIB_Printf((640-(21*21))/2, 20, tex_font, RED, 5, "Saii");
+        GRRLIB_Printf((640-(3*3))/2, 20, tex_font, BLUE, 5, "ber");
+        GRRLIB_Printf((640-(16*14))/2, 200, tex_font, RED, 2, "play");
+        GRRLIB_Printf((640-(16*14))/2, 300, tex_font, RED, 2, "quick play");
+        GRRLIB_Printf((640-(16*14))/2, 250, tex_font, RED, 2, "settings");
+        GRRLIB_Printf((640-(16*14))/2, 350, tex_font, RED, 2, "credits");
+        GRRLIB_Printf((640-(16*14))/2, 400, tex_font, RED, 2, "exit");
+        GRRLIB_Printf((640-(16*14))/2, 450, tex_font, RED, 0.5, "made by guinea7pig");
+        GRRLIB_Printf((640-(16*14))/2, 450, tex_font, RED, 0.5, "made with grrlib");
+>>>>>>> Stashed changes
         //grrlib logo
         //display qr code to discord
 

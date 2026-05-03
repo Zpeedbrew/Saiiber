@@ -1,6 +1,5 @@
 // some of this code (mostly the inilation scpits) contain some code fromb a grrlib template exsample. https://github.com/GRRLIB/GRRLIB/tree/master/examples/template
 
-/*
 #include <grrlib.h>
 #include <stdlib.h>
 #include <math.h>
@@ -11,7 +10,7 @@
 #define RED 0xFF0000FF
 #define BLUE 0x0000FFFF
 
-int main() {
+int k() {
     int camZ=13.0f;
 
     GRRLIB_Init();
@@ -38,6 +37,7 @@ int main() {
         GRRLIB_2dMode();
         //title text 
         //need to button stuff eventuly.
-        /*
-        exit(0)
+        //exit(0)
+    }
+}
     
