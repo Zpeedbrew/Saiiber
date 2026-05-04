@@ -33,7 +33,8 @@ int main() {
         if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) exit(0);
         GRRLIB_SetLightAmbient(0x333333FF);
         // Switch to 2D Mode to display text
-    
+    // GRRLIB_ScrShot("sd:/saiiber.png");
+
         //title text 
         GRRLIB_Printf((640-(21*21))/2, 20, tex_font, 0xFF0000FF, 5, "Saii");
         GRRLIB_Printf((640-(3*3))/2, 20, tex_font, 0x0000FFFF, 5, "ber");
