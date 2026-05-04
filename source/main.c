@@ -51,15 +51,14 @@ int main() {
         //display qr code to discord
 
         //debug text neeed to make togglable
-        /*
-        GRRLIB_Printf((640-(16*14))/2, 350, tex_font, 0xFF0000FF, 2, "current version:1.6");
-        GRRLIB_Printf((640-(16*14))/2, 350, tex_font, 0xFF0000FF, 2, "rendering engine:GRRLIB");
-        GRRLIB_Printf((640-(16*14))/2, 400, tex_font, 0xFF0000FF, 1,"fps:");
-        GRRLIB_Printf((640-(16*14))/2, 400, tex_font, 0xFF0000FF, 1, "fps"x);
-        GRRLIB_Printf((640-(16*14))/2, 400, tex_font, 0xFF0000FF, 1,"cur x");
-        GRRLIB_Printf((640-(16*14))/2, 400, tex_font, 0xFF0000FF, 1, curx);
-        GRRLIB_Printf((640-(16*14))/2, 400, tex_font, 0xFF0000FF, 1,cury);
-        GRRLIB_Printf((640-(16*14))/2, 400, tex_font, 0xFF0000FF, 1,"cur y");
+        GRRLIB_Printf((640-(16*14))/2, 10, tex_font, 0xFF0000FF, 1, "current version:1.6");
+        GRRLIB_Printf((640-(16*14))/2, 20, tex_font, 0xFF0000FF, 1, "rendering engine:GRRLIB");
+        GRRLIB_Printf((640-(16*14))/2, 30, tex_font, 0xFF0000FF, 1,"fps:");
+        //GRRLIB_Printf((640-(16*14))/2, 30, tex_font, 0xFF0000FF, 1, fps);
+        GRRLIB_Printf((640-(16*14))/2, 40, tex_font, 0xFF0000FF, 1,"cur x");
+        //GRRLIB_Printf((640-(16*14))/2,40400, tex_font, 0xFF0000FF, 1, curx);
+         GRRLIB_Printf((640-(16*14))/2, 400, tex_font, 0xFF0000FF, 1,"cur y");
+        //GRRLIB_Printf((640-(16*14))/2, 400, tex_font, 0xFF0000FF, 1,cury);
 
 //this code snippet is from https://github.com/GRRLIB/GRRLIB/blob/master/examples/basic_drawing/source/main.c
         static u8 CalculateFrameRate(void) {
