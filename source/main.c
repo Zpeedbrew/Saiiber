@@ -60,6 +60,14 @@ int main() {
          GRRLIB_Printf((640-(16*14))/2, 400, tex_font, 0xFF0000FF, 1,"cur y");
         //GRRLIB_Printf((640-(16*14))/2, 400, tex_font, 0xFF0000FF, 1,cury);
 
+        //this code snippet is from https://github.com/GRRLIB/GRRLIB/blob/master/examples/basic_drawing/source/main.c
+        // Draw a yellow four pixel dot where the Wii Remote is pointing
+        GRRLIB_Plot(ir1.sx, ir1.sy, GRRLIB_YELLOW);
+        GRRLIB_Plot(ir1.sx + 1, ir1.sy, GRRLIB_YELLOW);
+        GRRLIB_Plot(ir1.sx, ir1.sy + 1, GRRLIB_YELLOW);
+        GRRLIB_Plot(ir1.sx + 1, ir1.sy + 1, GRRLIB_YELLOW);
+
+
 //this code snippet is from https://github.com/GRRLIB/GRRLIB/blob/master/examples/basic_drawing/source/main.c
         static u8 CalculateFrameRate(void) {
     static u8 frameCount = 0;
