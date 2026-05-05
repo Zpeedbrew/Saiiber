@@ -28,7 +28,7 @@ int main() {
     while(1) {
         GRRLIB_2dMode();
         WPAD_ScanPads();
-        WPAD_IR(WPAD_CHAN_0, &ir1);//looking at ir
+        //WPAD_IR(WPAD_CHAN_0, &ir1);//looking at ir
 
         if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) exit(0);
         GRRLIB_SetLightAmbient(0x333333FF);
@@ -36,15 +36,15 @@ int main() {
     // GRRLIB_ScrShot("sd:/saiiber.png");
 
         //title text 
-        GRRLIB_Printf((640-(21*21))/2, 20, tex_font, 0xFF0000FF, 5, "Saii");
-        GRRLIB_Printf((640-(3*3))/2, 20, tex_font, 0x0000FFFF, 5, "ber");
-        GRRLIB_Printf((640-(16*14))/2, 150, tex_font, 0xFF0000FF, 2, "play");
-        GRRLIB_Printf((640-(16*14))/2, 200, tex_font, 0xFF0000FF, 2, "settings");
-        GRRLIB_Printf((640-(16*14))/2, 250, tex_font, 0xFF0000FF, 2, "quick play");
-        GRRLIB_Printf((640-(16*14))/2, 300, tex_font, 0xFF0000FF, 2, "credits");
-        GRRLIB_Printf((640-(16*14))/2, 400, tex_font, 0xFF0000FF, 2, "exit");
-        GRRLIB_Printf((640-(16*14))/2, 450, tex_font, 0xFF0000FF, 1, "made by guinea7pig");
-        GRRLIB_Printf((640-(16*10))/2, 450, tex_font, 0xFF0000FF,1, "made with grrlib");
+        GRRLIB_Printf((640-(21*21))/2, 20, tex_font, RED, 5, "Saii");
+        GRRLIB_Printf((640-(3*3))/2, 20, tex_font, BLUE, 5, "ber");
+        GRRLIB_Printf((640-(16*14))/2, 150, tex_font, RED, 2, "play");
+        GRRLIB_Printf((640-(16*14))/2, 200, tex_font, RED, 2, "settings");
+        GRRLIB_Printf((640-(16*14))/2, 250, tex_font, RED, 2, "quick play");
+        GRRLIB_Printf((640-(16*14))/2, 300, tex_font, RED, 2, "credits");
+        GRRLIB_Printf((640-(16*14))/2, 400, tex_font, RED, 2, "exit");
+        GRRLIB_Printf((640-(16*14))/2, 450, tex_font, RED, 1, "made by guinea7pig");
+        GRRLIB_Printf((640-(16*10))/2, 450, tex_font, RED ,1, "made with grrlib");
         GRRLIB_DrawImg((640-(16*10))/2, 450,tex_dis,3,3,3,0xFFFFFFFF);
         //GRRLIB_Draw_img(xpos, ypos,img,scale,scale,rot,0xFFFFFFFF)
 
@@ -63,14 +63,14 @@ int main() {
 
         //this code snippet is from https://github.com/GRRLIB/GRRLIB/blob/master/examples/basic_drawing/source/main.c
         // Draw a yellow four pixel dot where the Wii Remote is pointing
+        /*
         GRRLIB_Plot(ir1.sx, ir1.sy ,BLUE );
         GRRLIB_Plot(ir1.sx + 1, ir1.sy, BLUE);
         GRRLIB_Plot(ir1.sx, ir1.sy + 1, BLUE);
         GRRLIB_Plot(ir1.sx + 1, ir1.sy + 1, BLUE);
-
-
+        */
 //this code snippet is from https://github.com/GRRLIB/GRRLIB/blob/master/examples/basic_drawing/source/main.c
-        static u8 CalculateFrameRate(void) {
+   /* static u8 CalculateFrameRate(void) {
     static u8 frameCount = 0;
     static u32 lastTime;
     static u8 FPS = 0;
