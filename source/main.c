@@ -9,6 +9,8 @@
 #include "Letter_Gothic_Std_14_Bold_png.h"
 //#include "cursor_png.h"
 #include "discord_png.h"
+#include "grrlib_logo_png.h"
+
 
 #define RED 0xFF0000FF
 #define BLUE 0x0000FFFF
@@ -21,7 +23,7 @@ int main() {
     WPAD_SetDataFormat(WPAD_CHAN_0, WPAD_FMT_BTNS_ACC_IR); //needed to inatate ir
     GRRLIB_texImg *tex_font = GRRLIB_LoadTexture(Letter_Gothic_Std_14_Bold_png);
     //GRRLIB_texImg *tex_cur = GRRLIB_LoadTexture(cursor_png);
-    GRRLIB_texImg *tex_dis = GRRLIB_LoadTexture(discord_png);
+    GRRLIB_texImg *tex_dis = GRRLIB_LoadTexturePNG(discord_png);
     GRRLIB_InitTileSet(tex_font, 11, 24, 32);
     GRRLIB_Settings.antialias = true;
     GRRLIB_SetBackgroundColour(0x00, 0x00, 0x00, 0xFF);
@@ -43,8 +45,8 @@ int main() {
         GRRLIB_Printf((640-(16*14))/2, 250, tex_font, RED, 2, "quick play");
         GRRLIB_Printf((640-(16*14))/2, 300, tex_font, RED, 2, "credits");
         GRRLIB_Printf((640-(16*14))/2, 400, tex_font, RED, 2, "exit");
-        GRRLIB_Printf((640-(16*14))/2, 450, tex_font, RED, 1, "made by guinea7pig");
-        GRRLIB_Printf((640-(16*10))/2, 450, tex_font, RED ,1, "made with grrlib");
+        GRRLIB_Printf((640-(23*23))/2, 450, tex_font, RED, 1, "made by guinea7pig");
+        GRRLIB_Printf((640-(0*0))/2, 450, tex_font, RED ,1, "made with grrlib");
         GRRLIB_DrawImg((640-(16*10))/2, 450,tex_dis,3,3,3,0xFFFFFFFF);
         //GRRLIB_Draw_img(xpos, ypos,img,scale,scale,rot,0xFFFFFFFF)
 
