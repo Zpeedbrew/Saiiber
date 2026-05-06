@@ -1,4 +1,3 @@
-
 # Saiiber
 Wii homebrew clone of Beat Saber (IN PROGRESS CURRENTLY)
 
@@ -42,3 +41,8 @@ Uses clang-format with Google formatting. All pull requests must comply with the
 - Makefile output was changed to output a "boot.dol/elf" in the sd/apps/saiiber directory
 
 The virtual sd card on Dolphin can convert the folder into a file for use in the emulator. I wanted the sd directory to reflect the final product as it would be installed by any user.
+
+#credits 
+made with grrlib
+<img width="403" height="139" alt="grrlib_logo" src="https://github.com/user-attachments/assets/2b5efc9d-1bf8-45d8-a605-6d883e0ed2b7" />
+
