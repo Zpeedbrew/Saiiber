@@ -46,10 +46,10 @@ int main() {
         GRRLIB_Printf((640-(16*14))/2, 250, tex_font, RED, 2, "quick play");
         GRRLIB_Printf((640-(16*14))/2, 300, tex_font, RED, 2, "credits");
         GRRLIB_Printf((640-(16*14))/2, 400, tex_font, RED, 2, "exit");
-        GRRLIB_Printf((640-(23*23))/2, 450, tex_font, RED, 1, "made by guinea7pig");
-        GRRLIB_Printf((640-(0*0))/2, 450, tex_font, RED ,1, "made with grrlib");
+        GRRLIB_Printf((640-(24*24))/2, 450, tex_font, BLUE, 1, "made by guinea7pig");
+        GRRLIB_Printf((640-(9))/2, 450, tex_font, RED ,1, "made with grrlib");
         GRRLIB_DrawImg((640-(16*10))/2, 450,tex_dis,3,3,3,0xFFFFFFFF);
-        GRRLIB_Draw_img(xpos, ypos,img,scale,scale,rot,0xFFFFFFFF)
+        //GRRLIB_Draw_img(xpos, ypos,img,scale,scale,rot,0xFFFFFFFF)
         //GRRLIB_Draw_img(xpos, ypos,img,scale,scale,rot,0xFFFFFFFF)
 
         //grrlib logo
