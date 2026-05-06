@@ -13,6 +13,7 @@
 
 
 #define RED 0xFF0000FF
+#define WHIte 0xFF0000FF
 #define BLUE 0x0000FFFF
 #define BLACK 0x000000FF
 
@@ -48,6 +49,7 @@ int main() {
         GRRLIB_Printf((640-(23*23))/2, 450, tex_font, RED, 1, "made by guinea7pig");
         GRRLIB_Printf((640-(0*0))/2, 450, tex_font, RED ,1, "made with grrlib");
         GRRLIB_DrawImg((640-(16*10))/2, 450,tex_dis,3,3,3,0xFFFFFFFF);
+        GRRLIB_Draw_img(xpos, ypos,img,scale,scale,rot,0xFFFFFFFF)
         //GRRLIB_Draw_img(xpos, ypos,img,scale,scale,rot,0xFFFFFFFF)
 
         //grrlib logo
