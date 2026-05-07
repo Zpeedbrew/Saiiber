@@ -30,20 +30,18 @@ int o() {
     while(1) {
         GRRLIB_2dMode();
         WPAD_ScanPads();
+        //if(WPAD_ButtonsDown(0) & WPAD_BUTTON_PLUS) break; //goes back to home i hope
         if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) break; //goes back to home i hope
 
         GRRLIB_Camera3dSettings(0.0f,0.0f,camZ, 0,1,0, 0,0,0);
         GRRLIB_SetLightAmbient(0x333333FF);
-
-        //GRRLIB_3dMode(0.1, 1000, 45, 0, 1); dont have anyhing 32 here
-        // Switch to 2D Mode to display text
         GRRLIB_2dMode();
         //title text 
         GRRLIB_Printf((640-(21*21))/2, 20, tex_font, RED, 5, "credits");
         GRRLIB_Printf((640-(16*14))/2, 400, tex_font, RED, 2, "return to home");
         //need to button stuff eventuly.
         //exit(0)
-        GRRLIB_Printf((640-(16*14))/2, 100, tex_font, RED, 3, "devolped by Guinea7pig, Beemer,");
+        GRRLIB_Printf((640, 100, tex_font, RED, 3, "devolped by Guinea7pig, Beemer,");
         GRRLIB_Printf((640-(16*14))/2, 150, tex_font, RED, 3, "settings");
         GRRLIB_Printf((640-(16*14))/2, 200, tex_font, RED, 3, "thanks to Crayon2000 and theGRRlIB dev team + the exsample projects");
         GRRLIB_Printf((640-(16*14))/2, 250, tex_font, RED, 3, "thanks to the wii hombrewing community");
@@ -65,6 +63,5 @@ int o() {
     GRRLIB_FreeTexture(tex_font);
     GRRLIB_FreeTexture(tex_back);
     GRRLIB_Exit(); // Be a good boy, clear the memory allocated by GRRLIB
-
     exit(0);
 }
