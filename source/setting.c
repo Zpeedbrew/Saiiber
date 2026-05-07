@@ -34,12 +34,10 @@ int e() {
         GRRLIB_Camera3dSettings(0.0f,0.0f,camZ, 0,1,0, 0,0,0);
         GRRLIB_SetLightAmbient(0x333333FF);
 
-        //GRRLIB_3dMode(0.1, 1000, 45, 0, 1); dont have anyhing 32 here
-        // Switch to 2D Mode to display text
         GRRLIB_2dMode();
         //title text 
-        GRRLIB_Printf((640-(21*21))/2, 20, tex_font, RED, 5, "settings");
-        GRRLIB_Printf((640-(16*14))/2, 400, tex_font, RED, 2, "return to home");
+        GRRLIB_Printf(215, 20, tex_font, RED, 5, "settings");
+        GRRLIB_Printf(100, 400, tex_font, RED, 2, "return to home");
         //need to button stuff eventuly.
         /*
         exit(0)
