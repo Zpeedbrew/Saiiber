@@ -5,14 +5,14 @@
 #include <ogc/lwp_watchdog.h>  
 #include <wiiuse/wpad.h>
 
-
+//font
 #include "Letter_Gothic_Std_14_Bold_png.h"
 #include "beon.png.h"
 
 //#include "cursor_png.h"
 #include "discord_png.h"
 #include "grrlib_logo_png.h"
-//#include "qr_png.h"
+#include "qr_png.h"
 //#include "qr2_png.h"
 
 
@@ -41,6 +41,8 @@ int main() {
     //GRRLIB_texImg *tex_cur = GRRLIB_LoadTexture(cursor_png);
     GRRLIB_texImg *tex_dis = GRRLIB_LoadTexturePNG(discord_png);
     GRRLIB_texImg *tex_grr = GRRLIB_LoadTexturePNG(grrlib_logo_png);
+    GRRLIB_texImg *tex_qr = GRRLIB_LoadTexturePNG(qr_png);
+
     while(1) {
         GRRLIB_2dMode();
         WPAD_ScanPads();
@@ -52,6 +54,7 @@ int main() {
         //title text 
         GRRLIB_Printf(99, 20, tex_font, RED, 5, "Saii"); //((640-(21*21))/2
         GRRLIB_Printf(315, 20, tex_font, BLUE, 5, "ber");
+        //menu text
         GRRLIB_Printf((10, 150, tex_font, RED, 2, "play");
         GRRLIB_Printf(10 200, tex_font, RED, 2, "settings");
         GRRLIB_Printf((10, 250, tex_font, RED, 2, "quick play");
@@ -59,31 +62,26 @@ int main() {
         GRRLIB_Printf(10, 400, tex_font, RED, 2, "exit");
         GRRLIB_Printf(32, 450, tex_font, BLUE, 1, "made by guinea7pig");
         GRRLIB_Printf((315, 450, tex_font, RED ,1, "made with grrlib");
+        //images
         GRRLIB_DrawImg((10, 400,tex_dis,3,3,3,0xFFFFFFFF);
         //GRRLIB_DrawImg((30, 400,tex_qr,3,3,3,0xFFFFFFFF);
-        GRRLIB_Draw_img(315, 400 ,img,scale,scale,rot,0xFFFFFFFF)
-        //GRRLIB_Draw_img(xpos, ypos,img,scale,scale,rot,0xFFFFFFFF)
-
-        //display qr code to discord
-
+        GRRLIB_Draw_img(315, 400 ,tex_gr,1,1,0,0xFFFFFFFF)       
         //debug text neeed to make togglable
-        GRRLIB_Printf((640-(16*14))/2, 10, tex_font, 0xFF0000FF, 1, "current version:1.6");
-        GRRLIB_Printf((640-(16*14))/2, 20, tex_font, 0xFF0000FF, 1, "rendering engine:GRRLIB");
-        GRRLIB_Printf((640-(16*14))/2, 30, tex_font, 0xFF0000FF, 1,"fps:");
+        GRRLIB_Printf(10, 30, tex_font, 0xFF0000FF, 1,"fps:");
         //GRRLIB_Printf((640-(16*14))/2, 30, tex_font, 0xFF0000FF, 1, fps);
         GRRLIB_Printf((640-(16*14))/2, 40, tex_font, 0xFF0000FF, 1,"cur x");
         //GRRLIB_Printf((640-(16*14))/2,40400, tex_font, 0xFF0000FF, 1, curx);
          GRRLIB_Printf((640-(16*14))/2, 400, tex_font, 0xFF0000FF, 1,"cur y");
         //GRRLIB_Printf((640-(16*14))/2, 400, tex_font, 0xFF0000FF, 1,cury);
 
-        //this code snippet is from https://github.com/GRRLIB/GRRLIB/blob/master/examples/basic_drawing/source/main.c
-        // Draw a yellow four pixel dot where the Wii Remote is pointing
-        /*
+        //cursor
+         /*
         GRRLIB_Plot(ir1.sx, ir1.sy ,BLUE );
         GRRLIB_Plot(ir1.sx + 1, ir1.sy, BLUE);
         GRRLIB_Plot(ir1.sx, ir1.sy + 1, BLUE);
         GRRLIB_Plot(ir1.sx + 1, ir1.sy + 1, BLUE);
         */
+
 //this code snippet is from https://github.com/GRRLIB/GRRLIB/blob/master/examples/basic_drawing/source/main.c
    /* static u8 CalculateFrameRate(void) {
     static u8 frameCount = 0;
@@ -111,6 +109,8 @@ int main() {
     //free imgaes
     GRRLIB_FreeTexture(tex_dis);
     GRRLIB_FreeTexture(tex_gr);
+    GRRLIB_FreeTexture(tex_gr);
+
     //GRRLIB_FreeTexture(tex_cur)
     GRRLIB_Exit(); // Be a good boy, clear the memory allocated by GRRLIB
 
