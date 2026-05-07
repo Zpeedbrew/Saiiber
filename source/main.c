@@ -31,7 +31,9 @@ int main() {
     while(1) {
         GRRLIB_2dMode();
         WPAD_ScanPads();
-        //WPAD_IR(WPAD_CHAN_0, &ir1);//looking at ir
+        WPAD_IR(WPAD_CHAN_0, &ir1); //SHOULF GET IR
+        WPAD_SetVRes(0, 640, 480);
+
 
         if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) exit(0);
         GRRLIB_SetLightAmbient(0x333333FF);
