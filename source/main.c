@@ -46,7 +46,7 @@ int main() {
         WPAD_ScanPads();
         WPAD_IR(WPAD_CHAN_0, &ir1); //SHOULd GET IR
         WPAD_SetVRes(0, 640, 480);
-        if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) exit(0);
+        //if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) exit(0);
         if(WPAD_ButtonsDown(0) & WPAD_BUTTON_MINUS) GRRLIB_ScrShot("sd:/saiiber.png");
         GRRLIB_SetLightAmbient(0x333333FF);
         //title text 
@@ -105,7 +105,12 @@ int main() {
 
         GRRLIB_Render();
     }
+    //free textures
     GRRLIB_FreeTexture(tex_font);
+    GRRLIB_FreeTexture(tex_beon);
+    //free imgaes
+    GRRLIB_FreeTexture(tex_dis);
+    GRRLIB_FreeTexture(tex_gr);
     //GRRLIB_FreeTexture(tex_cur)
     GRRLIB_Exit(); // Be a good boy, clear the memory allocated by GRRLIB
 
