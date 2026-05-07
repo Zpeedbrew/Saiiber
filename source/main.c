@@ -7,6 +7,8 @@
 
 
 #include "Letter_Gothic_Std_14_Bold_png.h"
+#include "beon.png.h"
+
 //#include "cursor_png.h"
 #include "discord_png.h"
 #include "grrlib_logo_png.h"
@@ -22,15 +24,23 @@
 
 
 int main() {
+    //graphics library init
     GRRLIB_Init();
-    WPAD_Init();
-    WPAD_SetDataFormat(WPAD_CHAN_0, WPAD_FMT_BTNS_ACC_IR); //needed to inatate ir
-    GRRLIB_texImg *tex_font = GRRLIB_LoadTexture(Letter_Gothic_Std_14_Bold_png);
-    //GRRLIB_texImg *tex_cur = GRRLIB_LoadTexture(cursor_png);
-    GRRLIB_texImg *tex_dis = GRRLIB_LoadTexturePNG(discord_png);
-    GRRLIB_InitTileSet(tex_font, 11, 24, 32);
     GRRLIB_Settings.antialias = true;
     GRRLIB_SetBackgroundColour(0x00, 0x00, 0x00, 0xFF);
+    //controller init
+    WPAD_Init();
+    WPAD_SetDataFormat(WPAD_CHAN_0, WPAD_FMT_BTNS_ACC_IR);
+    //font intit
+    GRRLIB_texImg *tex_font = GRRLIB_LoadTexture(Letter_Gothic_Std_14_Bold_png);
+    GRRLIB_texImg *tex_beon = GRRLIB_LoadTexture(Letter_Gothic_Std_14_Bold_png);
+
+    GRRLIB_InitTileSet(tex_font, 11, 24, 32);
+    GRRLIB_InitTileSet(tex_beon, 11, 24, 32);//tileset probs wrong
+    //image init
+    //GRRLIB_texImg *tex_cur = GRRLIB_LoadTexture(cursor_png);
+    GRRLIB_texImg *tex_dis = GRRLIB_LoadTexturePNG(discord_png);
+    GRRLIB_texImg *tex_grr = GRRLIB_LoadTexturePNG(grrlib_logo_png);
     while(1) {
         GRRLIB_2dMode();
         WPAD_ScanPads();
