@@ -13,7 +13,7 @@
 
 
 #define RED 0xFF0000FF
-#define WHIte 0xFF0000FF
+#define WHITE 0xFF0000FF
 #define BLUE 0x0000FFFF
 #define BLACK 0x000000FF
 
