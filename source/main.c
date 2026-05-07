@@ -41,16 +41,16 @@ int main() {
     // GRRLIB_ScrShot("sd:/saiiber.png");
 
         //title text 
-        GRRLIB_Printf((640-(21*21))/2, 20, tex_font, RED, 5, "Saii");
-        GRRLIB_Printf((640-(3*3))/2, 20, tex_font, BLUE, 5, "ber");
-        GRRLIB_Printf((640-(16*14))/2, 150, tex_font, RED, 2, "play");
-        GRRLIB_Printf((640-(16*14))/2, 200, tex_font, RED, 2, "settings");
-        GRRLIB_Printf((640-(16*14))/2, 250, tex_font, RED, 2, "quick play");
-        GRRLIB_Printf((640-(16*14))/2, 300, tex_font, RED, 2, "credits");
-        GRRLIB_Printf((640-(16*14))/2, 400, tex_font, RED, 2, "exit");
-        GRRLIB_Printf((640-(24*24))/2, 450, tex_font, BLUE, 1, "made by guinea7pig");
-        GRRLIB_Printf((640-(9))/2, 450, tex_font, RED ,1, "made with grrlib");
-        GRRLIB_DrawImg((640-(16*10))/2, 450,tex_dis,3,3,3,0xFFFFFFFF);
+        GRRLIB_Printf(99, 20, tex_font, RED, 5, "Saii"); //((640-(21*21))/2
+        GRRLIB_Printf(315, 20, tex_font, BLUE, 5, "ber");
+        GRRLIB_Printf((10, 150, tex_font, RED, 2, "play");
+        GRRLIB_Printf(10 200, tex_font, RED, 2, "settings");
+        GRRLIB_Printf((10, 250, tex_font, RED, 2, "quick play");
+        GRRLIB_Printf(10, 300, tex_font, RED, 2, "credits");
+        GRRLIB_Printf(10, 400, tex_font, RED, 2, "exit");
+        GRRLIB_Printf(32, 450, tex_font, BLUE, 1, "made by guinea7pig");
+        GRRLIB_Printf((315, 450, tex_font, RED ,1, "made with grrlib");
+        GRRLIB_DrawImg((10, 400,tex_dis,3,3,3,0xFFFFFFFF);
         //GRRLIB_Draw_img(xpos, ypos,img,scale,scale,rot,0xFFFFFFFF)
         //GRRLIB_Draw_img(xpos, ypos,img,scale,scale,rot,0xFFFFFFFF)
 
