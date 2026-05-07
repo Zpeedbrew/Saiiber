@@ -63,16 +63,16 @@ int main() {
         GRRLIB_Printf(32, 450, tex_font, BLUE, 1, "made by guinea7pig");
         GRRLIB_Printf((315, 450, tex_font, RED ,1, "made with grrlib");
         //images
-        GRRLIB_DrawImg((10, 400,tex_dis,3,3,3,0xFFFFFFFF);
-        //GRRLIB_DrawImg((30, 400,tex_qr,3,3,3,0xFFFFFFFF);
-        GRRLIB_Draw_img(315, 400 ,tex_gr,1,1,0,0xFFFFFFFF)       
+        GRRLIB_DrawImg((10, 400,tex_dis,1,1,0,WHITE);
+        GRRLIB_DrawImg((30, 400,tex_qr,1,1,0,WHITE);
+        GRRLIB_Draw_img(315, 400 ,tex_gr,1,1,0,WHITE)       
         //debug text neeed to make togglable
-        GRRLIB_Printf(10, 30, tex_font, 0xFF0000FF, 1,"fps:");
-        //GRRLIB_Printf((640-(16*14))/2, 30, tex_font, 0xFF0000FF, 1, fps);
-        GRRLIB_Printf((640-(16*14))/2, 40, tex_font, 0xFF0000FF, 1,"cur x");
-        //GRRLIB_Printf((640-(16*14))/2,40400, tex_font, 0xFF0000FF, 1, curx);
-         GRRLIB_Printf((640-(16*14))/2, 400, tex_font, 0xFF0000FF, 1,"cur y");
-        //GRRLIB_Printf((640-(16*14))/2, 400, tex_font, 0xFF0000FF, 1,cury);
+        GRRLIB_Printf(10, 30, tex_font, RED, 1,"fps:");
+        //GRRLIB_Printf((640-(16*14))/2, 30, tex_font, BLUE, 1, fps);
+        GRRLIB_Printf(500, 40, tex_font, RED, 1,"cur x");
+        //GRRLIB_Printf((640-(16*14))/2,40400, tex_font, BLUE, 1, curx);
+         GRRLIB_Printf((500, 50, tex_font, RED, 1,"cur y");
+        //GRRLIB_Printf((640-(16*14))/2, 400, tex_font, BLUE, 1,cury);
 
         //cursor
          /*
