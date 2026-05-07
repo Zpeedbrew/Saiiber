@@ -48,7 +48,7 @@ int main() {
         WPAD_ScanPads();
         WPAD_IR(WPAD_CHAN_0, &ir1); //SHOULd GET IR
         WPAD_SetVRes(0, 640, 480);
-        //if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) exit(0);
+        if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) break;
         if(WPAD_ButtonsDown(0) & WPAD_BUTTON_MINUS) GRRLIB_ScrShot("sd:/saiiber.png");
         GRRLIB_SetLightAmbient(0x333333FF);
         //title text 
