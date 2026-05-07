@@ -10,6 +10,9 @@
 //#include "cursor_png.h"
 #include "discord_png.h"
 #include "grrlib_logo_png.h"
+//#include "qr_png.h"
+//#include "qr2_png.h"
+
 
 
 #define RED 0xFF0000FF
@@ -31,15 +34,11 @@ int main() {
     while(1) {
         GRRLIB_2dMode();
         WPAD_ScanPads();
-        WPAD_IR(WPAD_CHAN_0, &ir1); //SHOULF GET IR
+        WPAD_IR(WPAD_CHAN_0, &ir1); //SHOULd GET IR
         WPAD_SetVRes(0, 640, 480);
-
-
         if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) exit(0);
+        if(WPAD_ButtonsDown(0) & WPAD_BUTTON_MINUS) GRRLIB_ScrShot("sd:/saiiber.png");
         GRRLIB_SetLightAmbient(0x333333FF);
-        // Switch to 2D Mode to display text
-    // GRRLIB_ScrShot("sd:/saiiber.png");
-
         //title text 
         GRRLIB_Printf(99, 20, tex_font, RED, 5, "Saii"); //((640-(21*21))/2
         GRRLIB_Printf(315, 20, tex_font, BLUE, 5, "ber");
@@ -51,10 +50,10 @@ int main() {
         GRRLIB_Printf(32, 450, tex_font, BLUE, 1, "made by guinea7pig");
         GRRLIB_Printf((315, 450, tex_font, RED ,1, "made with grrlib");
         GRRLIB_DrawImg((10, 400,tex_dis,3,3,3,0xFFFFFFFF);
-        //GRRLIB_Draw_img(xpos, ypos,img,scale,scale,rot,0xFFFFFFFF)
+        //GRRLIB_DrawImg((30, 400,tex_qr,3,3,3,0xFFFFFFFF);
+        GRRLIB_Draw_img(315, 400 ,img,scale,scale,rot,0xFFFFFFFF)
         //GRRLIB_Draw_img(xpos, ypos,img,scale,scale,rot,0xFFFFFFFF)
 
-        //grrlib logo
         //display qr code to discord
 
         //debug text neeed to make togglable
