@@ -17,12 +17,14 @@
 //#include "qr2_png.h"
 
 
-
+#define version 1.6
+#defin
 #define RED 0xFF0000FF
 #define WHITE 0xFF0000FF
 #define BLUE 0x0000FFFF
 #define BLACK 0x000000FF
 
+float cursorX, cursorY;
 
 int main() {
     //graphics library init
