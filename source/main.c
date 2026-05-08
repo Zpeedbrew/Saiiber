@@ -4,6 +4,7 @@
 #include <math.h>
 #include <ogc/lwp_watchdog.h>  
 #include <wiiuse/wpad.h>
+#include <input.h>
 
 //font
 #include "Letter_Gothic_Std_14_Bold_png.h"
