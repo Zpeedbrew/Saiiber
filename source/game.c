@@ -12,10 +12,8 @@
 
 int k() {
     int camZ=13.0f;
-
+    InitInput();
     GRRLIB_Init();
-    WPAD_Init();
-
 
     GRRLIB_texImg *tex_font = GRRLIB_LoadTexture(Letter_Gothic_Std_14_Bold_png);
     GRRLIB_InitTileSet(tex_font, 11, 24, 32);
@@ -26,9 +24,8 @@ int k() {
     GRRLIB_SetBackgroundColour(0x00, 0x00, 0x00, 0xFF);
 
     while(1) {
-        GRRLIB_2dMode();
         WPAD_ScanPads();
-        if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) exit(0); 
+        if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) return 0; 
         GRRLIB_Camera3dSettings(0.0f,0.0f,camZ, 0,1,0, 0,0,0); //want this to go back to menu
         GRRLIB_SetLightAmbient(0x333333FF);
 
@@ -39,5 +36,8 @@ int k() {
         //need to button stuff eventuly.
         //exit(0)
     }
+    
+    GRRLIB_EXIT()
+    exit(0)
 }
     
