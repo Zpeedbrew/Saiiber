@@ -26,7 +26,7 @@ int k() {
     while(1) {
         WPAD_ScanPads();
         if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) return 0; 
-        GRRLIB_Camera3dSettings(0.0f,0.0f,camZ, 0,1,0, 0,0,0); //want this to go back to menu
+        GRRLIB_Camera3dSettings(0.0f,0.0f,camZ, 0,1,0, 0,0,0); 
         GRRLIB_SetLightAmbient(0x333333FF);
 
         GRRLIB_3dMode(0.1, 1000, 45, 0, 1);
