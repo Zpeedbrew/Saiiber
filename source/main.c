@@ -18,7 +18,6 @@
 
 
 #define version 1.6
-#defin
 #define RED 0xFF0000FF
 #define WHITE 0xFF0000FF
 #define BLUE 0x0000FFFF
@@ -32,8 +31,7 @@ int main() {
     GRRLIB_Settings.antialias = true;
     GRRLIB_SetBackgroundColour(0x00, 0x00, 0x00, 0xFF);
     //controller init
-    WPAD_Init();
-    WPAD_SetDataFormat(WPAD_CHAN_0, WPAD_FMT_BTNS_ACC_IR);
+    UpdateInput();
     //font intit
     GRRLIB_texImg *tex_font = GRRLIB_LoadTexture(Letter_Gothic_Std_14_Bold_png);
     GRRLIB_texImg *tex_beon = GRRLIB_LoadTexture(Letter_Gothic_Std_14_Bold_png);
@@ -49,8 +47,11 @@ int main() {
     while(1) {
         GRRLIB_2dMode();
         WPAD_ScanPads();
-        WPAD_IR(WPAD_CHAN_0, &ir1); //SHOULd GET IR
-        WPAD_SetVRes(0, 640, 480);
+        GetIRPointer(0, &cursorX, &cursorY);
+       if (cursorX >= 0 && cursorY >= 0) {
+
+        {
+
         if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) break;
         if(WPAD_ButtonsDown(0) & WPAD_BUTTON_MINUS) GRRLIB_ScrShot("sd:/saiiber.png");
         GRRLIB_SetLightAmbient(0x333333FF);
