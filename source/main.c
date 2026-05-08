@@ -31,7 +31,7 @@ int main() {
     GRRLIB_Settings.antialias = true;
     GRRLIB_SetBackgroundColour(0x00, 0x00, 0x00, 0xFF);
     //controller init
-    UpdateInput();
+    InitInput();
     //font intit
     GRRLIB_texImg *tex_font = GRRLIB_LoadTexture(Letter_Gothic_Std_14_Bold_png);
     GRRLIB_texImg *tex_beon = GRRLIB_LoadTexture(Letter_Gothic_Std_14_Bold_png);
