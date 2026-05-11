@@ -4,11 +4,11 @@
 #include <math.h>
 #include <ogc/lwp_watchdog.h>  
 #include <wiiuse/wpad.h>
-#include <input.h>
+#include "input.h"
 
 //font
 #include "Letter_Gothic_Std_14_Bold_png.h"
-#include "beon.png.h"
+#include "beon_png.h"
 
 //#include "cursor_png.h"
 #include "discord_png.h"
@@ -41,7 +41,7 @@ int main() {
     //image init
     //GRRLIB_texImg *tex_cur = GRRLIB_LoadTexture(cursor_png);
     GRRLIB_texImg *tex_dis = GRRLIB_LoadTexturePNG(discord_png);
-    GRRLIB_texImg *tex_grr = GRRLIB_LoadTexturePNG(grrlib_logo_png);
+    GRRLIB_texImg *tex_gr = GRRLIB_LoadTexturePNG(grrlib_logo_png);
     GRRLIB_texImg *tex_qr = GRRLIB_LoadTexturePNG(qr_png);
 
     while(1) {
@@ -50,7 +50,7 @@ int main() {
         GetIRPointer(0, &cursorX, &cursorY);
        if (cursorX >= 0 && cursorY >= 0) {
 
-        {
+       }
 
         if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) break;
         if(WPAD_ButtonsDown(0) & WPAD_BUTTON_MINUS) GRRLIB_ScrShot("sd:/saiiber.png");
@@ -59,32 +59,32 @@ int main() {
         GRRLIB_Printf(99, 20, tex_font, RED, 5, "Saii"); //((640-(21*21))/2
         GRRLIB_Printf(315, 20, tex_font, BLUE, 5, "ber");
         //menu text
-        GRRLIB_Printf((10, 150, tex_font, RED, 2, "play");
-        GRRLIB_Printf(10 200, tex_font, RED, 2, "settings");
-        GRRLIB_Printf((10, 250, tex_font, RED, 2, "quick play");
+        GRRLIB_Printf(10, 150, tex_font, RED, 2, "play");
+        GRRLIB_Printf(0, 200, tex_font, RED, 2, "settings");
+        GRRLIB_Printf(10, 250, tex_font, RED, 2, "quick play");
         GRRLIB_Printf(10, 300, tex_font, RED, 2, "credits");
         GRRLIB_Printf(10, 400, tex_font, RED, 2, "exit");
         GRRLIB_Printf(32, 450, tex_font, BLUE, 1, "made by guinea7pig");
-        GRRLIB_Printf((315, 450, tex_font, RED ,1, "made with grrlib");
+        GRRLIB_Printf(315, 450, tex_font, RED ,1, "made with grrlib");
         //images
-        GRRLIB_DrawImg((10, 400,tex_dis,1,1,0,WHITE);
-        GRRLIB_DrawImg((30, 400,tex_qr,1,1,0,WHITE);
-        GRRLIB_Draw_img(315, 400 ,tex_gr,1,1,0,WHITE)       
+        GRRLIB_DrawImg(10, 400,tex_dis,1,1,0,WHITE);
+        GRRLIB_DrawImg(30, 400,tex_qr,1,1,0,WHITE);
+        GRRLIB_DrawImg(315, 400 ,tex_gr,1,1,0,WHITE);    
         //debug text neeed to make togglable
         GRRLIB_Printf(10, 30, tex_font, RED, 1,"fps:");
         //GRRLIB_Printf((640-(16*14))/2, 30, tex_font, BLUE, 1, fps);
         GRRLIB_Printf(500, 40, tex_font, RED, 1,"cur x");
         //GRRLIB_Printf((640-(16*14))/2,40400, tex_font, BLUE, 1, curx);
-         GRRLIB_Printf((500, 50, tex_font, RED, 1,"cur y");
+         GRRLIB_Printf(500, 50, tex_font, RED, 1,"cur y");
         //GRRLIB_Printf((640-(16*14))/2, 400, tex_font, BLUE, 1,cury);
 
         //cursor
-         /*
-        GRRLIB_Plot(ir1.sx, ir1.sy ,BLUE );
-        GRRLIB_Plot(ir1.sx + 1, ir1.sy, BLUE);
-        GRRLIB_Plot(ir1.sx, ir1.sy + 1, BLUE);
-        GRRLIB_Plot(ir1.sx + 1, ir1.sy + 1, BLUE);
-        */
+        
+        GRRLIB_Plot(cursorX, cursorY ,BLUE );
+        GRRLIB_Plot(cursorX+ 1, cursorY, BLUE);
+        //GRRLIB_Plot(ir1.sx, ir1.sy + 1, BLUE);
+        //GRRLIB_Plot(ir1.sx + 1, ir1.sy + 1, BLUE);
+        
 
 //this code snippet is from https://github.com/GRRLIB/GRRLIB/blob/master/examples/basic_drawing/source/main.c
    /* static u8 CalculateFrameRate(void) {

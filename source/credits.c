@@ -41,7 +41,7 @@ int o() {
         GRRLIB_Printf((640-(16*14))/2, 400, tex_font, RED, 2, "return to home");
         //need to button stuff eventuly.
         //exit(0)
-        GRRLIB_Printf((640, 100, tex_font, RED, 3, "devolped by Guinea7pig, Beemer,");
+        GRRLIB_Printf(640, 100, tex_font, RED, 3, "devolped by Guinea7pig, Beemer,");
         GRRLIB_Printf((640-(16*14))/2, 150, tex_font, RED, 3, "settings");
         GRRLIB_Printf((640-(16*14))/2, 200, tex_font, RED, 3, "thanks to Crayon2000 and theGRRlIB dev team + the exsample projects");
         GRRLIB_Printf((640-(16*14))/2, 250, tex_font, RED, 3, "thanks to the wii hombrewing community");

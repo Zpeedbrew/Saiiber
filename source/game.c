@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <wiiuse/wpad.h>
+#include "input.h"
 
 
 #include "Letter_Gothic_Std_14_Bold_png.h"
@@ -37,7 +38,7 @@ int k() {
         //exit(0)
     }
     
-    GRRLIB_EXIT()
-    exit(0)
+    GRRLIB_Exit();
+    exit(0);
 }
     
