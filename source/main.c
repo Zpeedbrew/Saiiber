@@ -53,7 +53,7 @@ GRRLIB_texImg *tex_cur = GRRLIB_LoadTexture(hand_png);
         WPAD_ScanPads();
         GetIRPointer(0, &cursorX, &cursorY);
        if (cursorX >= 0 && cursorY >= 0) {
-       GRRLIB_DrawImg(30, 400,tex_qr,0,1,1,WHITE);
+       GRRLIB_DrawImg(cursorX,cursorY,tex_cur,0,1,1,WHITE);
        }
 
         if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) break;
@@ -81,14 +81,6 @@ GRRLIB_texImg *tex_cur = GRRLIB_LoadTexture(hand_png);
         //GRRLIB_Printf((640-(16*14))/2,40400, tex_font, BLUE, 1, curx);
          GRRLIB_Printf(500, 50, tex_font, RED, 1,"cur y");
         //GRRLIB_Printf((640-(16*14))/2, 400, tex_font, BLUE, 1,cury);
-
-        //cursor
-        
-        GRRLIB_Plot(cursorX, cursorY ,BLUE );
-        GRRLIB_Plot(cursorX+ 1, cursorY, BLUE);
-        //GRRLIB_Plot(ir1.sx, ir1.sy + 1, BLUE);
-        //GRRLIB_Plot(ir1.sx + 1, ir1.sy + 1, BLUE);
-        
 
 //this code snippet is from https://github.com/GRRLIB/GRRLIB/blob/master/examples/basic_drawing/source/main.c
    /* static u8 CalculateFrameRate(void) {
