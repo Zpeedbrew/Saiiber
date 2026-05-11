@@ -53,7 +53,7 @@ GRRLIB_texImg *tex_cur = GRRLIB_LoadTexture(hand_png);
         WPAD_ScanPads();
         GetIRPointer(0, &cursorX, &cursorY);
        if (cursorX >= 0 && cursorY >= 0) {
-
+       GRRLIB_DrawImg(30, 400,tex_qr,0,1,1,WHITE);
        }
 
         if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) break;
