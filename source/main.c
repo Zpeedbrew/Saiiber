@@ -1,10 +1,19 @@
 // some of this code (mostly the inilation scpits) contain some code fromb a grrlib template exsample. https://github.com/GRRLIB/GRRLIB/tree/master/examples/template
+
+//graphics
 #include <grrlib.h>
 #include <stdlib.h>
+//math
 #include <math.h>
-#include <ogc/lwp_watchdog.h>  
+#include <ogc/lwp_watchdog.h> 
+//input
 #include <wiiuse/wpad.h>
 #include <input.h>
+//aduio
+/*
+#include <asndlib.h>
+#include <mp3player.h>
+*/
 
 //font
 #include "Letter_Gothic_Std_14_Bold_png.h"
@@ -37,7 +46,7 @@ int main() {
     GRRLIB_texImg *tex_beon = GRRLIB_LoadTexture(Letter_Gothic_Std_14_Bold_png);
 
     GRRLIB_InitTileSet(tex_font, 11, 24, 32);
-    GRRLIB_InitTileSet(tex_beon, 11, 24, 32);//tileset probs wrong
+    GRRLIB_InitTileSet(tex_beon, 11, 24, 32); //tileset probs wrong
     //image init
     //GRRLIB_texImg *tex_cur = GRRLIB_LoadTexture(cursor_png);
     GRRLIB_texImg *tex_dis = GRRLIB_LoadTexturePNG(discord_png);
