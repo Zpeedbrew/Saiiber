@@ -43,7 +43,7 @@ int main() {
     GRRLIB_InitTileSet(tex_font, 11, 24, 32);
     GRRLIB_InitTileSet(tex_beon, 11, 24, 32); //tileset probs wrong
     //image init
-    //GRRLIB_texImg *tex_cur = GRRLIB_LoadTexture(cursor_png);
+GRRLIB_texImg *tex_cur = GRRLIB_LoadTexture(hand_png);
     GRRLIB_texImg *tex_dis = GRRLIB_LoadTexturePNG(discord_png);
     GRRLIB_texImg *tex_gr = GRRLIB_LoadTexturePNG(grrlib_logo_png);
     GRRLIB_texImg *tex_qr = GRRLIB_LoadTexturePNG(qr_png);
