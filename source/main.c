@@ -19,7 +19,7 @@
 #include "Letter_Gothic_Std_14_Bold_png.h"
 #include "beon.png.h"
 
-//#include "cursor_png.h"
+#include "hand_png.h"
 #include "discord_png.h"
 #include "grrlib_logo_png.h"
 #include "qr_png.h"
