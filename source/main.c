@@ -1,8 +1,12 @@
 // some of this code (mostly the inilation scpits) contain some code fromb a grrlib template exsample. https://github.com/GRRLIB/GRRLIB/tree/master/examples/template
+
+//graphics
 #include <grrlib.h>
 #include <stdlib.h>
+//math
 #include <math.h>
-#include <ogc/lwp_watchdog.h>  
+#include <ogc/lwp_watchdog.h> 
+//input
 #include <wiiuse/wpad.h>
 #include "input.h"
 
@@ -10,7 +14,7 @@
 #include "Letter_Gothic_Std_14_Bold_png.h"
 #include "beon_png.h"
 
-//#include "cursor_png.h"
+#include "hand_png.h"
 #include "discord_png.h"
 #include "grrlib_logo_png.h"
 #include "qr_png.h"
@@ -37,7 +41,7 @@ int main() {
     GRRLIB_texImg *tex_beon = GRRLIB_LoadTexture(Letter_Gothic_Std_14_Bold_png);
 
     GRRLIB_InitTileSet(tex_font, 11, 24, 32);
-    GRRLIB_InitTileSet(tex_beon, 11, 24, 32);//tileset probs wrong
+    GRRLIB_InitTileSet(tex_beon, 11, 24, 32); //tileset probs wrong
     //image init
     //GRRLIB_texImg *tex_cur = GRRLIB_LoadTexture(cursor_png);
     GRRLIB_texImg *tex_dis = GRRLIB_LoadTexturePNG(discord_png);
@@ -67,9 +71,9 @@ int main() {
         GRRLIB_Printf(32, 450, tex_font, BLUE, 1, "made by guinea7pig");
         GRRLIB_Printf(315, 450, tex_font, RED ,1, "made with grrlib");
         //images
-        GRRLIB_DrawImg(10, 400,tex_dis,1,1,0,WHITE);
-        GRRLIB_DrawImg(30, 400,tex_qr,1,1,0,WHITE);
-        GRRLIB_DrawImg(315, 400 ,tex_gr,1,1,0,WHITE);    
+        GRRLIB_DrawImg(10, 400,tex_dis,0,1,1,WHITE);
+        GRRLIB_DrawImg(30, 400,tex_qr,0,1,1,WHITE);
+        GRRLIB_DrawImg(315, 400 ,tex_gr,0,1,1,WHITE);    
         //debug text neeed to make togglable
         GRRLIB_Printf(10, 30, tex_font, RED, 1,"fps:");
         //GRRLIB_Printf((640-(16*14))/2, 30, tex_font, BLUE, 1, fps);
