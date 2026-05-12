@@ -4,6 +4,24 @@ Wii homebrew clone of Beat Saber (IN PROGRESS CURRENTLY)
 Discord Server: https://dsc.gg/saiiber
 Wiibrew Page: http://wiibrew.org/wiki/User:Zpeedbrew/Saiiber
 
+#features and current implamentation
+# graphics
+* ~~text~~
+* ~~images~~
+* 3D
+* post proscesing
+  
+# controls
+* ~~ir pointer~~
+* gyroscope/aclormeter
+  
+# gameplay
+* ~~main menu~~
+* level select
+* main game  
+# backend
+* ~~graphics~~
+* sound
 # FAQ:
 
 Is this project alive?	
@@ -42,7 +60,7 @@ Uses clang-format with Google formatting. All pull requests must comply with the
 
 The virtual sd card on Dolphin can convert the folder into a file for use in the emulator. I wanted the sd directory to reflect the final product as it would be installed by any user.
 
-#credits 
+# credits 
 made with grrlib
 <img width="403" height="139" alt="grrlib_logo" src="https://github.com/user-attachments/assets/2b5efc9d-1bf8-45d8-a605-6d883e0ed2b7" />
 
