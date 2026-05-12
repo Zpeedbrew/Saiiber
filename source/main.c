@@ -43,7 +43,7 @@ int main() {
     GRRLIB_InitTileSet(tex_font, 11, 24, 32);
     GRRLIB_InitTileSet(tex_beon, 11, 24, 32); //tileset probs wrong
     //image init
-   GRRLIB_texImg *tex_cur = GRRLIB_LoadTexture(hand_png);
+    GRRLIB_texImg *tex_cur = GRRLIB_LoadTexture(hand_png);
     GRRLIB_texImg *tex_dis = GRRLIB_LoadTexturePNG(discord_png);
     GRRLIB_texImg *tex_gr = GRRLIB_LoadTexturePNG(grrlib_logo_png);
     GRRLIB_texImg *tex_qr = GRRLIB_LoadTexturePNG(qr_png);
@@ -71,9 +71,9 @@ int main() {
         GRRLIB_Printf(32,450,tex_font, BLUE, 1, "made by guinea7pig");
         GRRLIB_Printf(315,450,tex_font, RED ,1, "made with grrlib");
         //images
-        GRRLIB_DrawImg(10, 400,tex_dis,0,1,1,WHITE);
-        GRRLIB_DrawImg(30, 400,tex_qr,0,1,1,WHITE);
-        GRRLIB_DrawImg(315, 400 ,tex_gr,0,0.1,0.1,WHITE);    
+        GRRLIB_DrawImg(10, 425,tex_dis,0,1,1,WHITE);
+        GRRLIB_DrawImg(30, 425,tex_qr,0,0.1,0.1,WHITE);
+        GRRLIB_DrawImg(315, 400 ,tex_gr,0,1,1,WHITE);    
         //debug text neeed to make togglable
         GRRLIB_Printf(0, 30, tex_font, RED, 1,"fps: %d", FPS);
         GRRLIB_Printf(500, 30, tex_font, RED, 1,"curx: %d", cursorX);
@@ -88,8 +88,7 @@ int main() {
     GRRLIB_FreeTexture(tex_dis);
     GRRLIB_FreeTexture(tex_gr);
     GRRLIB_FreeTexture(tex_gr);
-
-    //GRRLIB_FreeTexture(tex_cur)
+    GRRLIB_FreeTexture(tex_cur)
     GRRLIB_Exit(); // Be a good boy, clear the memory allocated by GRRLIB
 
     exit(0);
