@@ -60,6 +60,7 @@ int main() {
         GRRLIB_Printf(315,20,tex_font,BLUE,5,"ber");
         //menu text
         GRRLIB_Printf(10,200,tex_font,RED,2,"play");
+        //GRRLIB_PtInRect() fun button stuff
         GRRLIB_Printf(10,250,tex_font,RED,2,"settings");
         GRRLIB_Printf(10,300,tex_font RED,2,"quick play");
         GRRLIB_Printf(10,350,tex_font,RED, 2,"credits");
@@ -75,7 +76,9 @@ int main() {
         GRRLIB_Printf(500,30,tex_font,RED,1,"curx: %d", cursorX);
         GRRLIB_Printf(500,50,tex_font,RED,1,"cury %d", curesorY);
         FPS = CalculateFrameRate();
-        GRRLIB_Render();
+        GRRLIB_Render()
+
+    
     }
     //free textures
     GRRLIB_FreeTexture(tex_font);
