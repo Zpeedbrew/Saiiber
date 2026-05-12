@@ -3,14 +3,19 @@
 #include <stdlib.h>
 #include <math.h>
 #include <wiiuse/wpad.h>
+#include "input.h"
+#include <ogc/lwp_watchdog.h> 
 //colors
+#define version 1.6
 #define RED 0xFF0000FF
+#define WHITE 0xFFFFFFFF
 #define BLUE 0x0000FFFF
+#define BLACK 0x000000FF
 //font
 #include "Letter_Gothic_Std_14_Bold_png.h"
 //images
 #include "back_png.h"
-
+#include "hand_png.h"
 int e() {
     //graphics init
     GRRLIB_Init();
@@ -22,7 +27,6 @@ int e() {
     //loading font
     GRRLIB_texImg *tex_font = GRRLIB_LoadTexture(Letter_Gothic_Std_14_Bold_png);
     GRRLIB_texImg *tex_back = GRRLIB_LoadTexture(back_png);
-
     GRRLIB_InitTileSet(tex_font, 11, 24, 32);
     GRRLIB_Settings.antialias = true;
     GRRLIB_SetBackgroundColour(0x00, 0x00, 0x00, 0xFF);
@@ -32,8 +36,6 @@ int e() {
         GRRLIB_2dMode();
         WPAD_ScanPads();
         if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) break; //goes back to home i hope
-       GRRLIB_SetLightAmbient(0x333333FF);
-
         GRRLIB_2dMode();
         //title text 
         GRRLIB_Printf(215, 20, tex_font, RED, 5, "settings");
