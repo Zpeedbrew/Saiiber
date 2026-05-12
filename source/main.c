@@ -63,13 +63,13 @@ int main() {
         GRRLIB_Printf(99, 20, tex_font, RED, 5, "Saii");
         GRRLIB_Printf(315, 20, tex_font, BLUE, 5, "ber");
         //menu text
-        GRRLIB_Printf(10, 150, tex_font, RED, 2, "play");
-        GRRLIB_Printf(10, 200, tex_font, RED, 2, "settings");
-        GRRLIB_Printf(10, 250, tex_font, RED, 2, "quick play");
-        GRRLIB_Printf(10, 300, tex_font, RED, 2, "credits");
-        GRRLIB_Printf(10, 400, tex_font, RED, 2, "exit");
-        GRRLIB_Printf(32, 450, tex_font, BLUE, 1, "made by guinea7pig");
-        GRRLIB_Printf(315, 450, tex_font, RED ,1, "made with grrlib");
+        GRRLIB_Printf(10,200, tex_font,RED, 2, "play");
+        GRRLIB_Printf(10,250,tex_font,RED, 2, "settings");
+        GRRLIB_Printf(10,300,tex_font RED, 2, "quick play");
+        GRRLIB_Printf(10,350,tex_font, RED, 2, "credits");
+        GRRLIB_Printf(10,400,tex_font, RED, 2, "exit");
+        GRRLIB_Printf(32,450,tex_font, BLUE, 1, "made by guinea7pig");
+        GRRLIB_Printf(315,450,tex_font, RED ,1, "made with grrlib");
         //images
         GRRLIB_DrawImg(10, 400,tex_dis,0,1,1,WHITE);
         GRRLIB_DrawImg(30, 400,tex_qr,0,1,1,WHITE);
