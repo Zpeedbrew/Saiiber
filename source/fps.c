@@ -14,3 +14,5 @@ static u8 CalculateFrameRate(void) {
         FPS = frameCount;
         frameCount = 0;
     }
+    return FPS;
+}
