@@ -4,7 +4,6 @@
 #include <stdlib.h>
 //math
 #include <math.h>
-#include <ogc/lwp_watchdog.h> 
 //input
 #include <wiiuse/wpad.h>
 #include "input.h"
@@ -16,6 +15,8 @@
 #include "discord_png.h"
 #include "grrlib_logo_png.h"
 #include "qr_png.h"
+//debug
+#include "fps.h"
 //#include "qr2_png.h"
 //definations
 #define version 1.6
@@ -86,19 +87,4 @@ int main() {
     GRRLIB_FreeTexture(tex_cur)
     GRRLIB_Exit(); // Be a good boy, clear the memory allocated by GRRLIB
     exit(0);
-}
-//this code snippet is from https://github.com/GRRLIB/GRRLIB/blob/master/examples/basic_drawing/source/main.c
-  /* static u8 CalculateFrameRate(void) {
-    static u8 frameCount = 0;
-    static u32 lastTime;
-    static u8 FPS = 0;
-    const u32 currentTime = ticks_to_millisecs(gettime());
-
-    frameCount++;
-    if(currentTime - lastTime > 1000) {
-        lastTime = currentTime;
-        FPS = frameCount;
-        frameCount = 0;
-    }
-    return FPS;
 }
