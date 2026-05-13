@@ -73,8 +73,8 @@ int main() {
         GRRLIB_DrawImg(315,400,tex_gr,0,1,1,WHITE);    
         //debug text neeed to make togglable
         //GRRLIB_Printf(0,30,tex_font,RED,1,"fps: %d", FPS);
-        GRRLIB_Printf(500,30,tex_font,RED,1,"curx: %d", cursorX);
-        GRRLIB_Printf(500,50,tex_font,RED,1,"cury %d", cursorY);
+        GRRLIB_Printf(500,30,tex_font,RED,1,"curx: %f", cursorX);
+        GRRLIB_Printf(500,50,tex_font,RED,1,"cury %f", cursorY);
         //FPS = CalculateFrameRate();
         GRRLIB_Render();
 
