@@ -1,3 +1,4 @@
+/*
 #include "fps.h"
 #include <ogc/lwp_watchdog.h> 
 
@@ -16,3 +17,5 @@ static u8 CalculateFrameRate(void) {
     }
     return FPS;
 }
+*/
+

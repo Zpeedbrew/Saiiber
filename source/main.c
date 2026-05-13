@@ -62,7 +62,7 @@ int main() {
         GRRLIB_Printf(10,200,tex_font,RED,2,"play");
         //GRRLIB_PtInRect() fun button stuff
         GRRLIB_Printf(10,250,tex_font,RED,2,"settings");
-        GRRLIB_Printf(10,300,tex_font RED,2,"quick play");
+        GRRLIB_Printf(10,300,tex_font, RED,2,"quick play");
         GRRLIB_Printf(10,350,tex_font,RED, 2,"credits");
         GRRLIB_Printf(10,400,tex_font,RED,2,"exit");
         GRRLIB_Printf(32,450,tex_font,BLUE,1,"made by guinea7pig");
@@ -72,11 +72,11 @@ int main() {
         GRRLIB_DrawImg(30,425,tex_qr,0,0.1,0.1,WHITE);
         GRRLIB_DrawImg(315,400,tex_gr,0,1,1,WHITE);    
         //debug text neeed to make togglable
-        GRRLIB_Printf(0,30,tex_font,RED,1,"fps: %d", FPS);
+        //GRRLIB_Printf(0,30,tex_font,RED,1,"fps: %d", FPS);
         GRRLIB_Printf(500,30,tex_font,RED,1,"curx: %d", cursorX);
-        GRRLIB_Printf(500,50,tex_font,RED,1,"cury %d", curesorY);
-        FPS = CalculateFrameRate();
-        GRRLIB_Render()
+        GRRLIB_Printf(500,50,tex_font,RED,1,"cury %d", cursorY);
+        //FPS = CalculateFrameRate();
+        GRRLIB_Render();
 
     
     }
@@ -87,7 +87,7 @@ int main() {
     GRRLIB_FreeTexture(tex_dis);
     GRRLIB_FreeTexture(tex_gr);
     GRRLIB_FreeTexture(tex_gr);
-    GRRLIB_FreeTexture(tex_cur)
+    GRRLIB_FreeTexture(tex_cur);  
     GRRLIB_Exit(); // Be a good boy, clear the memory allocated by GRRLIB
     exit(0);
 }
