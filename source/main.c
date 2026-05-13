@@ -32,7 +32,9 @@ int main() {
     GRRLIB_Settings.antialias = true;
     GRRLIB_SetBackgroundColour(0x00, 0x00, 0x00, 0xFF); 
     GRRLIB_SetLightAmbient(0x333333FF);
-
+    //audio init
+    ASND_Init();
+	MP3Player_Init();
     //controller init
     InitInput();
     //font intit
@@ -81,11 +83,11 @@ int main() {
         //debug text neeed to make togglable
         //GRRLIB_Printf(0,30,tex_font,RED,1,"fps: %d", FPS);
         GRRLIB_Printf(500,30,tex_font,RED,1,"curx: %f", cursorX);
-        GRRLIB_Printf(500,50,tex_font,RED,1,"cury %f", cursorY);
+        GRRLIB_Printf(500,50,tex_font,BLUE,1,"cury %f", cursorY);
         //FPS = CalculateFrameRate();
         GRRLIB_Render();
     }
-    //free textures
+    //free fonts
     GRRLIB_FreeTexture(tex_font);
     GRRLIB_FreeTexture(tex_beon);
     //free imgaes
