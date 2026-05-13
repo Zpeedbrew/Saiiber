@@ -65,6 +65,9 @@ int main() {
         GRRLIB_Printf(10,300,tex_font, RED,2,"quick play");
         GRRLIB_Printf(10,350,tex_font,RED, 2,"credits");
         GRRLIB_Printf(10,400,tex_font,RED,2,"exit");
+        //if(GRRLIB_PtInRect( , , ,) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A );{ fun button stuff
+        // break
+        //}
         GRRLIB_Printf(32,450,tex_font,BLUE,1,"made by guinea7pig");
         GRRLIB_Printf(315,450,tex_font,RED,1,"made with grrlib");
         //images
