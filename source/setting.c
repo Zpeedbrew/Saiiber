@@ -1,10 +1,14 @@
 // some of this code (mostly the inilation scpits) contain some code fromb a grrlib template exsample. https://github.com/GRRLIB/GRRLIB/tree/master/examples/template
+//graphics
 #include <grrlib.h>
 #include <stdlib.h>
+//math
 #include <math.h>
+#include <ogc/lwp_watchdog.h> 
+
+//input
 #include <wiiuse/wpad.h>
 #include "input.h"
-#include <ogc/lwp_watchdog.h> 
 //colors
 #define version 1.6
 #define RED 0xFF0000FF
@@ -19,24 +23,22 @@
 int e() {
     //graphics init
     GRRLIB_Init();
+    GRRLIB_InitTileSet(tex_font, 11, 24, 32);
+    GRRLIB_Settings.antialias = true;
+    GRRLIB_SetBackgroundColour(0x00, 0x00, 0x00, 0xFF);
+    GRRLIB_SetLightAmbient(0x333333FF);
     //input init
-    WPAD_Init();
     InitInput();
 
 
     //loading font
     GRRLIB_texImg *tex_font = GRRLIB_LoadTexture(Letter_Gothic_Std_14_Bold_png);
+    loading textures
     GRRLIB_texImg *tex_back = GRRLIB_LoadTexture(back_png);
-    GRRLIB_InitTileSet(tex_font, 11, 24, 32);
-    GRRLIB_Settings.antialias = true;
-    GRRLIB_SetBackgroundColour(0x00, 0x00, 0x00, 0xFF);
-    GRRLIB_SetLightAmbient(0x333333FF);
-
     while(1) {
         GRRLIB_2dMode();
         WPAD_ScanPads();
         if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) break; //goes back to home i hope
-        GRRLIB_2dMode();
         //title text 
         GRRLIB_Printf(215, 20, tex_font, RED, 5, "settings");
         GRRLIB_Printf(10, 400, tex_font, RED, 2, "return to home");
