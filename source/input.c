@@ -8,7 +8,7 @@ void InitInput() {
 
 void GetIRPointer(int chan, float *x, float *y) {
     WPADData *data = WPAD_Data(chan);
-    if (data->ir.valid) {
+    if (data != NULL && data->ir.valid) {
         *x = data->ir.x;
         *y = data->ir.y;
     } else {
