@@ -26,6 +26,17 @@
 #define BLACK 0x000000FF
 //varibiles
 float cursorX, cursorY;
+//voids 
+void Changescene() {
+    GRRLIB_FreeTexture(tex_font);
+    GRRLIB_FreeTexture(tex_beon);
+    //free imgaes
+    GRRLIB_FreeTexture(tex_dis);
+    GRRLIB_FreeTexture(tex_gr);
+    GRRLIB_FreeTexture(tex_gr);
+    GRRLIB_FreeTexture(tex_cur);  
+   // GRRLIB_Exit() would i want to exit grrlib
+}
 int main() {
     //graphics library init
     GRRLIB_Init();
@@ -71,7 +82,7 @@ int main() {
         GRRLIB_Printf(10,350,tex_font,RED, 2,"credits");
         //if(GRRLIB_PtInRect( , , ,) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A );{ fun button stuff
         GRRLIB_Printf(10,400,tex_font,RED,2,"exit");
-        if(GRRLIB_PtInRect(10,400,50,50,cursorX,cursorY) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A );{ fun button stuff
+        if(GRRLIB_PtInRect(10,400,50,50,cursorX,cursorY) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A ) { 
          break
         }
         GRRLIB_Printf(32,450,tex_font,BLUE,1,"made by guinea7pig");
