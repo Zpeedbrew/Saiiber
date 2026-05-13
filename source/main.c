@@ -95,7 +95,7 @@ int main() {
         //GRRLIB_Printf(0,30,tex_font,RED,1,"fps: %d", FPS);
         GRRLIB_Printf(500,30,tex_font,RED,1,"curx: %f", cursorX);
         GRRLIB_Printf(500,50,tex_font,BLUE,1,"cury %f", cursorY);
-        //FPS = CalculateFrameRate();
+        FPS = CalculateFrameRate();
         GRRLIB_Render();
     }
     //free fonts
