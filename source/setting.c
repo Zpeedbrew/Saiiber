@@ -50,6 +50,9 @@ int e() {
         GRRLIB_Printf(10, 200, tex_font, RED, 3, "rumble %f");//
         GRRLIB_Printf(10, 200, tex_font, RED, 3, "rumble"); //will make text etherir say on  or off
         GRRLIB_Printf(10, 400, tex_font, RED, 2, "return to home");
+        //debug
+        GRRLIB_Printf(500,30,tex_font,RED,1,"curx: %f", cursorX);
+        GRRLIB_Printf(500,50,tex_font,BLUE,1,"cury %f", cursorY);
         //load text
         GRRLIB_DrawImg(10,20,tex_back,0,1,1,WHITE);
         GRRLIB_Render();
