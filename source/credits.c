@@ -49,12 +49,17 @@ int o() {
         GRRLIB_Printf(100, 250, tex_font, RED, 3, "thanks to the wii hombrewing community");
         GRRLIB_Printf(100, 300, tex_font, RED, 3, "check out GRRLIB at https://github.com/GRRLIB/GRRLIB");
         GRRLIB_Printf(100, 350, tex_font, RED, 3, "check out source code at https://github.com/Zpeedbrew/Saiiber/");
+        //draw image
+         GRRLIB_DrawImg(30,425,tex_qr,0,0.1,0.1,WHITE);
+
         //image displaying 
         //GRRLIB_Draw_img(xpos, ypos,img,scale,scale,rot,0xFFFFFFFF);
         GRRLIB_Render();
     }
     GRRLIB_FreeTexture(tex_font);
     GRRLIB_FreeTexture(tex_back);
+    GRRLIB_FreeTexture(tex_gr);
+    GRRLIB_FreeTexture(tex_q);
     GRRLIB_Exit(); // Be a good boy, clear the memory allocated by GRRLIB
     exit(0);
 }
