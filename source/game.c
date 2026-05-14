@@ -10,6 +10,10 @@
 #include "Letter_Gothic_Std_14_Bold_png.h"
 #define RED 0xFF0000FF
 #define BLUE 0x0000FFFF
+#define WHITE 0xFFFFFFFF
+
+
+float cursorX, cursorY;
 
 int k() {
     int camZ=13.0f;
