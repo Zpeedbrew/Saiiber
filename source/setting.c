@@ -41,11 +41,13 @@ int e() {
         if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) break; //goes back to home i hope
         //title text 
         GRRLIB_Printf(215, 20, tex_font, RED, 5, "settings");
-        GRRLIB_Printf(10, 400, tex_font, RED, 2, "return to home");
         GRRLIB_Printf(10, 70, tex_font, RED, 3, "volume,");
+        // music/sound slider
         GRRLIB_Printf(10, 150, tex_font, RED, 3, "settings");
-        GRRLIB_Printf(10, 200, tex_font, RED, 3, "rumble");
+        GRRLIB_Printf(10, 200, tex_font, RED, 3, "rumble %f");//
         GRRLIB_Printf(10, 200, tex_font, RED, 3, "rumble"); //will make text etherir say on  or off
+        GRRLIB_Printf(10, 400, tex_font, RED, 2, "return to home");
+
 
         GRRLIB_Render();
     }
