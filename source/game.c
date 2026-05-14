@@ -13,7 +13,7 @@
 #define WHITE 0xFFFFFFFF
 
 
-float cursorX, cursorY;
+//float cursorX, cursorY;
 
 int k() {
     int camZ=13.0f;

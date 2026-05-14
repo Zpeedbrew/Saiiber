@@ -1,5 +1,6 @@
 // some of this code (mostly the inilation scpits) contain some code fromb a grrlib template exsample. https://github.com/GRRLIB/GRRLIB/tree/master/examples/template
 //graphics
+/*
 #include <grrlib.h>
 #include <stdlib.h>
 //math
@@ -19,10 +20,11 @@
 //images
 #include "back_png.h"
 #include "hand_png.h"
+//float cursorX, cursorY;
+
 int e() {
     //graphics init
     GRRLIB_Init();
-    GRRLIB_InitTileSet(tex_font, 11, 24, 32);
     GRRLIB_Settings.antialias = true;
     GRRLIB_SetBackgroundColour(0x00, 0x00, 0x00, 0xFF);
     GRRLIB_SetLightAmbient(0x333333FF);
@@ -32,15 +34,17 @@ int e() {
 
     //loading font
     GRRLIB_texImg *tex_font = GRRLIB_LoadTexture(Letter_Gothic_Std_14_Bold_png);
-    loading textures
+    GRRLIB_InitTileSet(tex_font, 11, 24, 32);
+
+    //loading textures
     GRRLIB_texImg *tex_back = GRRLIB_LoadTexture(back_png);
     while(1) {
         GRRLIB_2dMode();
         WPAD_ScanPads();
-        GetIRPointer(0,&cursorX, &cursorY);
-       if (cursorX >= 0 && cursorY >= 0) {
-       GRRLIB_DrawImg(cursorX,cursorY,tex_cur,0,1,1,WHITE);
-       }
+        //GetIRPointer(0,&cursorX, &cursorY);
+       //if (cursorX >= 0 && cursorY >= 0) {
+       //GRRLIB_DrawImg(cursorX,cursorY,tex_cur,0,1,1,WHITE);
+       //}
         if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) break; //goes back to home i hope
         //title text 
         GRRLIB_Printf(215, 20, tex_font, RED, 5, "settings");
@@ -51,14 +55,14 @@ int e() {
         GRRLIB_Printf(10, 200, tex_font, RED, 3, "rumble"); //will make text etherir say on  or off
         GRRLIB_Printf(10, 400, tex_font, RED, 2, "return to home");
         //debug
-        GRRLIB_Printf(500,30,tex_font,RED,1,"curx: %f", cursorX);
-        GRRLIB_Printf(500,50,tex_font,BLUE,1,"cury %f", cursorY);
+        //GRRLIB_Printf(500,30,tex_font,RED,1,"curx: %f", cursorX);
+        //GRRLIB_Printf(500,50,tex_font,BLUE,1,"cury %f", cursorY);
         //load text
         GRRLIB_DrawImg(10,20,tex_back,0,1,1,WHITE);
-        if(GRRLIB_PtInRect(5,15,50,50,cursorX,cursorY) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A ) { 
+        //if(GRRLIB_PtInRect(5,15,50,50,cursorX,cursorY) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A ) { 
         //break
         }
-        back button
+        //back button
 
         GRRLIB_Render();
     }
@@ -68,3 +72,4 @@ int e() {
 
     exit(0);
 }
+*/

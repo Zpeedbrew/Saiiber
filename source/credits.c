@@ -22,13 +22,13 @@
 int o() {
     //graphics
     GRRLIB_Init();
-    GRRLIB_InitTileSet(tex_font, 11, 24, 32);
     GRRLIB_Settings.antialias = true;
     GRRLIB_SetBackgroundColour(0x00, 0x00, 0x00, 0xFF);
     GRRLIB_SetLightAmbient(0x333333FF);
     InitInput();
     //font init
     GRRLIB_texImg *tex_font = GRRLIB_LoadTexture(Letter_Gothic_Std_14_Bold_png);
+    GRRLIB_InitTileSet(tex_font, 11, 24, 32);
     //image
     GRRLIB_texImg *tex_back = GRRLIB_LoadTexture(back_png);
     GRRLIB_texImg *tex_gr = GRRLIB_LoadTexture(grrlib_logo_png);
@@ -58,7 +58,7 @@ int o() {
     GRRLIB_FreeTexture(tex_font);
     GRRLIB_FreeTexture(tex_back);
     GRRLIB_FreeTexture(tex_gr);
-    GRRLIB_FreeTexture(tex_q);
+    GRRLIB_FreeTexture(tex_qr);
     GRRLIB_Exit(); // Be a good boy, clear the memory allocated by GRRLIB
     exit(0);
 }
