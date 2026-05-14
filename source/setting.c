@@ -55,6 +55,11 @@ int e() {
         GRRLIB_Printf(500,50,tex_font,BLUE,1,"cury %f", cursorY);
         //load text
         GRRLIB_DrawImg(10,20,tex_back,0,1,1,WHITE);
+        if(GRRLIB_PtInRect(5,15,50,50,cursorX,cursorY) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A ) { 
+        //break
+        }
+        back button
+
         GRRLIB_Render();
     }
     GRRLIB_FreeTexture(tex_font);
