@@ -89,7 +89,6 @@ int main() {
         GRRLIB_Printf(315,450,tex_font,RED,1,"made with grrlib");
         //images
         GRRLIB_DrawImg(10,425,tex_dis,0,1,1,WHITE);
-        GRRLIB_DrawImg(30,425,tex_qr,0,0.1,0.1,WHITE);
         GRRLIB_DrawImg(315,400,tex_gr,0,1,1,WHITE);    
         //debug text neeed to make togglable
         //GRRLIB_Printf(0,30,tex_font,RED,1,"fps: %d", FPS);
@@ -103,7 +102,6 @@ int main() {
     GRRLIB_FreeTexture(tex_beon);
     //free imgaes
     GRRLIB_FreeTexture(tex_dis);
-    GRRLIB_FreeTexture(tex_gr);
     GRRLIB_FreeTexture(tex_gr);
     GRRLIB_FreeTexture(tex_cur);  
     GRRLIB_Exit(); // Be a good boy, clear the memory allocated by GRRLIB
