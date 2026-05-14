@@ -33,7 +33,6 @@ int o() {
     GRRLIB_texImg *tex_back = GRRLIB_LoadTexture(back_png);
     GRRLIB_texImg *tex_gr = GRRLIB_LoadTexture(grrlib_logo_png);
     GRRLIB_texImg *tex_qr = GRRLIB_LoadTexture(qr_png);
-
     GRRLIB_texImg *tex_cur = GRRLIB_LoadTexture(hand_png);
     while(1) {
         GRRLIB_2dMode();
