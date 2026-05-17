@@ -65,10 +65,6 @@ int main() {
         GRRLIB_2dMode();
         WPAD_ScanPads();
         GetIRPointer(0,&cursorX, &cursorY);
-       if (cursorX >= 0 && cursorY >= 0) {
-       GRRLIB_DrawImg(cursorX,cursorY,tex_cur,0,1,1,WHITE);
-       }
-
         if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) break;
         if(WPAD_ButtonsDown(0) & WPAD_BUTTON_MINUS) GRRLIB_ScrShot("sd:/saiiber.png");
         //title text 
@@ -76,8 +72,12 @@ int main() {
         GRRLIB_Printf(315,20,tex_font,BLUE,5,"ber");
         //menu text
         GRRLIB_Printf(20,200,tex_font,RED,2,"play");
+        if(GRRLIB_PtInRect(1,167,80,200,cursorX,cursorY) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A ) { 
+         break;
+        }
         //GRRLIB_PtInRect() fun button stuff
         GRRLIB_Printf(20,250,tex_font,RED,2,"settings");
+        
         //if(GRRLIB_PtInRect( , , ,) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A );{ fun button stuff
         GRRLIB_Printf(20,300,tex_font, RED,2,"quick play");
         //if(GRRLIB_PtInRect( , , ,) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A );{ fun button stuff
@@ -97,6 +97,9 @@ int main() {
         GRRLIB_Printf(500,30,tex_font,RED,1,"curx: %f", cursorX);
         GRRLIB_Printf(500,50,tex_font,BLUE,1,"cury %f", cursorY);
         //FPS = CalculateFrameRate();
+        if (cursorX >= 0 && cursorY >= 0) {
+       GRRLIB_DrawImg(cursorX,cursorY,tex_cur,0,1,1,WHITE);
+       }
         GRRLIB_Render();
     }
     //free fonts
