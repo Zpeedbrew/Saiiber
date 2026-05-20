@@ -61,6 +61,7 @@ int main() {
     GRRLIB_texImg *tex_dis = GRRLIB_LoadTexturePNG(discord_png);
     GRRLIB_texImg *tex_gr = GRRLIB_LoadTexturePNG(grrlib_logo_png);
     GRRLIB_texImg *tex_qr = GRRLIB_LoadTexturePNG(qr_png);
+	GRRLIB_SetMidHandle(tex_cur, true);
     while(1) {
         GRRLIB_2dMode();
         WPAD_ScanPads();
