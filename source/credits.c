@@ -40,7 +40,6 @@ int o() {
         if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) break; //goes back to home i hope
         //title text 
         GRRLIB_Printf(100, 20, tex_font, BLUE, 5, "credits");
-        GRRLIB_Printf(100, 400, tex_font, RED, 2, "return to home");
         //need to button stuff eventuly.
         GRRLIB_Printf(640, 100, tex_font, RED, 3, "devolped by Guinea7pig, Beemer,");
         GRRLIB_Printf(100, 150, tex_font, RED, 3, "settings");
@@ -48,6 +47,8 @@ int o() {
         GRRLIB_Printf(100, 250, tex_font, RED, 3, "thanks to the wii hombrewing community");
         GRRLIB_Printf(100, 300, tex_font, RED, 3, "check out GRRLIB at https://github.com/GRRLIB/GRRLIB");
         GRRLIB_Printf(100, 350, tex_font, RED, 3, "check out source code at https://github.com/Zpeedbrew/Saiiber/");
+        GRRLIB_Printf(100, 400, tex_font, RED, 2, "return to home");
+
         //draw image
          GRRLIB_DrawImg(30,425,tex_qr,0,0.1,0.1,WHITE);
 
