@@ -78,7 +78,7 @@ int main() {
         }
         //GRRLIB_PtInRect() fun button stuff
         GRRLIB_Printf(20,250,tex_font,RED,2,"settings");
-        
+
         //if(GRRLIB_PtInRect( , , ,) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A );{ fun button stuff
         GRRLIB_Printf(20,300,tex_font, RED,2,"quick play");
         //if(GRRLIB_PtInRect( , , ,) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A );{ fun button stuff
@@ -89,7 +89,7 @@ int main() {
          break;
         }
         GRRLIB_Printf(10,450,tex_font,BLUE,1,"made by guinea7pig");
-        GRRLIB_Printf(315,450,tex_font,RED,1,"made with grrlib");
+        GRRLIB_Printf(460,450,tex_font,RED,1,"made with grrlib");
         //images
         GRRLIB_DrawImg(10,425,tex_dis,0,1,1,WHITE);
         GRRLIB_DrawImg(315,400,tex_gr,0,1,1,WHITE);    

@@ -50,7 +50,7 @@ int o() {
         GRRLIB_Printf(100, 400, tex_font, RED, 2, "return to home");
 
         //draw image
-         GRRLIB_DrawImg(30,425,tex_qr,0,0.1,0.1,WHITE);
+        GRRLIB_DrawImg(30,425,tex_qr,0,0.1,0.1,WHITE);
 
         //image displaying 
         //GRRLIB_Draw_img(xpos, ypos,img,scale,scale,rot,0xFFFFFFFF);
