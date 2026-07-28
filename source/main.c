@@ -40,6 +40,7 @@ void Changescene() {
 }
 */
 int main() {
+    //Scene currentScene = SCENE_MENU;
     //graphics library init
     GRRLIB_Init();
     GRRLIB_Settings.antialias = true;
@@ -74,7 +75,7 @@ int main() {
         //menu text
         GRRLIB_Printf(20,200,tex_font,RED,2,"play");
         if(GRRLIB_PtInRect(1,167,80,200,cursorX,cursorY) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A ) { 
-         break;
+            
         }
         //GRRLIB_PtInRect() fun button stuff
         GRRLIB_Printf(20,250,tex_font,RED,2,"settings");
@@ -83,7 +84,7 @@ int main() {
         GRRLIB_Printf(20,300,tex_font, RED,2,"quick play");
         //if(GRRLIB_PtInRect( , , ,) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A );{ fun button stuff
         GRRLIB_Printf(20,350,tex_font,RED, 2,"credits");
-        //if(GRRLIB_PtInRect( , , ,) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A );{ fun button stuff
+        if(GRRLIB_PtInRect( , , ,) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A );{ fun button stuff
         GRRLIB_Printf(20,400,tex_font,RED,2,"exit");
         if(GRRLIB_PtInRect(10,400,50,50,cursorX,cursorY) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A ) { 
          break;
