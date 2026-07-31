@@ -82,9 +82,11 @@ int main() {
 
         //if(GRRLIB_PtInRect( , , ,) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A );{ fun button stuff
         GRRLIB_Printf(20,300,tex_font, RED,2,"quick play");
-        //if(GRRLIB_PtInRect( , , ,) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A );{ fun button stuff
-        GRRLIB_Printf(20,350,tex_font,RED, 2,"credits");
         if(GRRLIB_PtInRect( , , ,) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A );{ fun button stuff
+        //crediits buttons
+        GRRLIB_Printf(20,350,tex_font,RED, 2,"credits");
+        if(GRRLIB_PtInRect(13,367, ,) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A );{ fun button stuff
+        //exit button
         GRRLIB_Printf(20,400,tex_font,RED,2,"exit");
         if(GRRLIB_PtInRect(10,400,50,50,cursorX,cursorY) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A ) { 
          break;
