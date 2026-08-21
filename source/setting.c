@@ -1,6 +1,6 @@
 // some of this code (mostly the inilation scpits) contain some code fromb a grrlib template exsample. https://github.com/GRRLIB/GRRLIB/tree/master/examples/template
 //graphics
-/*
+
 #include <grrlib.h>
 #include <stdlib.h>
 //math
@@ -20,6 +20,8 @@
 //images
 #include "back_png.h"
 #include "hand_png.h"
+//ir
+float cursorX, cursorY;
 //float cursorX, cursorY;
 
 int e() {
@@ -43,7 +45,7 @@ int e() {
         WPAD_ScanPads();
         //GetIRPointer(0,&cursorX, &cursorY);
        //if (cursorX >= 0 && cursorY >= 0) {
-       //GRRLIB_DrawImg(cursorX,cursorY,tex_cur,0,1,1,WHITE);
+       GRRLIB_DrawImg(cursorX,cursorY,tex_cur,0,1,1,WHITE);
        //}
         if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) break; //goes back to home i hope
         //title text 
@@ -72,4 +74,3 @@ int e() {
 
     exit(0);
 }
-*/

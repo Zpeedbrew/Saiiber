@@ -36,8 +36,6 @@ void Changescene() {
     GRRLIB_FreeTexture(tex_gr);
     GRRLIB_FreeTexture(tex_gr);
     GRRLIB_FreeTexture(tex_cur);  
-   // GRRLIB_Exit() would i want to exit grrlib
-}
 */
 int main() {
     //Scene currentScene = SCENE_MENU;

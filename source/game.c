@@ -23,7 +23,7 @@ int k() {
     GRRLIB_texImg *tex_font = GRRLIB_LoadTexture(Letter_Gothic_Std_14_Bold_png);
     GRRLIB_InitTileSet(tex_font, 11, 24, 32);
 
-
+   
     GRRLIB_Settings.antialias = true;
 
     GRRLIB_SetBackgroundColour(0x00, 0x00, 0x00, 0xFF);
@@ -37,11 +37,13 @@ int k() {
         GRRLIB_3dMode(0.1, 1000, 45, 0, 1);
         // Switch to 2D Mode to display text
         GRRLIB_2dMode();
-        //title text 
         //need to button stuff eventuly.
-        //exit(0)
+        
     }
-    
+    //free textures
+    //GRRLIB_FreeTexture(tex_font); placeholder for 3d materails
+    //GRRLIB_DeleteObj(); placholder for obj file
+    GRRLIB_FreeTexture(tex_font);
     GRRLIB_Exit();
     exit(0);
 }
