@@ -101,6 +101,10 @@ int main() {
         //FPS = CalculateFrameRate();
         if (cursorX >= 0 && cursorY >= 0) {
        GRRLIB_DrawImg(cursorX,cursorY,tex_cur,0,1,1,WHITE);
+	        GRRLIB_3dMode();
+			
+		GRRLIB_ObjectView()//controls object paremters
+
        }
         GRRLIB_Render();
     }
@@ -111,6 +115,6 @@ int main() {
     GRRLIB_FreeTexture(tex_dis);
     GRRLIB_FreeTexture(tex_gr);
     GRRLIB_FreeTexture(tex_cur);  
-    GRRLIB_Exit(); // Be a good boy, clear the memory allocated by GRRLIB
+    GRRLIB_Exit(); 
     exit(0);
 }
