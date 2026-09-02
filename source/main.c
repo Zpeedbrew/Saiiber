@@ -34,7 +34,7 @@ void Changescene() {
     //free imgaes
     GRRLIB_FreeTexture(tex_dis);
     GRRLIB_FreeTexture(tex_gr);
-    GRRLIB_FreeTexture(tex_gr);
+    GRRLIB_FreeTexture(tex_qr);
     GRRLIB_FreeTexture(tex_cur);  
 */
 int main() {
@@ -52,7 +52,6 @@ int main() {
     //font intit
     GRRLIB_texImg *tex_font = GRRLIB_LoadTexture(Letter_Gothic_Std_14_Bold_png);
     GRRLIB_texImg *tex_beon = GRRLIB_LoadTexture(Letter_Gothic_Std_14_Bold_png);
-    //tileset initation
     GRRLIB_InitTileSet(tex_font, 11, 24, 32);
     GRRLIB_InitTileSet(tex_beon, 11, 24, 32); //tileset probs wrong
     //image init
@@ -115,7 +114,7 @@ int main() {
     GRRLIB_FreeTexture(tex_dis);
     GRRLIB_FreeTexture(tex_gr);
     GRRLIB_FreeTexture(tex_cur);  
-	GRRLIB_FreeTexture(tex_qr;  																	 
+	GRRLIB_FreeTexture(tex_qr);  																	 
     GRRLIB_Exit(); 
     exit(0);
 }
