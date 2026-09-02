@@ -93,12 +93,11 @@ int main() {
         GRRLIB_Printf(500,30,tex_font,RED,1,"curx: %f", cursorX);
         GRRLIB_Printf(500,50,tex_font,BLUE,1,"cury %f", cursorY);
         //FPS = CalculateFrameRate();
-        if (cursorX >= 0 && cursorY >= 0) {
-       GRRLIB_DrawImg(cursorX,cursorY,tex_cur,0,1,1,WHITE);
-	        GRRLIB_3dMode();
-			
+        if (cursorX >= 0 && cursorY >= 0) GRRLIB_DrawImg(cursorX,cursorY,tex_cur,0,1,1,WHITE);
+	    /*
+		GRRLIB_3dMode();
 		GRRLIB_ObjectView()//controls object paremters
-
+        */
        }
         GRRLIB_Render();
     }
