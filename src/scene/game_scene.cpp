@@ -1,4 +1,5 @@
 #include "game_scene.h"
+#include <grrlib.h>
 
 #include <fat.h>
 #include <malloc.h>
