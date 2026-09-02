@@ -1,9 +1,8 @@
 // some of this code (mostly the inilation scpits) contain some code fromb a grrlib template exsample. https://github.com/GRRLIB/GRRLIB/tree/master/examples/template
 //graphics
-
 #include <grrlib.h>
-#include <stdlib.h>
 //math
+#include <stdlib.h>
 #include <math.h>
 #include <ogc/lwp_watchdog.h> 
 //input
@@ -22,8 +21,6 @@
 #include "hand_png.h"
 //ir
 float cursorX, cursorY;
-//float cursorX, cursorY;
-
 int e() {
     //graphics init
     GRRLIB_Init();
@@ -32,8 +29,6 @@ int e() {
     GRRLIB_SetLightAmbient(0x333333FF);
     //input init
     InitInput();
-
-
     //loading font
     GRRLIB_texImg *tex_font = GRRLIB_LoadTexture(Letter_Gothic_Std_14_Bold_png);
     GRRLIB_InitTileSet(tex_font, 11, 24, 32);
@@ -65,7 +60,6 @@ int e() {
         //break
         }
         //back button
-
         GRRLIB_Render();
     }
     GRRLIB_FreeTexture(tex_font);
