@@ -64,14 +64,14 @@ int main() {
         GRRLIB_2dMode();
         WPAD_ScanPads();
         GetIRPointer(0,&cursorX, &cursorY);
-        if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) break;
+        if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME)break;
         if(WPAD_ButtonsDown(0) & WPAD_BUTTON_MINUS) GRRLIB_ScrShot("sd:/saiiber.png");
         //title text 
         GRRLIB_Printf(99,20,tex_font,RED,5,"Saii");
         GRRLIB_Printf(315,20,tex_font,BLUE,5,"ber");
         //menu text
         GRRLIB_Printf(20,200,tex_font,RED,2,"play");
-        if(GRRLIB_PtInRect(1,167,80,200,cursorX,cursorY) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A ) { }
+        if(GRRLIB_PtInRect(1,167,80,200,cursorX,cursorY) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A ) 
         //GRRLIB_PtInRect() fun button stuff
         GRRLIB_Printf(20,250,tex_font,RED,2,"settings");
         //if(GRRLIB_PtInRect( , , ,) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A );{ fun button stuff
@@ -82,7 +82,7 @@ int main() {
         if(GRRLIB_PtInRect(13,367, ,) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A ){ };
         //exit button
         GRRLIB_Printf(20,400,tex_font,RED,2,"exit");
-        if(GRRLIB_PtInRect(10,400,50,50,cursorX,cursorY) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A ) { break} ;
+        if(GRRLIB_PtInRect(10,400,50,50,cursorX,cursorY) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A)break;
         GRRLIB_Printf(10,450,tex_font,BLUE,1,"made by guinea7pig");
         GRRLIB_Printf(460,450,tex_font,RED,1,"made with grrlib");
         //images
