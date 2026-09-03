@@ -60,7 +60,7 @@ int main() {
     GRRLIB_texImg *tex_gr = GRRLIB_LoadTexturePNG(grrlib_logo_png);
     GRRLIB_texImg *tex_qr = GRRLIB_LoadTexturePNG(qr_png);
 	GRRLIB_SetMidHandle(tex_cur, true);
-	GRRLIB_Model* model = GRRLIB_ReadOBJ("sd:/data/saber.obj");
+	GRRLIB_Model* saber = GRRLIB_ReadOBJ("sd:/data/saber.obj");
     while(1) {
         GRRLIB_2dMode();
         WPAD_ScanPads();
@@ -97,9 +97,9 @@ int main() {
         if (cursorX >= 0 && cursorY >= 0) GRRLIB_DrawImg(cursorX,cursorY,tex_cur,0,1,1,WHITE);
 	    
 		GRRLIB_3dMode();
-		GRRLIB_DrawO3dBJ()
+		GRRLIB_DrawO3dObj()
 		GRRLIB_ObjectView()//controls object paremters
-        */
+		GRRLIB_DeleteObj(model);
        }
         GRRLIB_Render();
     }
@@ -110,7 +110,8 @@ int main() {
     GRRLIB_FreeTexture(tex_dis);
     GRRLIB_FreeTexture(tex_gr);
     GRRLIB_FreeTexture(tex_cur);  
-	GRRLIB_FreeTexture(tex_qr);  																	 
+	GRRLIB_FreeTexture(tex_qr);  
+    GRRLIB_DeleteObj(saber)
     GRRLIB_Exit(); 
     exit(0);
 }
