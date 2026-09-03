@@ -35,6 +35,7 @@ int k() {
         GRRLIB_SetLightAmbient(0x333333FF);
 
         GRRLIB_3dMode(0.1, 1000, 45, 0, 1);
+        GGRLIB_DrawCube(10,true,RED)
         // Switch to 2D Mode to display text
         GRRLIB_2dMode();
         //need to button stuff eventuly.
