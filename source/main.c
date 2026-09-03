@@ -51,9 +51,9 @@ int main() {
     InitInput();
     //font intit
     GRRLIB_texImg *tex_font = GRRLIB_LoadTexture(Letter_Gothic_Std_14_Bold_png);
-    GRRLIB_texImg *tex_beon = GRRLIB_LoadTexture(Letter_Gothic_Std_14_Bold_png);
+    //GRRLIB_texImg *tex_beon = GRRLIB_LoadTexture(Letter_Gothic_Std_14_Bold_png);
     GRRLIB_InitTileSet(tex_font, 11, 24, 32);
-    GRRLIB_InitTileSet(tex_beon, 11, 24, 32); //tileset probs wrong
+    //GRRLIB_InitTileSet(tex_beon, 11, 24, 32); //tileset probs wrong
     //image init
     GRRLIB_texImg *tex_cur = GRRLIB_LoadTexture(hand_png);
     GRRLIB_texImg *tex_dis = GRRLIB_LoadTexturePNG(discord_png);
@@ -103,7 +103,7 @@ int main() {
     }
     //free fonts
     GRRLIB_FreeTexture(tex_font);
-    GRRLIB_FreeTexture(tex_beon);
+    //GRRLIB_FreeTexture(tex_beon);
     //free imgaes
     GRRLIB_FreeTexture(tex_dis);
     GRRLIB_FreeTexture(tex_gr);
