@@ -29,7 +29,7 @@
 float cursorX, cursorY;
 //voids 
 /*
-void Changescene() {
+void Changescene_menu() {
     GRRLIB_FreeTexture(tex_font);
     GRRLIB_FreeTexture(tex_beon);
     //free imgaes
@@ -37,7 +37,17 @@ void Changescene() {
     GRRLIB_FreeTexture(tex_gr);
     GRRLIB_FreeTexture(tex_qr);
     GRRLIB_FreeTexture(tex_cur);  
+}
 */
+/*
+void audio_init()
+{
+
+}
+
+
+*/
+void
 int main() {
     //Scene currentScene = SCENE_MENU;
     //graphics library init
