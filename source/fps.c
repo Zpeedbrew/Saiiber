@@ -1,7 +1,7 @@
 #include "fps.h"
 #include <ogc/lwp_watchdog.h> 
 
-/*
+
 static u8 CalculateFrameRate(void) {
     static u8 frameCount = 0;
     static u32 lastTime;
@@ -16,5 +16,5 @@ static u8 CalculateFrameRate(void) {
     }
     return FPS;
 }
-*/
+
 
