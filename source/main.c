@@ -15,9 +15,10 @@
 #include "discord_png.h"
 #include "grrlib_logo_png.h"
 #include "qr_png.h"
+//#include "qr2_png.h"
+
 //debug
 #include "fps.h"
-//#include "qr2_png.h"
 //definations
 #define version 1.6
 #define RED 0xFF0000FF
@@ -77,21 +78,22 @@ int main() {
         GRRLIB_Printf(20,250,tex_font,RED,2,"settings");
         //if(GRRLIB_PtInRect( , , ,) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A );{ fun button stuff
         GRRLIB_Printf(20,300,tex_font, RED,2,"quick play");
-        if(GRRLIB_PtInRect( , , ,) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A ) { }
+        //if(GRRLIB_PtInRect( , , ,) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A ) ;
         //crediits buttons
         GRRLIB_Printf(20,350,tex_font,RED, 2,"credits");
-        if(GRRLIB_PtInRect(13,367, ,) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A ){ };
+        //if(GRRLIB_PtInRect(13,367, ,) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A );
         //exit button
         GRRLIB_Printf(20,400,tex_font,RED,2,"exit");
         if(GRRLIB_PtInRect(10,400,50,50,cursorX,cursorY) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A)break;
+		//credits text
         GRRLIB_Printf(10,450,tex_font,BLUE,1,"made by guinea7pig");
         GRRLIB_Printf(460,450,tex_font,RED,1,"made with grrlib");
         //images
         GRRLIB_DrawImg(10,425,tex_dis,0,1,1,WHITE);
         GRRLIB_DrawImg(315,400,tex_gr,0,1,1,WHITE);    
         //debug text neeed to make togglable
-		//FPS = CalculateFrameRate();
-        //GRRLIB_Printf(0,30,tex_font,RED,1,"fps: %d", FPS);
+		FPS = CalculateFrameRate();
+        GRRLIB_Printf(0,30,tex_font,RED,1,"fps: %d", FPS);
         GRRLIB_Printf(500,30,tex_font,RED,1,"curx: %f", cursorX);
         GRRLIB_Printf(500,50,tex_font,BLUE,1,"cury %f", cursorY);
         if (cursorX >= 0 && cursorY >= 0) GRRLIB_DrawImg(cursorX,cursorY,tex_cur,0,1,1,WHITE);
