@@ -111,7 +111,7 @@ int main() {
     GRRLIB_FreeTexture(tex_gr);
     GRRLIB_FreeTexture(tex_cur);  
 	GRRLIB_FreeTexture(tex_qr);  
-    GRRLIB_DeleteObj(saber)
+    GRRLIB_DeleteObj(saber);
     GRRLIB_Exit(); 
     exit(0);
 }
