@@ -1,5 +1,5 @@
 // some of this code (mostly the inilation scpits) contain some code fromb a grrlib template exsample. https://github.com/GRRLIB/GRRLIB/tree/master/examples/template
-
+/*
 #include <grrlib.h>
 #include <stdlib.h>
 #include <math.h>
@@ -48,4 +48,4 @@ int k() {
     GRRLIB_Exit();
     exit(0);
 }
-    
+*/
