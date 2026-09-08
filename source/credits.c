@@ -1,3 +1,4 @@
+/*
 // some of this code (mostly the inilation scpits) contain some code fromb a grrlib template exsample. https://github.com/GRRLIB/GRRLIB/tree/master/examples/template
 //graphics intit
 #include <grrlib.h>
@@ -66,3 +67,4 @@ int o() {
     GRRLIB_Exit(); // Be a good boy, clear the memory allocated by GRRLIB
     exit(0);
 }
+*/
