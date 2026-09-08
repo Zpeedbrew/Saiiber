@@ -55,7 +55,7 @@ int e() {
         //debug
         //GRRLIB_Printf(500,30,tex_font,RED,1,"curx: %f", cursorX);
         //GRRLIB_Printf(500,50,tex_font,BLUE,1,"cury %f", cursorY);
-        //load text
+        //display texture
         GRRLIB_DrawImg(10,20,tex_back,0,1,1,WHITE);
         //if(GRRLIB_PtInRect(5,15,50,50,cursorX,cursorY) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A ) { 
         //break
