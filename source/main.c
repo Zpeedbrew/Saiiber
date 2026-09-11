@@ -84,14 +84,14 @@ int main() {
         GRRLIB_DrawImg(10,425,tex_dis,0,1,1,WHITE);
         GRRLIB_DrawImg(315,400,tex_gr,0,1,1,WHITE);    
         //debug text neeed to make togglable
-		FPS = CalculateFrameRate();
-        GRRLIB_Printf(0,30,tex_font,RED,1,"fps: %d", FPS);
+		//FPS = CalculateFrameRate();
+        //GRRLIB_Printf(0,30,tex_font,RED,1,"fps: %d", FPS);
         GRRLIB_Printf(500,30,tex_font,RED,1,"curx: %f", cursorX);
         GRRLIB_Printf(500,50,tex_font,BLUE,1,"cury %f", cursorY);
         if (cursorX >= 0 && cursorY >= 0) GRRLIB_DrawImg(cursorX,cursorY,tex_cur,0,1,1,WHITE);
 	    
 		GRRLIB_3dMode();
-		GRRLIB_DrawO3dObj()
+		GRRLIB_Draw3dObj()
 		GRRLIB_ObjectView()//controls object paremters
 		GRRLIB_DeleteObj(model);
        }
