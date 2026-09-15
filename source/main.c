@@ -7,6 +7,7 @@
 //input
 #include <wiiuse/wpad.h>
 #include "input.h"
+#include "fat.h"
 //font
 #include "Letter_Gothic_Std_14_Bold_png.h"
 #include "beon_png.h"
@@ -26,6 +27,8 @@
 #define BLUE 0x0000FFFF
 #define BLACK 0x000000FF
 //varibiles
+// GRRLIB_Model* saber = GRRLIB_LoadObjFromString((const char*)saber_obj);
+
 float cursorX, cursorY;
 int main() {
     //Scene currentScene = SCENE_MENU;
