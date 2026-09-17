@@ -57,7 +57,6 @@ int main() {
 	GRRLIB_SetMidHandle(tex_cur, true);
 	GRRLIB_Model* saber = GRRLIB_ReadOBJ("saber.obj");
     while(1) {
-        GRRLIB_2dMode();
         WPAD_ScanPads();
         GetIRPointer(0,&cursorX, &cursorY);
         if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME)break;
@@ -92,10 +91,10 @@ int main() {
         GRRLIB_Printf(500,50,tex_font,BLUE,1,"cury %f", cursorY);
         if (cursorX >= 0 && cursorY >= 0) GRRLIB_DrawImg(cursorX,cursorY,tex_cur,0,1,1,WHITE);
 	    
-		GRRLIB_3dMode();
-		GRRLIB_Draw3dObj()
+		GRRLIB_3dMode(0,0,60,true,true);
+		GRRLIB_Draw3dObj(saber_obj)
 		GRRLIB_ObjectView()//controls object paremters
-		GRRLIB_DeleteObj(model);
+		//GRRLIB_DeleteObj(model);
        }
         GRRLIB_Render();
     }
