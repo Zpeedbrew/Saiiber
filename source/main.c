@@ -20,7 +20,6 @@
 //debug
 #include "fps.h"
 //definations
-#define version 1.6
 #define RED 0xFF0000FF
 #define WHITE 0xFFFFFFFF
 #define BLUE 0x0000FFFF
@@ -37,8 +36,6 @@ int main() {
 	GRRLIB_Init();
     GRRLIB_Settings.antialias = true;
     GRRLIB_SetBackgroundColour(0x00, 0x00, 0x00, 0xFF); 
-    GRRLIB_SetLightAmbient(0x333333FF);
-	GRRLIB_Camera3dSettings(0,0,0,0,0,0,0,0,0,0);
     //audio init
     //ASND_Init();
 	//MP3Player_Init();
@@ -55,12 +52,15 @@ int main() {
     GRRLIB_texImg *tex_gr = GRRLIB_LoadTexturePNG(grrlib_logo_png);
     GRRLIB_texImg *tex_qr = GRRLIB_LoadTexturePNG(qr_png);
 	GRRLIB_SetMidHandle(tex_cur, true);
-	GRRLIB_Model* saber = GRRLIB_ReadOBJ("saber.obj");
     while(1) {
         WPAD_ScanPads();
         GetIRPointer(0,&cursorX, &cursorY);
         if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME)break;
-        if(WPAD_ButtonsDown(0) & WPAD_BUTTON_MINUS) GRRLIB_ScrShot("sd:/saiiber.png");
+        if(WPAD_ButtonsDown(0) & WPAD_BUTTON_MINUS
+		{
+		GRRLIB_ScrShot("sd:/saiiber.png");
+		WPAD_RUMBLE(0,1)
+		}
         //title text 
         GRRLIB_Printf(99,20,tex_font,RED,5,"Saii");
         GRRLIB_Printf(315,20,tex_font,BLUE,5,"ber");
@@ -90,11 +90,7 @@ int main() {
         GRRLIB_Printf(500,30,tex_font,RED,1,"curx: %f", cursorX);
         GRRLIB_Printf(500,50,tex_font,BLUE,1,"cury %f", cursorY);
         if (cursorX >= 0 && cursorY >= 0) GRRLIB_DrawImg(cursorX,cursorY,tex_cur,0,1,1,WHITE);
-	    
-		GRRLIB_3dMode(0,0,60,true,true);
-		GRRLIB_Draw3dObj(saber_obj)
-		GRRLIB_ObjectView()//controls object paremters
-		//GRRLIB_DeleteObj(model);
+	    		GRRLIB_ObjectView()//controls object paremters
        }
         GRRLIB_Render();
     }
@@ -106,7 +102,6 @@ int main() {
     GRRLIB_FreeTexture(tex_gr);
     GRRLIB_FreeTexture(tex_cur);  
 	GRRLIB_FreeTexture(tex_qr);  
-    GRRLIB_DeleteObj(saber);
     GRRLIB_Exit(); 
     exit(0);
 }
