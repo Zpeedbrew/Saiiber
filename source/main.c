@@ -48,25 +48,25 @@ int main() {
     //GRRLIB_InitTileSet(tex_beon, 11, 24, 32); //tileset probs wrong
     //image init
     GRRLIB_texImg *tex_cur = GRRLIB_LoadTexture(hand_png);
-    GRRLIB_texImg *tex_dis = GRRLIB_LoadTexturePNG(discord_png);
-    GRRLIB_texImg *tex_gr = GRRLIB_LoadTexturePNG(grrlib_logo_png);
-    GRRLIB_texImg *tex_qr = GRRLIB_LoadTexturePNG(qr_png);
+    GRRLIB_texImg *tex_dis = GRRLIB_LoadTexture(discord_png);
+    GRRLIB_texImg *tex_gr = GRRLIB_LoadTexture(grrlib_logo_png);
+    GRRLIB_texImg *tex_qr = GRRLIB_LoadTexture(qr_png);
 	GRRLIB_SetMidHandle(tex_cur, true);
     while(1) {
         WPAD_ScanPads();
         GetIRPointer(0,&cursorX, &cursorY);
         if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME)break;
-        if(WPAD_ButtonsDown(0) & WPAD_BUTTON_MINUS
+        if(WPAD_ButtonsDown(0) & WPAD_BUTTON_MINUS);
 		{
 		GRRLIB_ScrShot("sd:/saiiber.png");
-		WPAD_RUMBLE(0,1)
+		WPAD_Rumble(0,1);
 		}
         //title text 
         GRRLIB_Printf(99,20,tex_font,RED,5,"Saii");
         GRRLIB_Printf(315,20,tex_font,BLUE,5,"ber");
         //menu text
         GRRLIB_Printf(20,200,tex_font,RED,2,"play");
-        if(GRRLIB_PtInRect(1,167,80,200,cursorX,cursorY) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A ) 
+        //if(GRRLIB_PtInRect(1,167,80,200,cursorX,cursorY) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A;
         //GRRLIB_PtInRect() fun button stuff
         GRRLIB_Printf(20,250,tex_font,RED,2,"settings");
         //if(GRRLIB_PtInRect( , , ,) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A );{ fun button stuff
@@ -77,23 +77,22 @@ int main() {
         //if(GRRLIB_PtInRect(13,367, ,) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A );
         //exit button
         GRRLIB_Printf(20,400,tex_font,RED,2,"exit");
-        if(GRRLIB_PtInRect(10,400,50,50,cursorX,cursorY) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A)break;
+        if(GRRLIB_PtInRect(10,400,50,50,cursorX,cursorY) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A) break;
 		//credits text
         GRRLIB_Printf(10,450,tex_font,BLUE,1,"made by guinea7pig");
         GRRLIB_Printf(460,450,tex_font,RED,1,"made with grrlib");
         //images
         GRRLIB_DrawImg(10,425,tex_dis,0,1,1,WHITE);
-        GRRLIB_DrawImg(315,400,tex_gr,0,1,1,WHITE);    
+        GRRLIB_DrawImg(10,10,tex_gr,0,1,1,WHITE);    
         //debug text neeed to make togglable
 		//FPS = CalculateFrameRate();
         //GRRLIB_Printf(0,30,tex_font,RED,1,"fps: %d", FPS);
         GRRLIB_Printf(500,30,tex_font,RED,1,"curx: %f", cursorX);
         GRRLIB_Printf(500,50,tex_font,BLUE,1,"cury %f", cursorY);
         if (cursorX >= 0 && cursorY >= 0) GRRLIB_DrawImg(cursorX,cursorY,tex_cur,0,1,1,WHITE);
-	    		GRRLIB_ObjectView()//controls object paremters
-       }
+	    //GRRLIB_ObjectView()//controls object paremters
         GRRLIB_Render();
-    }
+       }    
     //free fonts
     GRRLIB_FreeTexture(tex_font);
     //GRRLIB_FreeTexture(tex_beon);
