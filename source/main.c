@@ -82,7 +82,7 @@ int main() {
         GRRLIB_Printf(10,450,tex_font,BLUE,1,"made by guinea7pig");
         GRRLIB_Printf(460,450,tex_font,RED,1,"made with grrlib");
         //images
-        GRRLIB_DrawImg(10,425,tex_dis,0,1,1,WHITE);
+        GRRLIB_DrawImg(200,400,tex_dis,0,0.5,0.5,WHITE);
         GRRLIB_DrawImg(10,10,tex_gr,0,1,1,WHITE);    
         //debug text neeed to make togglable
 		//FPS = CalculateFrameRate();
