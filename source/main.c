@@ -10,6 +10,7 @@
 //font
 #include "Letter_Gothic_Std_14_Bold_png.h"
 #include "beon_png.h"
+#include "logo_png.h"
 //images
 #include "hand_png.h"
 #include "discord_png.h"
@@ -51,6 +52,8 @@ int main() {
     GRRLIB_texImg *tex_dis = GRRLIB_LoadTexture(discord_png);
     GRRLIB_texImg *tex_gr = GRRLIB_LoadTexture(grrlib_logo_png);
     GRRLIB_texImg *tex_qr = GRRLIB_LoadTexture(qr_png);
+    GRRLIB_texImg *tex_logo = GRRLIB_LoadTexture(logo_png);
+
 	GRRLIB_SetMidHandle(tex_cur, true);
     while(1) {
         WPAD_ScanPads();
@@ -62,8 +65,8 @@ int main() {
 		WPAD_Rumble(0,1);
 		}
         //title text 
-        GRRLIB_Printf(99,20,tex_font,RED,5,"Saii");
-        GRRLIB_Printf(315,20,tex_font,BLUE,5,"ber");
+        GRRLIB_DrawImg(10,10,tex_logo,0,1,1,WHITE);
+
         //menu text
         GRRLIB_Printf(20,200,tex_font,RED,2,"play");
         //if(GRRLIB_PtInRect(1,167,80,200,cursorX,cursorY) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A;
@@ -80,10 +83,10 @@ int main() {
         if(GRRLIB_PtInRect(10,400,50,50,cursorX,cursorY) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A) break;
 		//credits text
         GRRLIB_Printf(10,450,tex_font,BLUE,1,"made by guinea7pig");
-        GRRLIB_Printf(460,450,tex_font,RED,1,"made with grrlib");
+        GRRLIB_Printf(465,450,tex_font,RED,1,"made with grrlib");
         //images
-        GRRLIB_DrawImg(200,400,tex_dis,0,0.5,0.5,WHITE);
-        GRRLIB_DrawImg(10,10,tex_gr,0,1,1,WHITE);    
+        GRRLIB_DrawImg(220,450,tex_dis,0,0.4,0.4,WHITE);
+        GRRLIB_DrawImg(385,450,tex_gr,0,0.2,0.2,WHITE);
         //debug text neeed to make togglable
 		//FPS = CalculateFrameRate();
         //GRRLIB_Printf(0,30,tex_font,RED,1,"fps: %d", FPS);
