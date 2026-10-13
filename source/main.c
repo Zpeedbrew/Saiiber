@@ -16,6 +16,7 @@
 #include "discord_png.h"
 #include "grrlib_logo_png.h"
 #include "qr_png.h"
+#include "play_png.h"
 //#include "qr2_png.h"
 
 //debug
@@ -49,6 +50,7 @@ int main() {
     //GRRLIB_InitTileSet(tex_beon, 11, 24, 32); //tileset probs wrong
     //image init
     GRRLIB_texImg *tex_cur = GRRLIB_LoadTexture(hand_png);
+    GRRLIB_texImg *tex_play = GRRLIB_LoadTexture(play_png);
     GRRLIB_texImg *tex_dis = GRRLIB_LoadTexture(discord_png);
     GRRLIB_texImg *tex_gr = GRRLIB_LoadTexture(grrlib_logo_png);
     GRRLIB_texImg *tex_qr = GRRLIB_LoadTexture(qr_png);
@@ -68,6 +70,7 @@ int main() {
         GRRLIB_DrawImg(10,10,tex_logo,0,1,1,WHITE);
 
         //menu text
+        GRRLIB_DrawImg(10,200,tex_play,0,1,1,WHITE);
         GRRLIB_Printf(20,200,tex_font,RED,2,"play");
         //if(GRRLIB_PtInRect(1,167,80,200,cursorX,cursorY) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A;
         //GRRLIB_PtInRect() fun button stuff
