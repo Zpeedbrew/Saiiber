@@ -17,6 +17,7 @@
 #include "grrlib_logo_png.h"
 #include "qr_png.h"
 #include "play_png.h"
+#include "exit_png.h"
 //#include "qr2_png.h"
 
 //debug
@@ -55,6 +56,8 @@ int main() {
     GRRLIB_texImg *tex_gr = GRRLIB_LoadTexture(grrlib_logo_png);
     GRRLIB_texImg *tex_qr = GRRLIB_LoadTexture(qr_png);
     GRRLIB_texImg *tex_logo = GRRLIB_LoadTexture(logo_png);
+    GRRLIB_texImg *tex_exit = GRRLIB_LoadTexture(exit_png);
+
 
 	GRRLIB_SetMidHandle(tex_cur, true);
     while(1) {
@@ -70,8 +73,7 @@ int main() {
         GRRLIB_DrawImg(10,10,tex_logo,0,1,1,WHITE);
 
         //menu text
-        GRRLIB_DrawImg(10,200,tex_play,0,1,1,WHITE);
-        GRRLIB_Printf(20,200,tex_font,RED,2,"play");
+        GRRLIB_DrawImg(0,200,tex_play,0,0.5,0.5,RED);
         //if(GRRLIB_PtInRect(1,167,80,200,cursorX,cursorY) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A;
         //GRRLIB_PtInRect() fun button stuff
         GRRLIB_Printf(20,250,tex_font,RED,2,"settings");
@@ -82,7 +84,7 @@ int main() {
         GRRLIB_Printf(20,350,tex_font,RED, 2,"credits");
         //if(GRRLIB_PtInRect(13,367, ,) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A );
         //exit button
-        GRRLIB_Printf(20,400,tex_font,RED,2,"exit");
+        GRRLIB_DrawImg(0,400,tex_exit,0,0.5,0.5,RED);
         if(GRRLIB_PtInRect(10,400,50,50,cursorX,cursorY) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A) break;
 		//credits text
         GRRLIB_Printf(10,450,tex_font,BLUE,1,"made by guinea7pig");
