@@ -18,6 +18,8 @@
 #include "qr_png.h"
 #include "play_png.h"
 #include "exit_png.h"
+#include "settings_png.h"
+
 //#include "qr2_png.h"
 
 //debug
@@ -57,6 +59,7 @@ int main() {
     GRRLIB_texImg *tex_qr = GRRLIB_LoadTexture(qr_png);
     GRRLIB_texImg *tex_logo = GRRLIB_LoadTexture(logo_png);
     GRRLIB_texImg *tex_exit = GRRLIB_LoadTexture(exit_png);
+    GRRLIB_texImg *tex_set = GRRLIB_LoadTexture(settings_png);
 
 
 	GRRLIB_SetMidHandle(tex_cur, true);
@@ -76,9 +79,8 @@ int main() {
         GRRLIB_DrawImg(0,160,tex_play,0,0.5,0.5,RED);
         //if(GRRLIB_PtInRect(1,167,80,200,cursorX,cursorY) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A;
         //GRRLIB_PtInRect() fun button stuff
-        GRRLIB_Printf(20,250,tex_font,RED,2,"settings");
+        GRRLIB_DrawImg(25,220,tex_set,0,1,1,RED);
         //if(GRRLIB_PtInRect( , , ,) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A );{ fun button stuff
-        GRRLIB_Printf(20,300,tex_font, RED,2,"quick play");
         //if(GRRLIB_PtInRect( , , ,) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A ) ;
         //crediits buttons
         GRRLIB_Printf(20,350,tex_font,RED, 2,"credits");
