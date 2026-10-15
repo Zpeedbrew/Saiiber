@@ -73,7 +73,7 @@ int main() {
         GRRLIB_DrawImg(10,10,tex_logo,0,1,1,WHITE);
 
         //menu text
-        GRRLIB_DrawImg(0,200,tex_play,0,0.5,0.5,RED);
+        GRRLIB_DrawImg(0,160,tex_play,0,0.5,0.5,RED);
         //if(GRRLIB_PtInRect(1,167,80,200,cursorX,cursorY) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A;
         //GRRLIB_PtInRect() fun button stuff
         GRRLIB_Printf(20,250,tex_font,RED,2,"settings");
@@ -84,7 +84,7 @@ int main() {
         GRRLIB_Printf(20,350,tex_font,RED, 2,"credits");
         //if(GRRLIB_PtInRect(13,367, ,) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A );
         //exit button
-        GRRLIB_DrawImg(0,400,tex_exit,0,0.5,0.5,RED);
+        GRRLIB_DrawImg(0,370,tex_exit,0,1,1,RED);
         if(GRRLIB_PtInRect(10,400,50,50,cursorX,cursorY) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A) break;
 		//credits text
         GRRLIB_Printf(10,450,tex_font,BLUE,1,"made by guinea7pig");
