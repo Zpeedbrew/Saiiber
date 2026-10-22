@@ -76,17 +76,17 @@ int main() {
 
         //menu text
         GRRLIB_DrawImg(0,200,tex_play,0,0.5,0.5,RED);
-        //if(GRRLIB_PtInRect(1,167,80,200,cursorX,cursorY) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A;
+        if(GRRLIB_PtInRect(0,200,80,200,cursorX,cursorY) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A;
         //GRRLIB_PtInRect() fun button stuff
         GRRLIB_DrawImg(25,260,tex_set,0,1,1,RED);
-        //if(GRRLIB_PtInRect( , , ,) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A );{ fun button stuff
+        if(GRRLIB_PtInRect(25,260, ,) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A ) ;{ fun button stuff
         //if(GRRLIB_PtInRect( , , ,) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A ) ;
-        //crediits buttons
+        //crediits buttons 
         GRRLIB_DrawImg(25,320,tex_cred,0,1,1,RED);
         //if(GRRLIB_PtInRect(13,367, ,) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A );
         //exit button
         GRRLIB_DrawImg(0,380,tex_exit,0,1,1,RED);
-        if(GRRLIB_PtInRect(10,400,50,50,cursorX,cursorY) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A) break;
+        if(GRRLIB_PtInRect(0,380,50,50,cursorX,cursorY) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A) break;
 		//credits text
         GRRLIB_Printf(10,450,tex_font,BLUE,1,"made by guinea7pig");
         GRRLIB_Printf(465,450,tex_font,RED,1,"made with grrlib");
@@ -98,8 +98,6 @@ int main() {
         //GRRLIB_Printf(0,30,tex_font,RED,1,"fps: %d", FPS);
         GRRLIB_Printf(500,30,tex_font,RED,1,"curx: %f", cursorX);
         GRRLIB_Printf(500,50,tex_font,BLUE,1,"cury %f", cursorY);
-        if (cursorX >= 0 && cursorY >= 0) GRRLIB_DrawImg(cursorX,cursorY,tex_cur,0,1,1,WHITE);
-	    //GRRLIB_ObjectView()//controls object paremters
         GRRLIB_Render();
        }    
     //free fonts
