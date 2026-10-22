@@ -32,14 +32,11 @@
 #define BLUE 0x0000FFFF
 #define BLACK 0x000000FF
 //varibiles
-// GRRLIB_Model* saber = GRRLIB_LoadObjFromString((const char*)saber_obj);
-
 float cursorX, cursorY;
 int main() {
     //Scene currentScene = SCENE_MENU;
     //graphics library init
 	//graphics_init();
-    
 	GRRLIB_Init();
     GRRLIB_Settings.antialias = true;
     GRRLIB_SetBackgroundColour(0x00, 0x00, 0x00, 0xFF); 
@@ -50,7 +47,6 @@ int main() {
     InitInput();
     //font intit
     GRRLIB_texImg *tex_font = GRRLIB_LoadTexture(Letter_Gothic_Std_14_Bold_png);
-    //GRRLIB_texImg *tex_beon = GRRLIB_LoadTexture(Letter_Gothic_Std_14_Bold_png);
     GRRLIB_InitTileSet(tex_font, 11, 24, 32);
     //image init
     GRRLIB_texImg *tex_cur = GRRLIB_LoadTexture(hand_png);
@@ -62,7 +58,7 @@ int main() {
     GRRLIB_texImg *tex_exit = GRRLIB_LoadTexture(exit_png);
     GRRLIB_texImg *tex_set = GRRLIB_LoadTexture(settings_png);
     GRRLIB_texImg *tex_cred = GRRLIB_LoadTexture(credits_png);
-
+	GRRLIB_Model* model = GRRLIB_ReadOBJ("sd:/data/head_chord.obj");
 
 
 	GRRLIB_SetMidHandle(tex_cur, true);
