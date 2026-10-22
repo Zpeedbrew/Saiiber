@@ -76,7 +76,7 @@ int main() {
 
         //menu text
         GRRLIB_DrawImg(0,200,tex_play,0,0.5,0.5,RED);
-        if(GRRLIB_PtInRect(0,200,80,200,cursorX,cursorY) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A;
+        if(GRRLIB_PtInRect(0,200,192,68,cursorX,cursorY) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A;
         //GRRLIB_PtInRect() fun button stuff
         GRRLIB_DrawImg(25,260,tex_set,0,1,1,RED);
         if(GRRLIB_PtInRect(25,260, ,) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A ) ;{ fun button stuff
