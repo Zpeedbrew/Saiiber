@@ -20,8 +20,6 @@
 #include "exit_png.h"
 #include "settings_png.h"
 #include "credits_png.h"
-
-
 //#include "qr2_png.h"
 
 //debug
@@ -34,16 +32,11 @@
 //varibiles
 float cursorX, cursorY;
 int main() {
-    //Scene currentScene = SCENE_MENU;
-    //graphics library init
-	//graphics_init();
+  
 	GRRLIB_Init();
     GRRLIB_Settings.antialias = true;
-    GRRLIB_SetBackgroundColour(0x00, 0x00, 0x00, 0xFF); 
-    //audio init
-    //ASND_Init();
-	//MP3Player_Init();
-    //controller init
+    GRRLIB_SetBackgroundColour(BLACK); 
+
     InitInput();
     //font intit
     GRRLIB_texImg *tex_font = GRRLIB_LoadTexture(Letter_Gothic_Std_14_Bold_png);
@@ -80,7 +73,6 @@ int main() {
         //GRRLIB_PtInRect() fun button stuff
         GRRLIB_DrawImg(25,260,tex_set,0,1,1,RED);
         if(GRRLIB_PtInRect(25,260, ,) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A ) ;{ fun button stuff
-        //if(GRRLIB_PtInRect( , , ,) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A ) ;
         //crediits buttons 
         GRRLIB_DrawImg(25,320,tex_cred,0,1,1,RED);
         //if(GRRLIB_PtInRect(13,367, ,) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A );
@@ -103,6 +95,7 @@ int main() {
     //free fonts
     GRRLIB_FreeTexture(tex_font);
     //free imgaes
+	GRRLIB_FreeTexture(tex_exit)
     GRRLIB_FreeTexture(tex_dis);
     GRRLIB_FreeTexture(tex_gr);
     GRRLIB_FreeTexture(tex_cur);  
