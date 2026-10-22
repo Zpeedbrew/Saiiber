@@ -31,6 +31,25 @@
 #define BLACK 0x000000FF
 //varibiles
 float cursorX, cursorY;
+#include "menu_scene.h"
+
+#include <dirent.h>
+
+#include <iomanip>
+#include <map>
+#include <sstream>
+#include <string>
+#include <vector>
+
+#include "../fnt.h"
+#include "../gfx.h"
+#include "../input.h"
+#include "../logger.h"
+#include "../resource/beatmap.h"
+#include "../sfx.h"
+#include "../ui.h"
+#include "game_scene.h"
+#define SONGPATH "sd:/Songs"
 int main() {
   
 	GRRLIB_Init();
