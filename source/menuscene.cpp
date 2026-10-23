@@ -47,14 +47,11 @@ float cursorX, cursorY;
 #include "../sfx.h"
 #include "../ui.h"
 #include "game_scene.h"
-#define SONGPATH "sd:/Songs"
-int main() {
-  
-	GRRLIB_Init();
+#define SONGPATH "sd:/Songs"  
+	
+    GRRLIB_Init();
     GRRLIB_Settings.antialias = true;
     GRRLIB_SetBackgroundColour(BLACK); 
-
-    InitInput();
     //font intit
     GRRLIB_texImg *tex_font = GRRLIB_LoadTexture(Letter_Gothic_Std_14_Bold_png);
     GRRLIB_InitTileSet(tex_font, 11, 24, 32);
@@ -122,18 +119,29 @@ int main() {
 }
 
 
-
-
+//graphics
+#include <grrlib.h>
+//font
+#include "Letter_Gothic_Std_14_Bold_png.h"
+#include "beon_png.h"
+#include "logo_png.h"
+//images
+#include "hand_png.h"
+#include "discord_png.h"
+#include "grrlib_logo_png.h"
+#include "play_png.h"
+#include "exit_png.h"
+#include "settings_png.h"
+#include "credits_png.h"
+//debug
+#include "fps.h"
 #include "menu_scene.h"
-
 #include <dirent.h>
-
 #include <iomanip>
 #include <map>
 #include <sstream>
 #include <string>
 #include <vector>
-
 #include "../fnt.h"
 #include "../gfx.h"
 #include "../input.h"
@@ -144,8 +152,10 @@ int main() {
 #include "game_scene.h"
 #define SONGPATH "sd:/Songs"
 
-const int GREEN = 0x00FF00FF;
-const int WHITE = 0xFFFFFFFF;
+#define RED 0xFF0000FF
+#define WHITE 0xFFFFFFFF
+#define BLUE 0x0000FFFF
+#define BLACK 0x000000FF
 
 struct MenuSceneImpl {
   // Don't need to worry about cleaning up this pointer, It's managed elsewhere
@@ -339,12 +349,14 @@ void MenuSceneImpl::SongSelect() {
 
 void MenuSceneImpl::MainMenu() {
   needReload = true;
-
+/*
   int width = FNT_GetStringWidth("Saiiber", 2.0f);
   s16 middle = (SCREEN_WIDTH / 2) - (width / 2);
   auto title = std::make_unique<GuiText>("Saiiber", middle, 100, 2.0f);
   title->setPosition(middle, 100);
   title->setColor(0xFF0000FF);
+*/
+ GRRLIB_DrawImg(10,10,tex_logo,0,1,1,WHITE);
 
   auto buttons = std::make_unique<GuiList>();
   buttons->add("Quickplay", 100, 200, 1.0f);
