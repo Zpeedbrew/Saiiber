@@ -32,14 +32,11 @@
 #define BLUE 0x0000FFFF
 #define BLACK 0x000000FF
 //varibiles
-// GRRLIB_Model* saber = GRRLIB_LoadObjFromString((const char*)saber_obj);
-
 float cursorX, cursorY;
 int main() {
     //Scene currentScene = SCENE_MENU;
     //graphics library init
 	//graphics_init();
-    
 	GRRLIB_Init();
     GRRLIB_Settings.antialias = true;
     GRRLIB_SetBackgroundColour(0x00, 0x00, 0x00, 0xFF); 
@@ -50,7 +47,6 @@ int main() {
     InitInput();
     //font intit
     GRRLIB_texImg *tex_font = GRRLIB_LoadTexture(Letter_Gothic_Std_14_Bold_png);
-    //GRRLIB_texImg *tex_beon = GRRLIB_LoadTexture(Letter_Gothic_Std_14_Bold_png);
     GRRLIB_InitTileSet(tex_font, 11, 24, 32);
     //image init
     GRRLIB_texImg *tex_cur = GRRLIB_LoadTexture(hand_png);
@@ -62,7 +58,7 @@ int main() {
     GRRLIB_texImg *tex_exit = GRRLIB_LoadTexture(exit_png);
     GRRLIB_texImg *tex_set = GRRLIB_LoadTexture(settings_png);
     GRRLIB_texImg *tex_cred = GRRLIB_LoadTexture(credits_png);
-
+	GRRLIB_Model* model = GRRLIB_ReadOBJ("sd:/data/head_chord.obj");
 
 
 	GRRLIB_SetMidHandle(tex_cur, true);
@@ -80,17 +76,17 @@ int main() {
 
         //menu text
         GRRLIB_DrawImg(0,200,tex_play,0,0.5,0.5,RED);
-        //if(GRRLIB_PtInRect(1,167,80,200,cursorX,cursorY) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A;
+        if(GRRLIB_PtInRect(0,200,192,68,cursorX,cursorY) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A;
         //GRRLIB_PtInRect() fun button stuff
         GRRLIB_DrawImg(25,260,tex_set,0,1,1,RED);
-        //if(GRRLIB_PtInRect( , , ,) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A );{ fun button stuff
+        if(GRRLIB_PtInRect(25,260, ,) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A ) ;{ fun button stuff
         //if(GRRLIB_PtInRect( , , ,) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A ) ;
-        //crediits buttons
+        //crediits buttons 
         GRRLIB_DrawImg(25,320,tex_cred,0,1,1,RED);
         //if(GRRLIB_PtInRect(13,367, ,) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A );
         //exit button
         GRRLIB_DrawImg(0,380,tex_exit,0,1,1,RED);
-        if(GRRLIB_PtInRect(10,400,50,50,cursorX,cursorY) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A) break;
+        if(GRRLIB_PtInRect(0,380,50,50,cursorX,cursorY) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A) break;
 		//credits text
         GRRLIB_Printf(10,450,tex_font,BLUE,1,"made by guinea7pig");
         GRRLIB_Printf(465,450,tex_font,RED,1,"made with grrlib");
@@ -102,13 +98,10 @@ int main() {
         //GRRLIB_Printf(0,30,tex_font,RED,1,"fps: %d", FPS);
         GRRLIB_Printf(500,30,tex_font,RED,1,"curx: %f", cursorX);
         GRRLIB_Printf(500,50,tex_font,BLUE,1,"cury %f", cursorY);
-        if (cursorX >= 0 && cursorY >= 0) GRRLIB_DrawImg(cursorX,cursorY,tex_cur,0,1,1,WHITE);
-	    //GRRLIB_ObjectView()//controls object paremters
         GRRLIB_Render();
        }    
     //free fonts
     GRRLIB_FreeTexture(tex_font);
-    //GRRLIB_FreeTexture(tex_beon);
     //free imgaes
     GRRLIB_FreeTexture(tex_dis);
     GRRLIB_FreeTexture(tex_gr);
