@@ -52,7 +52,6 @@ int main() {
     GRRLIB_texImg *tex_font = GRRLIB_LoadTexture(Letter_Gothic_Std_14_Bold_png);
     //GRRLIB_texImg *tex_beon = GRRLIB_LoadTexture(Letter_Gothic_Std_14_Bold_png);
     GRRLIB_InitTileSet(tex_font, 11, 24, 32);
-    //GRRLIB_InitTileSet(tex_beon, 11, 24, 32); //tileset probs wrong
     //image init
     GRRLIB_texImg *tex_cur = GRRLIB_LoadTexture(hand_png);
     GRRLIB_texImg *tex_play = GRRLIB_LoadTexture(play_png);
