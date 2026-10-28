@@ -10,7 +10,6 @@
 #include <wiiuse/wpad.h>
 #include "input.h"
 //colors
-#define version 1.6
 #define RED 0xFF0000FF
 #define WHITE 0xFFFFFFFF
 #define BLUE 0x0000FFFF
@@ -22,7 +21,7 @@
 #include "hand_png.h"
 //ir
 float cursorX, cursorY;
-int e() {
+int settings() {
     //graphics init
     GRRLIB_Init();
     GRRLIB_Settings.antialias = true;
@@ -45,13 +44,13 @@ int e() {
        //}
         if(WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) break; //goes back to home i hope
         //title text 
-        GRRLIB_Printf(215, 20, tex_font, RED, 5, "settings");
-        GRRLIB_Printf(10, 70, tex_font, RED, 3, "volume,");
+        GRRLIB_Printf(215, 20, tex_font, RED, 5, "Settings");
+        GRRLIB_Printf(10, 70, tex_font, RED, 3, "Volume, %f",);
         // music/sound slider
         GRRLIB_Printf(10, 150, tex_font, RED, 3, "settings");
-        GRRLIB_Printf(10, 200, tex_font, RED, 3, "rumble %f");//
+        GRRLIB_Printf(10, 200, tex_font, RED, 3, "rumble %f",);//
         GRRLIB_Printf(10, 200, tex_font, RED, 3, "rumble"); //will make text etherir say on  or off
-        GRRLIB_Printf(10, 400, tex_font, RED, 2, "return to home");
+        GRRLIB_Printf(10, 400, tex_font, RED, 2, "Home");
         //debug
         //GRRLIB_Printf(500,30,tex_font,RED,1,"curx: %f", cursorX);
         //GRRLIB_Printf(500,50,tex_font,BLUE,1,"cury %f", cursorY);
@@ -59,13 +58,13 @@ int e() {
         GRRLIB_DrawImg(10,20,tex_back,0,1,1,WHITE);
         //if(GRRLIB_PtInRect(5,15,50,50,cursorX,cursorY) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A ) { 
         //break
+        GRRLIB_Render();
         }
         //back button
-        GRRLIB_Render();
     }
     GRRLIB_FreeTexture(tex_font);
     GRRLIB_FreeTexture(tex_back);
-    GRRLIB_Exit(); // Be a good boy, clear the memory allocated by GRRLIB
+    GRRLIB_Exit(); /
     exit(0);
 }
 */

@@ -1,6 +1,4 @@
 /*
-// some of this code (mostly the inilation scpits) contain some code fromb a grrlib template exsample. https://github.com/GRRLIB/GRRLIB/tree/master/examples/template
-//graphics intit
 #include <grrlib.h>
 #include <stdlib.h>
 //math
@@ -49,7 +47,7 @@ int o() {
         GRRLIB_Printf(100, 350, tex_font, RED, 3, "check out source code at https://github.com/Zpeedbrew/Saiiber");
         
         GRRLIB_Printf(100, 400, tex_font, RED, 2, "return to home");
-        if(GRRLIB_PtInRect( , , ,) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A );{ fun button stuff
+        //if(GRRLIB_PtInRect( , , ,) && WPAD_ButtonsDown(0) & WPAD_BUTTON_A );{ fun button stuff
         //crediits buttons
 
 
@@ -66,5 +64,6 @@ int o() {
     GRRLIB_FreeTexture(tex_qr);
     GRRLIB_Exit(); // Be a good boy, clear the memory allocated by GRRLIB
     exit(0);
+}
 }
 */
